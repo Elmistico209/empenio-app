@@ -8,12 +8,20 @@
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
-    header{background:#1a1a2e;color:#fff;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    header{background:#1a1a2e;color:#fff;padding:0 32px;display:flex;align-items:stretch;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .header-left{display:flex;flex-direction:column;justify-content:center;padding:16px 0}
     header h1{font-size:1.3rem;font-weight:600;letter-spacing:.5px}
+    .header-tabs{display:flex;align-items:flex-end;gap:4px}
+    .tab-btn{padding:12px 24px;border:none;background:transparent;color:#8892b0;font-size:.9rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;letter-spacing:.3px}
+    .tab-btn:hover{color:#fff}
+    .tab-btn.active{color:#fff;border-bottom-color:#4f6ef7}
+    .header-right{display:flex;align-items:center}
     .sync-status{font-size:.8rem;padding:5px 12px;border-radius:20px;font-weight:600}
     .sync-ok{background:#166534;color:#bbf7d0}
     .sync-off{background:#7f1d1d;color:#fecaca}
     .sync-load{background:#1e3a5f;color:#bfdbfe}
+    .tab-section{display:none}
+    .tab-section.active{display:block}
     .container{max-width:1200px;margin:0 auto;padding:28px 20px}
     .card{background:#fff;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.08);padding:24px;margin-bottom:24px}
     .card-title{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:16px}
@@ -81,14 +89,22 @@
 </div>
 
 <header>
-  <div>
+  <div class="header-left">
     <div style="font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:#8892b0;margin-bottom:4px">Sistema de Registro</div>
     <h1>Casa de Empeño</h1>
   </div>
-  <span class="sync-status sync-load" id="syncStatus">Conectando...</span>
+  <div class="header-tabs">
+    <button class="tab-btn active" onclick="switchTab('registros')">Registros</button>
+    <button class="tab-btn" onclick="switchTab('estadisticas')">Estadisticas</button>
+  </div>
+  <div class="header-right">
+    <span class="sync-status sync-load" id="syncStatus">Conectando...</span>
+  </div>
 </header>
 
 <div class="container">
+
+  <div class="tab-section active" id="tab-registros">
 
   <div class="card">
     <div class="card-title">Ajuste de Código Inicial</div>
@@ -148,8 +164,10 @@
     </div>
   </div>
 
+  </div> <!-- fin tab-registros -->
+
+  <div class="tab-section" id="tab-estadisticas">
   <div class="card">
-    <div class="card-title" style="font-size:1rem;color:#1a1a2e;margin-bottom:20px;">Estadísticas</div>
     <div class="stats-banner" id="statsBanner"></div>
     <div class="chart-card">
       <div class="chart-title">Monto total prestado por mes</div>
@@ -167,6 +185,7 @@
       </div>
     </div>
   </div>
+  </div> <!-- fin tab-estadisticas -->
 
 </div>
 
@@ -412,6 +431,16 @@
   function formatDate(iso){ if(!iso)return''; const[y,m,d]=iso.split('-'); return `${d}/${m}/${y}`; }
   function formatMoney(n){ return '$'+Number(n||0).toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2}); }
   function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  window.switchTab = function(tab) {
+    document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      if (b.textContent.toLowerCase().includes(tab === 'registros' ? 'registro' : 'stadis')) b.classList.add('active');
+    });
+    if (tab === 'estadisticas') renderCharts();
+  };
 
   document.getElementById('fFecha').value = new Date().toISOString().split('T')[0];
   ['fFecha','fCodigo','fNombre','fCantidad'].forEach(id=>
