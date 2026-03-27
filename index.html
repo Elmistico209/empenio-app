@@ -442,6 +442,9 @@
     await deleteDoc(doc(db, 'registros', fireId));
   };
 
+  window.renderActivos   = function() { renderActivos(); };
+  window.renderHistorial = function() { renderHistorial(); };
+
   function filtrar(lista, query, campo) {
     if (!query) return lista;
     const q = query.toLowerCase().trim();
