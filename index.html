@@ -64,6 +64,8 @@
     .btn-green:hover{background:#15803d}
     .btn-baja{background:none;border:1.5px solid #d97706;color:#d97706;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:.78rem;font-weight:600;transition:background .15s,color .15s}
     .btn-baja:hover{background:#d97706;color:#fff}
+    .btn-reactivar{background:none;border:1.5px solid #16a34a;color:#16a34a;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:.78rem;font-weight:600;transition:background .15s,color .15s}
+    .btn-reactivar:hover{background:#16a34a;color:#fff}
     .btn-del{background:none;border:1.5px solid #e53e3e;color:#e53e3e;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:.78rem;font-weight:600;transition:background .15s,color .15s}
     .btn-del:hover{background:#e53e3e;color:#fff}
 
@@ -71,6 +73,13 @@
     .toolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px}
     .toolbar-info{font-size:.9rem;color:#666}
     .toolbar-info strong{color:#1a1a2e}
+    /* Search */
+    .search-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+    .search-bar input{flex:1;min-width:200px;padding:9px 14px;border:1.5px solid #d0d5dd;border-radius:6px;font-size:.9rem;transition:border-color .2s}
+    .search-bar input:focus{outline:none;border-color:#4f6ef7}
+    .search-bar select{padding:9px 12px;border:1.5px solid #d0d5dd;border-radius:6px;font-size:.9rem;background:#fff;color:#444}
+    .search-clear{padding:9px 14px;border:1.5px solid #d0d5dd;border-radius:6px;background:#fff;font-size:.85rem;cursor:pointer;color:#666;font-weight:600}
+    .search-clear:hover{border-color:#e53e3e;color:#e53e3e}
 
     /* Table */
     .table-wrap{overflow-x:auto}
@@ -195,6 +204,16 @@
     </div>
 
     <div class="card">
+      <div class="search-bar">
+        <input type="text" id="searchActivos" placeholder="Buscar por nombre, código o fecha..." oninput="renderActivos()"/>
+        <select id="searchActivosCampo" onchange="renderActivos()">
+          <option value="todos">Todos los campos</option>
+          <option value="nombre">Nombre</option>
+          <option value="codigo">Código</option>
+          <option value="fecha">Fecha</option>
+        </select>
+        <button class="search-clear" onclick="document.getElementById('searchActivos').value='';renderActivos()">Limpiar</button>
+      </div>
       <div class="toolbar">
         <span class="toolbar-info">Activos: <strong id="totalCount">0</strong> &nbsp;|&nbsp; Total prestado: <strong id="totalAmount">$0</strong></span>
         <button class="btn btn-green" onclick="exportCSV('activos')">Exportar CSV</button>
@@ -214,8 +233,23 @@
   <!-- ═══ TAB: HISTORIAL ═══ -->
   <div class="tab-section" id="tab-historial">
     <div class="card">
+      <div class="search-bar">
+        <input type="text" id="searchHist" placeholder="Buscar por nombre, código o fecha..." oninput="renderHistorial()"/>
+        <select id="searchHistCampo" onchange="renderHistorial()">
+          <option value="todos">Todos los campos</option>
+          <option value="nombre">Nombre</option>
+          <option value="codigo">Código</option>
+          <option value="fecha">Fecha</option>
+        </select>
+        <select id="searchHistEstado" onchange="renderHistorial()">
+          <option value="todos">Activos + Bajas</option>
+          <option value="activo">Solo activos</option>
+          <option value="baja">Solo bajas</option>
+        </select>
+        <button class="search-clear" onclick="document.getElementById('searchHist').value='';document.getElementById('searchHistEstado').value='todos';renderHistorial()">Limpiar</button>
+      </div>
       <div class="toolbar">
-        <span class="toolbar-info">Total historial: <strong id="histCount">0</strong> registros</span>
+        <span class="toolbar-info">Mostrando: <strong id="histCount">0</strong> de <strong id="histTotal">0</strong> registros</span>
         <button class="btn btn-green" onclick="exportCSV('todos')">Exportar CSV</button>
       </div>
       <div class="table-wrap">
@@ -396,24 +430,46 @@
     await updateDoc(doc(db, 'registros', fireId), { estado: 'baja', fechaBaja: new Date().toISOString().split('T')[0] });
   };
 
+  // ── Reactivar ──
+  window.reactivar = async function(fireId, codigo) {
+    if (!confirm('¿Reactivar el registro ' + codigo + '?\nVolverá a aparecer como activo.')) return;
+    await updateDoc(doc(db, 'registros', fireId), { estado: 'activo', fechaBaja: null });
+  };
+
   // ── Borrar permanente (solo desde historial) ──
   window.deleteRecord = async function(fireId) {
     if (!confirm('¿Eliminar permanentemente este registro? Esta acción no se puede deshacer.')) return;
     await deleteDoc(doc(db, 'registros', fireId));
   };
 
+  function filtrar(lista, query, campo) {
+    if (!query) return lista;
+    const q = query.toLowerCase().trim();
+    return lista.filter(r => {
+      if (campo === 'nombre') return (r.nombre||'').toLowerCase().includes(q);
+      if (campo === 'codigo') return (r.codigo||'').toString().includes(q);
+      if (campo === 'fecha')  return (r.fecha||'').includes(q);
+      return (r.nombre||'').toLowerCase().includes(q) ||
+             (r.codigo||'').toString().includes(q) ||
+             (r.fecha||'').includes(q);
+    });
+  }
+
   // ── Render activos ──
   function renderActivos() {
-    const activos = records.filter(r => (r.estado || 'activo') === 'activo');
-    const total   = activos.reduce((s,r) => s+(r.cantidad||0), 0);
+    const query  = document.getElementById('searchActivos').value;
+    const campo  = document.getElementById('searchActivosCampo').value;
+    const activos = records.filter(r => (r.estado||'activo') === 'activo');
+    const visibles = filtrar(activos, query, campo);
+    const total  = activos.reduce((s,r) => s+(r.cantidad||0), 0);
     document.getElementById('totalCount').textContent  = activos.length;
     document.getElementById('totalAmount').textContent = formatMoney(total);
     const tbody = document.getElementById('tableBody');
-    if (!activos.length) {
-      tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Sin registros activos.</td></tr>';
+    if (!visibles.length) {
+      tbody.innerHTML = `<tr><td colspan="7" class="empty-state">${query ? 'Sin resultados para "'+escHtml(query)+'"' : 'Sin registros activos.'}</td></tr>`;
       return;
     }
-    tbody.innerHTML = activos.map((r,i) => `
+    tbody.innerHTML = visibles.map((r,i) => `
       <tr>
         <td>${i+1}</td>
         <td>${formatDate(r.fecha)}</td>
@@ -427,14 +483,24 @@
 
   // ── Render historial ──
   function renderHistorial() {
-    document.getElementById('histCount').textContent = records.length;
+    const query  = document.getElementById('searchHist').value;
+    const campo  = document.getElementById('searchHistCampo').value;
+    const filtEst = document.getElementById('searchHistEstado').value;
+    let src = records;
+    if (filtEst !== 'todos') src = src.filter(r => (r.estado||'activo') === filtEst);
+    const visibles = filtrar(src, query, campo);
+    document.getElementById('histTotal').textContent = records.length;
+    document.getElementById('histCount').textContent = visibles.length;
     const tbody = document.getElementById('histTableBody');
-    if (!records.length) {
-      tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Sin registros.</td></tr>';
+    if (!visibles.length) {
+      tbody.innerHTML = `<tr><td colspan="8" class="empty-state">${query ? 'Sin resultados para "'+escHtml(query)+'"' : 'Sin registros.'}</td></tr>`;
       return;
     }
-    tbody.innerHTML = records.map((r,i) => {
+    tbody.innerHTML = visibles.map((r,i) => {
       const estado = r.estado || 'activo';
+      const accionBtn = estado === 'baja'
+        ? `<button class="btn-reactivar" onclick="reactivar('${r._fireId}','${escHtml(r.codigo)}')">Reactivar</button>`
+        : `<button class="btn-baja"      onclick="darBaja('${r._fireId}','${escHtml(r.codigo)}')">Dar de baja</button>`;
       return `<tr>
         <td>${i+1}</td>
         <td>${formatDate(r.fecha)}</td>
@@ -442,8 +508,11 @@
         <td>${escHtml(r.nombre)}</td>
         <td><span class="badge badge-${r.tipo||'otro'}">${labelTipo(r.tipo)}</span></td>
         <td class="td-amount">${formatMoney(r.cantidad)}</td>
-        <td><span class="badge badge-${estado}">${estado === 'activo' ? 'Activo' : 'Baja'}</span></td>
-        <td><button class="btn-del" onclick="deleteRecord('${r._fireId}')">Borrar</button></td>
+        <td><span class="badge badge-${estado}">${estado==='activo'?'Activo':'Baja'}</span></td>
+        <td style="display:flex;gap:4px">
+          ${accionBtn}
+          <button class="btn-del" onclick="deleteRecord('${r._fireId}')">Borrar</button>
+        </td>
       </tr>`;
     }).join('');
   }
