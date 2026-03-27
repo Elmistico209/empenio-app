@@ -8,11 +8,13 @@
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
+
+    /* Header */
     header{background:#1a1a2e;color:#fff;padding:0 32px;display:flex;align-items:stretch;justify-content:space-between;gap:12px;flex-wrap:wrap}
     .header-left{display:flex;flex-direction:column;justify-content:center;padding:16px 0}
     header h1{font-size:1.3rem;font-weight:600;letter-spacing:.5px}
     .header-tabs{display:flex;align-items:flex-end;gap:4px}
-    .tab-btn{padding:12px 24px;border:none;background:transparent;color:#8892b0;font-size:.9rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;letter-spacing:.3px}
+    .tab-btn{padding:12px 22px;border:none;background:transparent;color:#8892b0;font-size:.88rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;letter-spacing:.3px;white-space:nowrap}
     .tab-btn:hover{color:#fff}
     .tab-btn.active{color:#fff;border-bottom-color:#4f6ef7}
     .header-right{display:flex;align-items:center}
@@ -20,26 +22,38 @@
     .sync-ok{background:#166534;color:#bbf7d0}
     .sync-off{background:#7f1d1d;color:#fecaca}
     .sync-load{background:#1e3a5f;color:#bfdbfe}
+
+    /* Layout */
     .tab-section{display:none}
     .tab-section.active{display:block}
     .container{max-width:1200px;margin:0 auto;padding:28px 20px}
     .card{background:#fff;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.08);padding:24px;margin-bottom:24px}
     .card-title{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:16px}
+
+    /* Adjust */
     .adjust-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
     .adjust-row label{font-size:.9rem;font-weight:500}
     .adjust-row input{width:120px;padding:8px 10px;border:1.5px solid #d0d5dd;border-radius:6px;font-size:.95rem}
     .next-code-badge{font-size:.85rem;color:#555;background:#f0f2f5;padding:6px 12px;border-radius:20px}
     .next-code-badge strong{color:#1a1a2e}
+
+    /* Form */
     .form-grid{display:grid;grid-template-columns:155px 120px 1fr 155px 130px;gap:12px;align-items:end}
     @media(max-width:900px){.form-grid{grid-template-columns:1fr 1fr}}
     .form-group{display:flex;flex-direction:column;gap:5px}
     .form-group label{font-size:.82rem;font-weight:600;color:#444}
     .form-group input,.form-group select{padding:9px 11px;border:1.5px solid #d0d5dd;border-radius:6px;font-size:.93rem;transition:border-color .2s;background:#fff}
     .form-group input:focus,.form-group select:focus{outline:none;border-color:#4f6ef7}
+
+    /* Badges */
     .badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.78rem;font-weight:700}
     .badge-oro{background:#fef3c7;color:#92400e}
     .badge-plata{background:#f1f5f9;color:#475569}
     .badge-otro{background:#ede9fe;color:#5b21b6}
+    .badge-activo{background:#dcfce7;color:#166534}
+    .badge-baja{background:#fee2e2;color:#991b1b}
+
+    /* Buttons */
     .btn{padding:9px 20px;border:none;border-radius:6px;font-size:.88rem;font-weight:700;cursor:pointer;transition:background .2s,transform .1s;white-space:nowrap}
     .btn:active{transform:scale(.97)}
     .btn-primary{background:#4f6ef7;color:#fff}
@@ -48,11 +62,17 @@
     .btn-dark:hover{background:#2d2d5e}
     .btn-green{background:#16a34a;color:#fff}
     .btn-green:hover{background:#15803d}
+    .btn-baja{background:none;border:1.5px solid #d97706;color:#d97706;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:.78rem;font-weight:600;transition:background .15s,color .15s}
+    .btn-baja:hover{background:#d97706;color:#fff}
     .btn-del{background:none;border:1.5px solid #e53e3e;color:#e53e3e;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:.78rem;font-weight:600;transition:background .15s,color .15s}
     .btn-del:hover{background:#e53e3e;color:#fff}
+
+    /* Toolbar */
     .toolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px}
     .toolbar-info{font-size:.9rem;color:#666}
     .toolbar-info strong{color:#1a1a2e}
+
+    /* Table */
     .table-wrap{overflow-x:auto}
     table{width:100%;border-collapse:collapse;font-size:.88rem}
     thead tr{background:#1a1a2e;color:#fff}
@@ -63,10 +83,14 @@
     .td-code{font-weight:700;color:#4f6ef7;font-family:monospace;font-size:.95rem}
     .td-amount{font-weight:600;color:#16a34a}
     .empty-state{text-align:center;padding:40px;color:#aaa}
+
+    /* Stats */
     .stats-banner{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px}
     .stat-box{flex:1;min-width:130px;background:#f8faff;border:1.5px solid #e0e7ff;border-radius:8px;padding:14px 18px}
     .stat-box .stat-val{font-size:1.35rem;font-weight:800;color:#1a1a2e}
     .stat-box .stat-lbl{font-size:.75rem;color:#888;margin-top:2px}
+
+    /* Charts */
     .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
     @media(max-width:900px){.charts-grid{grid-template-columns:1fr}}
     .chart-card{background:#fff;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.08);padding:20px;margin-bottom:20px}
@@ -76,9 +100,13 @@
     .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
     .filter-btn{padding:5px 14px;border:1.5px solid #d0d5dd;border-radius:20px;background:#fff;font-size:.8rem;cursor:pointer;font-weight:600;color:#555;transition:all .2s}
     .filter-btn.active{background:#1a1a2e;color:#fff;border-color:#1a1a2e}
+
+    /* Loading */
     .loading-overlay{position:fixed;inset:0;background:rgba(26,26,46,.7);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;color:#fff;gap:16px;font-size:1.1rem;font-weight:600}
     .spinner{width:44px;height:44px;border:4px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* Modal */
     .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
     .modal{background:#fff;border-radius:12px;width:100%;max-width:680px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3)}
     .modal-header{padding:20px 24px;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:space-between}
@@ -93,8 +121,6 @@
     .modal-table tbody tr{border-bottom:1px solid #f0f0f0;transition:background .15s}
     .modal-table tbody tr:hover{background:#f7f8ff}
     .modal-table tbody td{padding:9px 16px}
-    .modal-table .td-code{font-weight:700;color:#4f6ef7;font-family:monospace}
-    .modal-table .td-amount{font-weight:600;color:#16a34a}
     .modal-footer{padding:14px 24px;border-top:1px solid #eee;font-size:.82rem;color:#888;text-align:right}
   </style>
 </head>
@@ -111,8 +137,9 @@
     <h1>Casa de Empeño</h1>
   </div>
   <div class="header-tabs">
-    <button class="tab-btn active" onclick="switchTab('registros')">Registros</button>
-    <button class="tab-btn" onclick="switchTab('estadisticas')">Estadisticas</button>
+    <button class="tab-btn active" id="tbtn-registros"    onclick="switchTab('registros')">Registros</button>
+    <button class="tab-btn"        id="tbtn-historial"    onclick="switchTab('historial')">Historial</button>
+    <button class="tab-btn"        id="tbtn-estadisticas" onclick="switchTab('estadisticas')">Estadisticas</button>
   </div>
   <div class="header-right">
     <span class="sync-status sync-load" id="syncStatus">Conectando...</span>
@@ -121,88 +148,108 @@
 
 <div class="container">
 
+  <!-- ═══ TAB: REGISTROS (activos) ═══ -->
   <div class="tab-section active" id="tab-registros">
 
-  <div class="card">
-    <div class="card-title">Ajuste de Código Inicial</div>
-    <div class="adjust-row">
-      <label for="adjustInput">Establecer código desde:</label>
-      <input type="number" id="adjustInput" placeholder="Ej. 4220" min="1"/>
-      <button class="btn btn-dark" onclick="applyAdjust()">Aplicar</button>
-      <span class="next-code-badge">Próximo código: <strong id="nextCodeDisplay">—</strong></span>
+    <div class="card">
+      <div class="card-title">Ajuste de Código Inicial</div>
+      <div class="adjust-row">
+        <label for="adjustInput">Establecer código desde:</label>
+        <input type="number" id="adjustInput" placeholder="Ej. 4220" min="1"/>
+        <button class="btn btn-dark" onclick="applyAdjust()">Aplicar</button>
+        <span class="next-code-badge">Próximo código: <strong id="nextCodeDisplay">—</strong></span>
+      </div>
     </div>
-  </div>
 
-  <div class="card">
-    <div class="card-title">Nuevo Registro</div>
-    <div class="form-grid">
-      <div class="form-group">
-        <label for="fFecha">Fecha</label>
-        <input type="date" id="fFecha"/>
+    <div class="card">
+      <div class="card-title">Nuevo Registro</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="fFecha">Fecha</label>
+          <input type="date" id="fFecha"/>
+        </div>
+        <div class="form-group">
+          <label for="fCodigo">Código</label>
+          <input type="text" id="fCodigo" placeholder="Auto"/>
+        </div>
+        <div class="form-group">
+          <label for="fNombre">Nombre del cliente</label>
+          <input type="text" id="fNombre" placeholder="Ej. María García López"/>
+        </div>
+        <div class="form-group">
+          <label for="fCantidad">Monto ($)</label>
+          <input type="number" id="fCantidad" placeholder="0.00" min="0" step="0.01"/>
+        </div>
+        <div class="form-group">
+          <label for="fTipo">Tipo de artículo</label>
+          <select id="fTipo">
+            <option value="oro">Oro</option>
+            <option value="plata">Plata</option>
+            <option value="otro">Otro</option>
+          </select>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="fCodigo">Código</label>
-        <input type="text" id="fCodigo" placeholder="Auto"/>
-      </div>
-      <div class="form-group">
-        <label for="fNombre">Nombre del cliente</label>
-        <input type="text" id="fNombre" placeholder="Ej. María García López"/>
-      </div>
-      <div class="form-group">
-        <label for="fCantidad">Monto ($)</label>
-        <input type="number" id="fCantidad" placeholder="0.00" min="0" step="0.01"/>
-      </div>
-      <div class="form-group">
-        <label for="fTipo">Tipo de artículo</label>
-        <select id="fTipo">
-          <option value="oro">Oro</option>
-          <option value="plata">Plata</option>
-          <option value="otro">Otro</option>
-        </select>
+      <div style="margin-top:14px">
+        <button class="btn btn-primary" id="btnAgregar" onclick="addRecord()">+ Agregar Registro</button>
       </div>
     </div>
-    <div style="margin-top:14px">
-      <button class="btn btn-primary" id="btnAgregar" onclick="addRecord()">+ Agregar Registro</button>
-    </div>
-  </div>
 
-  <div class="card">
-    <div class="toolbar">
-      <span class="toolbar-info">Total: <strong id="totalCount">0</strong> registros &nbsp;|&nbsp; Prestado: <strong id="totalAmount">$0</strong></span>
-      <button class="btn btn-green" onclick="exportCSV()">Exportar CSV</button>
+    <div class="card">
+      <div class="toolbar">
+        <span class="toolbar-info">Activos: <strong id="totalCount">0</strong> &nbsp;|&nbsp; Total prestado: <strong id="totalAmount">$0</strong></span>
+        <button class="btn btn-green" onclick="exportCSV('activos')">Exportar CSV</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>Fecha</th><th>Código</th><th>Cliente</th><th>Tipo</th><th>Monto</th><th></th></tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
     </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>#</th><th>Fecha</th><th>Código</th><th>Cliente</th><th>Tipo</th><th>Monto</th><th></th></tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
+
+  </div><!-- fin tab-registros -->
+
+  <!-- ═══ TAB: HISTORIAL ═══ -->
+  <div class="tab-section" id="tab-historial">
+    <div class="card">
+      <div class="toolbar">
+        <span class="toolbar-info">Total historial: <strong id="histCount">0</strong> registros</span>
+        <button class="btn btn-green" onclick="exportCSV('todos')">Exportar CSV</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>Fecha</th><th>Código</th><th>Cliente</th><th>Tipo</th><th>Monto</th><th>Estado</th><th></th></tr>
+          </thead>
+          <tbody id="histTableBody"></tbody>
+        </table>
+      </div>
     </div>
-  </div>
+  </div><!-- fin tab-historial -->
 
-  </div> <!-- fin tab-registros -->
-
+  <!-- ═══ TAB: ESTADÍSTICAS ═══ -->
   <div class="tab-section" id="tab-estadisticas">
-  <div class="card">
-    <div class="stats-banner" id="statsBanner"></div>
-    <div class="chart-card">
-      <div class="chart-title">Monto total prestado por mes</div>
-      <div class="filter-row" id="yearFilters"></div>
-      <div class="chart-wrap"><canvas id="chartMeses"></canvas></div>
-    </div>
-    <div class="charts-grid">
+    <div class="card">
+      <div class="stats-banner" id="statsBanner"></div>
       <div class="chart-card">
-        <div class="chart-title">Distribución por tipo de artículo</div>
-        <div class="chart-wrap"><canvas id="chartTipo"></canvas></div>
+        <div class="chart-title">Monto total prestado por mes (activos)</div>
+        <div class="filter-row" id="yearFilters"></div>
+        <div class="chart-wrap"><canvas id="chartMeses"></canvas></div>
       </div>
-      <div class="chart-card">
-        <div class="chart-title">Clientes por rango de monto</div>
-        <div class="chart-wrap"><canvas id="chartRangos"></canvas></div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-title">Distribución por tipo de artículo</div>
+          <div class="chart-wrap"><canvas id="chartTipo"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Clientes activos por rango de monto</div>
+          <div class="chart-wrap"><canvas id="chartRangos"></canvas></div>
+        </div>
       </div>
     </div>
-  </div>
-  </div> <!-- fin tab-estadisticas -->
+  </div><!-- fin tab-estadisticas -->
 
 </div>
 
@@ -229,9 +276,9 @@
 </div>
 
 <script type="module">
-  import { initializeApp }           from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+  import { initializeApp }  from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
   import { getFirestore, collection, doc, onSnapshot,
-           addDoc, deleteDoc, setDoc, getDoc }
+           addDoc, deleteDoc, updateDoc, setDoc, getDoc }
     from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -245,7 +292,7 @@
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
 
-  const SEED_RECORDS   = [{"id":1,"fecha":"2026-03-09","codigo":"4219","nombre":"maria de jesus aguayo","cantidad":600.0,"tipo":"otro"},{"id":2,"fecha":"2026-03-08","codigo":"4218","nombre":"feliz alfaro cruz","cantidad":800.0,"tipo":"otro"},{"id":3,"fecha":"2026-03-07","codigo":"4217","nombre":"nancy molina","cantidad":250.0,"tipo":"otro"},{"id":4,"fecha":"2026-03-07","codigo":"4216","nombre":"diego armando gomez","cantidad":300.0,"tipo":"otro"},{"id":5,"fecha":"2026-03-07","codigo":"4215","nombre":"maria de jesus aguayo","cantidad":1250.0,"tipo":"otro"},{"id":6,"fecha":"2026-03-06","codigo":"4214","nombre":"hector horacio perez","cantidad":300.0,"tipo":"otro"},{"id":7,"fecha":"2026-03-05","codigo":"4213","nombre":"karla chavez martinez","cantidad":11000.0,"tipo":"otro"},{"id":8,"fecha":"2026-03-06","codigo":"4212","nombre":"no exiate","cantidad":0.0,"tipo":"otro"},{"id":9,"fecha":"2026-03-05","codigo":"4211","nombre":"claudia azucena liera","cantidad":1000.0,"tipo":"otro"},{"id":10,"fecha":"2026-03-05","codigo":"4210","nombre":"jose de jesus martinez","cantidad":300.0,"tipo":"otro"},{"id":11,"fecha":"2026-03-05","codigo":"4209","nombre":"ruben lopez","cantidad":260.0,"tipo":"otro"},{"id":12,"fecha":"2026-03-04","codigo":"4208","nombre":"angelica calderon","cantidad":3000.0,"tipo":"otro"},{"id":13,"fecha":"2026-03-04","codigo":"4207","nombre":"carolina gaspar","cantidad":100.0,"tipo":"otro"},{"id":14,"fecha":"2026-03-04","codigo":"4206","nombre":"no existe","cantidad":0.0,"tipo":"otro"},{"id":15,"fecha":"2026-03-03","codigo":"4205","nombre":"ruben lopez almaraz","cantidad":340.0,"tipo":"otro"},{"id":16,"fecha":"2026-03-03","codigo":"4204","nombre":"maria de lourdes ponce","cantidad":500.0,"tipo":"otro"},{"id":17,"fecha":"2026-03-02","codigo":"4203","nombre":"reyna becerra","cantidad":2250.0,"tipo":"otro"},{"id":18,"fecha":"2026-03-02","codigo":"4202","nombre":"reyna becerra","cantidad":1750.0,"tipo":"otro"},{"id":19,"fecha":"2026-03-02","codigo":"4201","nombre":"yolanda espinoza","cantidad":320.0,"tipo":"otro"},{"id":20,"fecha":"2026-03-02","codigo":"4200","nombre":"no existe","cantidad":0.0,"tipo":"otro"},{"id":21,"fecha":"2026-03-02","codigo":"4199","nombre":"esthela casillas","cantidad":1200.0,"tipo":"otro"},{"id":22,"fecha":"2026-03-28","codigo":"4198","nombre":"jose antonio lara casillas","cantidad":1000.0,"tipo":"otro"},{"id":23,"fecha":"2026-03-28","codigo":"4197","nombre":"jose medina rodriguez","cantidad":1400.0,"tipo":"otro"},{"id":24,"fecha":"2026-03-28","codigo":"4196","nombre":"maria ester mendoza","cantidad":5000.0,"tipo":"otro"},{"id":25,"fecha":"2026-03-28","codigo":"4195","nombre":"claudia berenice agustin","cantidad":400.0,"tipo":"otro"},{"id":26,"fecha":"2026-03-26","codigo":"4193","nombre":"rafael amezcua","cantidad":700.0,"tipo":"otro"},{"id":27,"fecha":"2026-03-26","codigo":"4192","nombre":"no exiate","cantidad":0.0,"tipo":"otro"},{"id":28,"fecha":"2026-03-26","codigo":"4191","nombre":"maria esther garcia","cantidad":1000.0,"tipo":"otro"},{"id":29,"fecha":"2026-02-24","codigo":"4190","nombre":"lisa gomez rodriguez","cantidad":2500.0,"tipo":"otro"},{"id":30,"fecha":"2026-02-24","codigo":"4189","nombre":"norma alicia velazquez","cantidad":1000.0,"tipo":"otro"},{"id":31,"fecha":"2026-02-24","codigo":"4188","nombre":"laura patricia saldaña","cantidad":3900.0,"tipo":"otro"},{"id":32,"fecha":"2026-02-24","codigo":"4188","nombre":"laura patricia saldaña","cantidad":3900.0,"tipo":"otro"},{"id":33,"fecha":"2026-02-24","codigo":"4188","nombre":"laura patricia saldaña","cantidad":3900.0,"tipo":"otro"},{"id":34,"fecha":"2026-02-22","codigo":"4187","nombre":"no existe","cantidad":1.0,"tipo":"otro"},{"id":35,"fecha":"2026-02-21","codigo":"4186","nombre":"griselda uribe","cantidad":3300.0,"tipo":"otro"},{"id":36,"fecha":"2026-02-21","codigo":"4185","nombre":"martha garcia rodriguez","cantidad":1300.0,"tipo":"otro"},{"id":37,"fecha":"2026-02-20","codigo":"4184","nombre":"pedro gonzalez medina","cantidad":7500.0,"tipo":"otro"},{"id":38,"fecha":"2026-02-19","codigo":"4183","nombre":"maria de lourdes ponce","cantidad":400.0,"tipo":"otro"},{"id":39,"fecha":"2026-02-18","codigo":"4182","nombre":"cesar ivan blanco m","cantidad":500.0,"tipo":"otro"},{"id":40,"fecha":"2026-02-17","codigo":"4181","nombre":"noemi carolina gaspar","cantidad":400.0,"tipo":"otro"},{"id":41,"fecha":"2026-02-17","codigo":"4180","nombre":"brenda muñoz","cantidad":8400.0,"tipo":"otro"},{"id":42,"fecha":"2026-02-16","codigo":"4178","nombre":"esther carmona campos","cantidad":500.0,"tipo":"otro"},{"id":43,"fecha":"2026-02-16","codigo":"4177","nombre":"nora carmona","cantidad":200.0,"tipo":"otro"},{"id":44,"fecha":"2026-02-16","codigo":"4176","nombre":"anselmo romero","cantidad":1400.0,"tipo":"otro"},{"id":45,"fecha":"2026-02-16","codigo":"4175","nombre":"anselmo garcia meza","cantidad":2400.0,"tipo":"otro"},{"id":46,"fecha":"2026-02-15","codigo":"4174","nombre":"claudia lopez","cantidad":1000.0,"tipo":"otro"},{"id":47,"fecha":"2026-02-14","codigo":"4173","nombre":"omar baldomero viruete","cantidad":5500.0,"tipo":"otro"},{"id":48,"fecha":"2026-02-14","codigo":"4172","nombre":"juan ramirez quezada","cantidad":1500.0,"tipo":"otro"},{"id":49,"fecha":"2026-02-02","codigo":"4171","nombre":"no existe","cantidad":0.0,"tipo":"otro"},{"id":50,"fecha":"2026-02-02","codigo":"4170","nombre":"no existe","cantidad":0.0,"tipo":"otro"},{"id":51,"fecha":"2026-02-12","codigo":"4169","nombre":"´manuel lopez hernandez","cantidad":800.0,"tipo":"otro"},{"id":52,"fecha":"2026-02-11","codigo":"4168","nombre":"omar alfaro","cantidad":100.0,"tipo":"otro"},{"id":53,"fecha":"2026-02-11","codigo":"4167","nombre":"maria guadalupe patricio lara","cantidad":1800.0,"tipo":"otro"},{"id":54,"fecha":"2026-02-11","codigo":"4166","nombre":"maria elena ayon","cantidad":500.0,"tipo":"otro"},{"id":55,"fecha":"2026-02-11","codigo":"4165","nombre":"teresa mendoza","cantidad":1400.0,"tipo":"otro"},{"id":56,"fecha":"2026-02-10","codigo":"4164","nombre":"roberto torres herrera","cantidad":350.0,"tipo":"otro"},{"id":57,"fecha":"2026-02-10","codigo":"4163","nombre":"juana rodriguez","cantidad":300.0,"tipo":"otro"},{"id":58,"fecha":"2026-02-10","codigo":"4162","nombre":"juana rodriguez","cantidad":500.0,"tipo":"otro"},{"id":59,"fecha":"2026-02-09","codigo":"4161","nombre":"aurora gomez","cantidad":500.0,"tipo":"otro"},{"id":60,"fecha":"2026-02-09","codigo":"4160","nombre":"mario benito trinidad","cantidad":500.0,"tipo":"otro"},{"id":61,"fecha":"2026-02-08","codigo":"4159","nombre":"brayan alexis garcia","cantidad":1300.0,"tipo":"otro"},{"id":62,"fecha":"2026-02-07","codigo":"4158","nombre":"dolores sanchez salazar","cantidad":3400.0,"tipo":"otro"},{"id":63,"fecha":"2026-02-07","codigo":"4157","nombre":"omar alfaro","cantidad":700.0,"tipo":"otro"},{"id":64,"fecha":"2026-02-07","codigo":"4156","nombre":"maria marcelino teresa","cantidad":1200.0,"tipo":"otro"},{"id":65,"fecha":"2026-02-06","codigo":"4155","nombre":"maria del rocio ochoa","cantidad":450.0,"tipo":"otro"},{"id":66,"fecha":"2026-02-05","codigo":"4153","nombre":"jimena montes santisbais","cantidad":350.0,"tipo":"otro"},{"id":67,"fecha":"2026-02-05","codigo":"4152","nombre":"rafael amezcua","cantidad":650.0,"tipo":"otro"},{"id":68,"fecha":"2026-02-04","codigo":"4151","nombre":"brenda muñoz lira","cantidad":7600.0,"tipo":"otro"},{"id":69,"fecha":"2026-02-04","codigo":"4150","nombre":"maria del refugio carrillo","cantidad":1650.0,"tipo":"otro"},{"id":70,"fecha":"2026-02-04","codigo":"4149","nombre":"ramon alberto venegas","cantidad":580.0,"tipo":"otro"},{"id":71,"fecha":"2026-02-04","codigo":"4148","nombre":"anayeli orozco campos","cantidad":220.0,"tipo":"otro"},{"id":72,"fecha":"2026-02-04","codigo":"4147","nombre":"juan carlos nuñez","cantidad":2900.0,"tipo":"otro"},{"id":73,"fecha":"2026-02-03","codigo":"4146","nombre":"mayra alejandra lopez","cantidad":240.0,"tipo":"otro"},{"id":74,"fecha":"2026-02-03","codigo":"4145","nombre":"jose daniel guitierrez","cantidad":1600.0,"tipo":"otro"},{"id":75,"fecha":"2026-02-02","codigo":"4144","nombre":"cristina guadalupe jimenez","cantidad":100.0,"tipo":"otro"},{"id":76,"fecha":"2026-02-02","codigo":"4140","nombre":"rosa maria ramos","cantidad":2100.0,"tipo":"otro"},{"id":77,"fecha":"2026-02-01","codigo":"4139","nombre":"irma gomez patricio","cantidad":1000.0,"tipo":"otro"},{"id":78,"fecha":"2026-02-28","codigo":"4137","nombre":"francisco torres","cantidad":6500.0,"tipo":"otro"},{"id":79,"fecha":"2026-02-28","codigo":"4136","nombre":"julio evangelista","cantidad":15000.0,"tipo":"otro"},{"id":80,"fecha":"2026-02-28","codigo":"4135","nombre":"victor manuel varo","cantidad":4500.0,"tipo":"otro"},{"id":81,"fecha":"2026-01-30","codigo":"4134","nombre":"dora elena covarrubias","cantidad":5000.0,"tipo":"otro"},{"id":82,"fecha":"2026-01-28","codigo":"4133","nombre":"alejandra poloma torres","cantidad":350.0,"tipo":"otro"},{"id":83,"fecha":"2026-01-28","codigo":"4131","nombre":"charo sanchez","cantidad":2500.0,"tipo":"otro"},{"id":84,"fecha":"2026-01-28","codigo":"4130","nombre":"vanessa rodriguez","cantidad":500.0,"tipo":"otro"},{"id":85,"fecha":"2026-01-26","codigo":"4126","nombre":"monica ruth ramirez","cantidad":350.0,"tipo":"otro"},{"id":86,"fecha":"2026-01-26","codigo":"4125","nombre":"jorge ortega","cantidad":600.0,"tipo":"otro"},{"id":87,"fecha":"2026-01-26","codigo":"4124","nombre":"estela aguiar soriano","cantidad":4200.0,"tipo":"otro"},{"id":88,"fecha":"2026-01-25","codigo":"4122","nombre":"alberto moreno","cantidad":400.0,"tipo":"otro"},{"id":89,"fecha":"2026-01-25","codigo":"4121","nombre":"alberto moreno","cantidad":400.0,"tipo":"otro"},{"id":90,"fecha":"2026-01-24","codigo":"4120","nombre":"brandon jesus gomez ponce","cantidad":650.0,"tipo":"otro"},{"id":91,"fecha":"2026-01-24","codigo":"4119","nombre":"rocio guadalupe jaime","cantidad":700.0,"tipo":"otro"},{"id":92,"fecha":"2026-01-22","codigo":"4117","nombre":"reymundo hernandez b","cantidad":800.0,"tipo":"otro"},{"id":93,"fecha":"2026-01-22","codigo":"4115","nombre":"ana maria marron","cantidad":100.0,"tipo":"otro"},{"id":94,"fecha":"2026-01-22","codigo":"4114","nombre":"elizabeth de la mora","cantidad":6800.0,"tipo":"otro"},{"id":95,"fecha":"2026-01-21","codigo":"4113","nombre":"sonia rosales","cantidad":1500.0,"tipo":"otro"},{"id":96,"fecha":"2026-01-20","codigo":"4112","nombre":"mary cruz hernandez gonzalez","cantidad":4350.0,"tipo":"otro"},{"id":97,"fecha":"2026-01-19","codigo":"4111","nombre":"blanca esthela bautista","cantidad":550.0,"tipo":"otro"},{"id":98,"fecha":"2026-01-19","codigo":"4110","nombre":"rosa maria ramos","cantidad":1050.0,"tipo":"otro"},{"id":99,"fecha":"2026-01-19","codigo":"4109","nombre":"alondra jaqueline gaitan","cantidad":450.0,"tipo":"otro"},{"id":100,"fecha":"2026-01-18","codigo":"4108","nombre":"noely cuevas","cantidad":8000.0,"tipo":"otro"},{"id":101,"fecha":"2026-01-19","codigo":"4107","nombre":"maria marcelino teresa","cantidad":550.0,"tipo":"otro"},{"id":102,"fecha":"2026-01-18","codigo":"4106","nombre":"juan francisco saucedo jacobo","cantidad":200.0,"tipo":"otro"},{"id":103,"fecha":"2026-01-18","codigo":"4105","nombre":"alejandra duran avila","cantidad":12000.0,"tipo":"otro"},{"id":104,"fecha":"2026-01-18","codigo":"4104","nombre":"elizabeth de la mora","cantidad":3000.0,"tipo":"otro"},{"id":105,"fecha":"2026-01-18","codigo":"4103","nombre":"dulce anguiano","cantidad":3000.0,"tipo":"otro"},{"id":106,"fecha":"2026-01-16","codigo":"4100","nombre":"emmanuel benjamin ayala garcia","cantidad":3500.0,"tipo":"otro"},{"id":107,"fecha":"2026-01-15","codigo":"4098","nombre":"luz maria hernandez","cantidad":2600.0,"tipo":"otro"},{"id":108,"fecha":"2026-01-14","codigo":"4097","nombre":"evelyn lopez garnica","cantidad":1200.0,"tipo":"otro"},{"id":109,"fecha":"2026-01-14","codigo":"4096","nombre":"sarahi oliva muñoz","cantidad":3400.0,"tipo":"otro"},{"id":110,"fecha":"2026-01-14","codigo":"4095","nombre":"maria esther mendoza","cantidad":2500.0,"tipo":"otro"},{"id":111,"fecha":"2026-01-14","codigo":"4094","nombre":"celina guzman","cantidad":1000.0,"tipo":"otro"},{"id":112,"fecha":"2026-01-13","codigo":"4093","nombre":"mari cruz hernandez gonzalez","cantidad":2400.0,"tipo":"otro"},{"id":113,"fecha":"2026-01-13","codigo":"4092","nombre":"alejandra rodriguez calderon","cantidad":320.0,"tipo":"otro"},{"id":114,"fecha":"2026-01-13","codigo":"4091","nombre":"veronica gonzalez miranda","cantidad":1200.0,"tipo":"otro"},{"id":115,"fecha":"2026-01-13","codigo":"4090","nombre":"brenda gonzalez arismendi","cantidad":2400.0,"tipo":"otro"},{"id":116,"fecha":"2026-01-13","codigo":"4089","nombre":"celina guzman","cantidad":700.0,"tipo":"otro"},{"id":117,"fecha":"2026-01-13","codigo":"4087","nombre":"evelin lopez","cantidad":2500.0,"tipo":"otro"},{"id":118,"fecha":"2026-01-13","codigo":"4086","nombre":"elizabeth de  la mora","cantidad":4800.0,"tipo":"otro"},{"id":119,"fecha":"2026-01-11","codigo":"4084","nombre":"luz mari hernandez sandoval","cantidad":2200.0,"tipo":"otro"},{"id":120,"fecha":"2026-01-10","codigo":"4083","nombre":"jorge antonio guillen renteria","cantidad":370.0,"tipo":"otro"},{"id":121,"fecha":"2026-01-10","codigo":"4082","nombre":"andrea cervantes aranda","cantidad":2000.0,"tipo":"otro"},{"id":122,"fecha":"2026-01-09","codigo":"4081","nombre":"ariana elizabeth rosales","cantidad":750.0,"tipo":"otro"},{"id":123,"fecha":"2026-01-09","codigo":"4080","nombre":"ana maria marron","cantidad":300.0,"tipo":"otro"},{"id":124,"fecha":"2026-01-07","codigo":"4077","nombre":"minerva bejar","cantidad":1500.0,"tipo":"otro"},{"id":125,"fecha":"2026-01-07","codigo":"4076","nombre":"maria esther mendoza","cantidad":2600.0,"tipo":"otro"},{"id":126,"fecha":"2026-01-07","codigo":"4075","nombre":"maria del rocio huerta r","cantidad":1500.0,"tipo":"otro"},{"id":127,"fecha":"2026-01-06","codigo":"4074","nombre":"teresa ulloa bramasco","cantidad":1200.0,"tipo":"otro"},{"id":128,"fecha":"2026-01-06","codigo":"4073","nombre":"arianna elizabeth rosales","cantidad":1300.0,"tipo":"otro"},{"id":129,"fecha":"2026-01-06","codigo":"4071","nombre":"santiago beltran","cantidad":500.0,"tipo":"otro"},{"id":130,"fecha":"2026-01-05","codigo":"4070","nombre":"maria del refugio carrillo","cantidad":500.0,"tipo":"otro"},{"id":131,"fecha":"2026-01-05","codigo":"4069","nombre":"maria del sagrario calvillo","cantidad":1000.0,"tipo":"otro"},{"id":132,"fecha":"2026-01-05","codigo":"4068","nombre":"silvia medina","cantidad":200.0,"tipo":"otro"},{"id":133,"fecha":"2026-01-04","codigo":"4067","nombre":"jose antonio lara casillas","cantidad":250.0,"tipo":"otro"},{"id":134,"fecha":"2026-01-04","codigo":"4066","nombre":"adriana elizabeth hernandez","cantidad":1200.0,"tipo":"otro"},{"id":135,"fecha":"2026-01-04","codigo":"4065","nombre":"nena muñoz","cantidad":3200.0,"tipo":"otro"},{"id":136,"fecha":"2026-01-03","codigo":"4064","nombre":"maximo noe gaytan","cantidad":400.0,"tipo":"otro"},{"id":137,"fecha":"2026-01-02","codigo":"4062","nombre":"reyna becerra e","cantidad":1200.0,"tipo":"otro"},{"id":138,"fecha":"2026-01-02","codigo":"4061","nombre":"karla chavez nartinez","cantidad":5000.0,"tipo":"otro"},{"id":139,"fecha":"2026-01-02","codigo":"4060","nombre":"luisa gomez","cantidad":1000.0,"tipo":"otro"},{"id":140,"fecha":"2026-01-30","codigo":"4059","nombre":"jose guadalupe moreno","cantidad":200.0,"tipo":"otro"},{"id":141,"fecha":"2026-01-29","codigo":"4056","nombre":"yessica suday de anda barajas","cantidad":5000.0,"tipo":"otro"},{"id":142,"fecha":"2026-01-29","codigo":"4055","nombre":"carmen patricia gomez mariscal","cantidad":640.0,"tipo":"otro"},{"id":143,"fecha":"2025-12-28","codigo":"4053","nombre":"marina garcia","cantidad":2600.0,"tipo":"otro"},{"id":144,"fecha":"2025-12-26","codigo":"4052","nombre":"hortencia tranquilino","cantidad":120.0,"tipo":"otro"},{"id":145,"fecha":"2025-12-24","codigo":"4049","nombre":"maria de los angeles aranda","cantidad":600.0,"tipo":"otro"},{"id":146,"fecha":"2025-12-24","codigo":"4048","nombre":"gabriela guadalupe jarquin","cantidad":130.0,"tipo":"otro"},{"id":147,"fecha":"2025-12-24","codigo":"4047","nombre":"martin garcia rodriguez","cantidad":1200.0,"tipo":"otro"},{"id":148,"fecha":"2025-12-22","codigo":"4044","nombre":"paula chavez","cantidad":6000.0,"tipo":"otro"},{"id":149,"fecha":"2025-12-19","codigo":"4041","nombre":"elizabeth de la mora","cantidad":1400.0,"tipo":"otro"},{"id":150,"fecha":"2025-12-18","codigo":"4040","nombre":"daniel samaro esquivel","cantidad":500.0,"tipo":"otro"},{"id":151,"fecha":"2025-12-18","codigo":"4039","nombre":"horetencia tranquilino","cantidad":100.0,"tipo":"otro"},{"id":152,"fecha":"2025-12-17","codigo":"4036","nombre":"no existe","cantidad":0.0,"tipo":"otro"},{"id":153,"fecha":"2025-12-17","codigo":"4035","nombre":"sugeid ruvalcaba","cantidad":2500.0,"tipo":"otro"},{"id":154,"fecha":"2025-12-16","codigo":"4033","nombre":"felicitas carmona campos","cantidad":3000.0,"tipo":"otro"},{"id":155,"fecha":"2025-12-16","codigo":"4032","nombre":"veronica esmeralda corona","cantidad":1200.0,"tipo":"otro"},{"id":156,"fecha":"2025-12-15","codigo":"4030","nombre":"adriana cervantes","cantidad":1400.0,"tipo":"otro"},{"id":157,"fecha":"2025-12-15","codigo":"4029","nombre":"sara rosales","cantidad":1800.0,"tipo":"otro"},{"id":158,"fecha":"2025-12-14","codigo":"4027","nombre":"maria ester mendoza","cantidad":2200.0,"tipo":"otro"},{"id":159,"fecha":"2025-12-13","codigo":"4026","nombre":"alejandra muñoz oliva","cantidad":4400.0,"tipo":"otro"},{"id":160,"fecha":"2025-12-13","codigo":"4025","nombre":"maria ester mendoza","cantidad":8000.0,"tipo":"otro"},{"id":161,"fecha":"2025-12-13","codigo":"4024","nombre":"jose lopez","cantidad":720.0,"tipo":"otro"},{"id":162,"fecha":"2025-12-12","codigo":"4023","nombre":"juan carlos serrano","cantidad":400.0,"tipo":"otro"},{"id":163,"fecha":"2025-12-11","codigo":"4022","nombre":"alberto barba rivera","cantidad":400.0,"tipo":"otro"},{"id":164,"fecha":"2025-12-11","codigo":"4021","nombre":"alberto barba rivera","cantidad":400.0,"tipo":"otro"},{"id":165,"fecha":"2025-12-09","codigo":"4018","nombre":"manuel montes","cantidad":700.0,"tipo":"otro"},{"id":166,"fecha":"2025-12-08","codigo":"4017","nombre":"no existe","cantidad":0.0,"tipo":"otro"},{"id":167,"fecha":"2025-12-08","codigo":"4013","nombre":"sugeid guadalupe ruvalcaba","cantidad":1800.0,"tipo":"otro"},{"id":168,"fecha":"2025-12-06","codigo":"4008","nombre":"alejandra oliva","cantidad":5000.0,"tipo":"otro"},{"id":169,"fecha":"2025-12-06","codigo":"4007","nombre":"victor manuel varo","cantidad":3600.0,"tipo":"otro"},{"id":170,"fecha":"2025-12-05","codigo":"4006","nombre":"marcelina lara","cantidad":1200.0,"tipo":"otro"},{"id":171,"fecha":"2025-12-04","codigo":"4005","nombre":"jose lopez","cantidad":1800.0,"tipo":"otro"},{"id":172,"fecha":"2025-12-01","codigo":"4002","nombre":"vanessa rios gaspar","cantidad":2400.0,"tipo":"otro"},{"id":173,"fecha":"2025-12-30","codigo":"4001","nombre":"rosa rivera aguayo","cantidad":1200.0,"tipo":"otro"},{"id":174,"fecha":"2025-12-26","codigo":"3997","nombre":"ana maria urzua tovar","cantidad":5600.0,"tipo":"otro"},{"id":175,"fecha":"2025-12-24","codigo":"3995","nombre":"maria de los angeles gonzalez","cantidad":2600.0,"tipo":"otro"},{"id":176,"fecha":"2025-12-23","codigo":"3993","nombre":"karina copado diaz","cantidad":3000.0,"tipo":"otro"},{"id":177,"fecha":"2025-12-23","codigo":"3992","nombre":"erendida lopez lopez","cantidad":700.0,"tipo":"otro"},{"id":178,"fecha":"2025-12-22","codigo":"3991","nombre":"maria marcelino teresa","cantidad":3300.0,"tipo":"otro"},{"id":179,"fecha":"2025-12-22","codigo":"3989","nombre":"eva cisneros tejeda","cantidad":1000.0,"tipo":"otro"},{"id":180,"fecha":"2025-12-22","codigo":"3988","nombre":"rebeca rivera arredondo","cantidad":3500.0,"tipo":"otro"},{"id":181,"fecha":"2025-12-21","codigo":"3987","nombre":"cesar roman santana quezada","cantidad":150000.0,"tipo":"otro"},{"id":182,"fecha":"2025-12-21","codigo":"3986","nombre":"amparo rodriguez","cantidad":1700.0,"tipo":"otro"},{"id":183,"fecha":"2025-12-21","codigo":"3985","nombre":"martin gonzalez","cantidad":600.0,"tipo":"otro"},{"id":184,"fecha":"2025-12-21","codigo":"3984","nombre":"jorge ignacio chavez sanchez","cantidad":100000.0,"tipo":"otro"},{"id":185,"fecha":"2025-12-20","codigo":"3983","nombre":"marisol armenta sandoval","cantidad":1000.0,"tipo":"otro"},{"id":186,"fecha":"2025-12-25","codigo":"3980","nombre":"jose guadalupe cardona lara","cantidad":100000.0,"tipo":"otro"},{"id":187,"fecha":"2025-11-19","codigo":"3978","nombre":"susana lopez arellano","cantidad":3800.0,"tipo":"otro"},{"id":188,"fecha":"2025-11-19","codigo":"3977","nombre":"irma sagrario cuevas arceo","cantidad":300.0,"tipo":"otro"},{"id":189,"fecha":"2025-11-19","codigo":"3976","nombre":"sandra reyes","cantidad":1500.0,"tipo":"otro"},{"id":190,"fecha":"2025-11-18","codigo":"3975","nombre":"maria guadaluperez perez","cantidad":1200.0,"tipo":"otro"},{"id":191,"fecha":"2025-11-18","codigo":"3974","nombre":"elizabeth kisimoto","cantidad":400.0,"tipo":"otro"},{"id":192,"fecha":"2025-11-16","codigo":"3971","nombre":"rosendo gonzalez","cantidad":900.0,"tipo":"otro"},{"id":193,"fecha":"2025-11-16","codigo":"3969","nombre":"carmen gabriela vera","cantidad":1000.0,"tipo":"otro"},{"id":194,"fecha":"2025-11-15","codigo":"3968","nombre":"rocio guadalupe jimenez","cantidad":1000.0,"tipo":"otro"},{"id":195,"fecha":"2025-11-15","codigo":"3967","nombre":"rafael gallo garcia","cantidad":2300.0,"tipo":"otro"},{"id":196,"fecha":"2025-11-06","codigo":"3965","nombre":"juan barba","cantidad":400.0,"tipo":"otro"},{"id":197,"fecha":"2025-11-10","codigo":"3959","nombre":"mercedes fregoso r","cantidad":900.0,"tipo":"otro"},{"id":198,"fecha":"2025-11-10","codigo":"3957","nombre":"ana rosa calderon","cantidad":700.0,"tipo":"otro"},{"id":199,"fecha":"2025-11-10","codigo":"3956","nombre":"ana cristina tabares","cantidad":1000.0,"tipo":"otro"},{"id":200,"fecha":"2025-11-09","codigo":"3954","nombre":"magdalena muñoz becerra","cantidad":1700.0,"tipo":"otro"},{"id":201,"fecha":"2025-11-07","codigo":"3953","nombre":"gerardo mejia celis","cantidad":220.0,"tipo":"otro"},{"id":202,"fecha":"2025-11-07","codigo":"3952","nombre":"jonhy veronica gomez","cantidad":280.0,"tipo":"otro"},{"id":203,"fecha":"2025-11-06","codigo":"3948","nombre":"carolina vazquez","cantidad":1100.0,"tipo":"otro"},{"id":204,"fecha":"2025-11-06","codigo":"3947","nombre":"candelario hernandez","cantidad":3000.0,"tipo":"otro"},{"id":205,"fecha":"2025-11-05","codigo":"3944","nombre":"brandon arciniega r","cantidad":2200.0,"tipo":"otro"},{"id":206,"fecha":"2025-11-05","codigo":"3943","nombre":"carolina vazquez","cantidad":1150.0,"tipo":"otro"},{"id":207,"fecha":"2025-11-05","codigo":"3942","nombre":"ernestina vela","cantidad":500.0,"tipo":"otro"},{"id":208,"fecha":"2025-11-04","codigo":"3939","nombre":"marisol ajejandra gutierrez","cantidad":800.0,"tipo":"otro"},{"id":209,"fecha":"2025-11-02","codigo":"3933","nombre":"alma daniela zamora","cantidad":1400.0,"tipo":"otro"},{"id":210,"fecha":"2025-11-01","codigo":"3932","nombre":"saira carolina olivares","cantidad":150.0,"tipo":"otro"},{"id":211,"fecha":"2025-11-01","codigo":"3930","nombre":"maria ester mendoza","cantidad":4500.0,"tipo":"otro"},{"id":212,"fecha":"2025-11-01","codigo":"3928","nombre":"cesar ramon santana","cantidad":50000.0,"tipo":"otro"},{"id":213,"fecha":"2025-11-30","codigo":"3927","nombre":"brandon arciniega","cantidad":400.0,"tipo":"otro"},{"id":214,"fecha":"2025-11-27","codigo":"3923","nombre":"karla chavez martinez","cantidad":6000.0,"tipo":"otro"},{"id":215,"fecha":"2025-11-27","codigo":"3922","nombre":"francisca ramirez garcia","cantidad":600.0,"tipo":"otro"},{"id":216,"fecha":"2025-11-27","codigo":"3921","nombre":"mario cuevas campos","cantidad":1400.0,"tipo":"otro"},{"id":217,"fecha":"2025-10-26","codigo":"3916","nombre":"mariana  garcia sanchez","cantidad":3400.0,"tipo":"otro"},{"id":218,"fecha":"2025-10-25","codigo":"3915","nombre":"sergio alberto aranda hndez","cantidad":120.0,"tipo":"otro"},{"id":219,"fecha":"2025-10-22","codigo":"3909","nombre":"dania guerrero","cantidad":1800.0,"tipo":"otro"},{"id":220,"fecha":"2025-10-22","codigo":"3908","nombre":"martha aranda","cantidad":4000.0,"tipo":"otro"},{"id":221,"fecha":"2025-10-23","codigo":"3906","nombre":"jorge antonio guillen","cantidad":1000.0,"tipo":"otro"},{"id":222,"fecha":"2025-10-23","codigo":"3905","nombre":"hortencia tranquilino","cantidad":150.0,"tipo":"otro"},{"id":223,"fecha":"2025-10-22","codigo":"3904","nombre":"brandon arcinoega r","cantidad":440.0,"tipo":"otro"},{"id":224,"fecha":"2025-10-22","codigo":"3903","nombre":"brandon arciniega rosales","cantidad":420.0,"tipo":"otro"},{"id":225,"fecha":"2025-10-25","codigo":"3900","nombre":"maribel ponce","cantidad":500.0,"tipo":"otro"},{"id":226,"fecha":"2025-10-22","codigo":"3898","nombre":"dania bernal","cantidad":600.0,"tipo":"otro"},{"id":227,"fecha":"2025-10-21","codigo":"3897","nombre":"reyna becerra","cantidad":2900.0,"tipo":"otro"},{"id":228,"fecha":"2025-10-21","codigo":"3895","nombre":"olga salazar","cantidad":2000.0,"tipo":"otro"},{"id":229,"fecha":"2025-10-20","codigo":"3894","nombre":"maria guadalupe perez","cantidad":2000.0,"tipo":"otro"},{"id":230,"fecha":"2025-10-20","codigo":"3892","nombre":"rosendo gonzalez c","cantidad":200.0,"tipo":"otro"},{"id":231,"fecha":"2025-10-20","codigo":"3891","nombre":"martha enriquez","cantidad":130.0,"tipo":"otro"},{"id":232,"fecha":"2025-10-19","codigo":"3889","nombre":"guadalupe vargas pastrana","cantidad":5200.0,"tipo":"otro"},{"id":233,"fecha":"2025-10-16","codigo":"3886","nombre":"moises virgen","cantidad":1520.0,"tipo":"otro"},{"id":234,"fecha":"2025-10-16","codigo":"3885","nombre":"cesar ivan blanco","cantidad":400.0,"tipo":"otro"},{"id":235,"fecha":"2025-10-15","codigo":"3883","nombre":"paulina chavez","cantidad":5000.0,"tipo":"otro"},{"id":236,"fecha":"2025-10-13","codigo":"3880","nombre":"gerardo rios vazquez","cantidad":1600.0,"tipo":"otro"},{"id":237,"fecha":"2025-10-13","codigo":"3879","nombre":"luis david lopez","cantidad":1500.0,"tipo":"otro"},{"id":238,"fecha":"2025-10-09","codigo":"3876","nombre":"jovana vidal","cantidad":250.0,"tipo":"otro"},{"id":239,"fecha":"2025-10-09","codigo":"3875","nombre":"no existe","cantidad":0.0,"tipo":"otro"},{"id":240,"fecha":"2025-10-09","codigo":"3874","nombre":"no existe","cantidad":0.0,"tipo":"otro"},{"id":241,"fecha":"2025-10-08","codigo":"3871","nombre":"reyna becerra","cantidad":2400.0,"tipo":"otro"},{"id":242,"fecha":"2025-10-05","codigo":"3863","nombre":"katya piza","cantidad":3600.0,"tipo":"otro"},{"id":243,"fecha":"2025-10-02","codigo":"3858","nombre":"madelene oliva muñoz","cantidad":1300.0,"tipo":"otro"},{"id":244,"fecha":"2025-10-02","codigo":"3857","nombre":"francisca rodriguez","cantidad":1600.0,"tipo":"otro"},{"id":245,"fecha":"2025-10-29","codigo":"3851","nombre":"maria guadalupe palacios","cantidad":1400.0,"tipo":"otro"},{"id":246,"fecha":"2025-09-28","codigo":"3849","nombre":"moises virgen","cantidad":600.0,"tipo":"otro"},{"id":247,"fecha":"2025-09-28","codigo":"3848","nombre":"maria elena martinez","cantidad":600.0,"tipo":"otro"},{"id":248,"fecha":"2025-09-27","codigo":"3847","nombre":"guadalupe robledo ramirez","cantidad":4800.0,"tipo":"otro"},{"id":249,"fecha":"2025-09-26","codigo":"3846","nombre":"sofia del carmen sierra","cantidad":650.0,"tipo":"otro"},{"id":250,"fecha":"2025-09-24","codigo":"3841","nombre":"juan manuel ramirez","cantidad":850.0,"tipo":"otro"},{"id":251,"fecha":"2025-09-24","codigo":"3840","nombre":"ana elia montes","cantidad":1200.0,"tipo":"otro"},{"id":252,"fecha":"2025-09-18","codigo":"3827","nombre":"jose ricardo sandoval","cantidad":2000.0,"tipo":"otro"},{"id":253,"fecha":"2025-09-18","codigo":"3826","nombre":"bertha bravo ibarra","cantidad":600.0,"tipo":"otro"},{"id":254,"fecha":"2025-09-18","codigo":"3823","nombre":"miguel angel fernandez","cantidad":600.0,"tipo":"otro"},{"id":255,"fecha":"2025-09-17","codigo":"3822","nombre":"karina anahi muñoz lara","cantidad":1000.0,"tipo":"otro"},{"id":256,"fecha":"2025-09-17","codigo":"3821","nombre":"griselda plascencia jimenez","cantidad":1800.0,"tipo":"otro"},{"id":257,"fecha":"2025-09-15","codigo":"3814","nombre":"Flabia Georgina Serna","cantidad":1500.0,"tipo":"otro"},{"id":258,"fecha":"2025-09-14","codigo":"3811","nombre":"Gerardo Joel Cardona","cantidad":750.0,"tipo":"otro"},{"id":259,"fecha":"2025-09-14","codigo":"3810","nombre":"Maria Daniela Muniz","cantidad":600.0,"tipo":"otro"},{"id":260,"fecha":"2025-09-14","codigo":"3809","nombre":"Marina Garcia Sanchez","cantidad":4500.0,"tipo":"otro"},{"id":261,"fecha":"2025-09-13","codigo":"3808","nombre":"Edith Melendrez Romero","cantidad":1400.0,"tipo":"otro"},{"id":262,"fecha":"2025-09-09","codigo":"3800","nombre":"Rosa Muñoz Garcia","cantidad":150.0,"tipo":"otro"},{"id":263,"fecha":"2025-09-06","codigo":"3797","nombre":"miriam lorena casas sedano","cantidad":2400.0,"tipo":"otro"},{"id":264,"fecha":"2025-09-06","codigo":"3795","nombre":"irma yolanda cruz armenta","cantidad":4000.0,"tipo":"otro"},{"id":265,"fecha":"2025-09-03","codigo":"3786","nombre":"carmen patricia gomez","cantidad":950.0,"tipo":"otro"},{"id":266,"fecha":"2025-09-01","codigo":"3782","nombre":"alejandro santisbais g","cantidad":1400.0,"tipo":"otro"},{"id":267,"fecha":"2025-09-30","codigo":"3779","nombre":"alicia delgado","cantidad":2000.0,"tipo":"otro"},{"id":268,"fecha":"2025-09-29","codigo":"3774","nombre":"tarsi esteban luca","cantidad":1000.0,"tipo":"otro"},{"id":269,"fecha":"2025-09-27","codigo":"3771","nombre":"rosa muñoz garcia","cantidad":150.0,"tipo":"otro"},{"id":270,"fecha":"2025-08-22","codigo":"3762","nombre":"martha leticia martinez","cantidad":1500.0,"tipo":"otro"},{"id":271,"fecha":"2025-08-22","codigo":"3759","nombre":"jimena mercado","cantidad":900.0,"tipo":"otro"},{"id":272,"fecha":"2025-08-19","codigo":"3755","nombre":"cintya maria guadalupe garcia","cantidad":1500.0,"tipo":"otro"},{"id":273,"fecha":"2025-08-18","codigo":"3751","nombre":"berenice pastran","cantidad":1600.0,"tipo":"otro"},{"id":274,"fecha":"2025-08-18","codigo":"3749","nombre":"hortencia arredodo","cantidad":3400.0,"tipo":"otro"},{"id":275,"fecha":"2025-08-18","codigo":"3748","nombre":"hortencia arredondo","cantidad":3400.0,"tipo":"otro"},{"id":276,"fecha":"2025-08-18","codigo":"3747","nombre":"esthela aguiar","cantidad":1800.0,"tipo":"otro"},{"id":277,"fecha":"2025-08-17","codigo":"3743","nombre":"jazmin garcia alberto","cantidad":350.0,"tipo":"otro"},{"id":278,"fecha":"2025-08-16","codigo":"3741","nombre":"lizeth torres garcia","cantidad":1400.0,"tipo":"otro"},{"id":279,"fecha":"2025-08-16","codigo":"3739","nombre":"maximo noe gaytan r","cantidad":330.0,"tipo":"otro"},{"id":280,"fecha":"2025-08-16","codigo":"3738","nombre":"reyna guadalupe gonzalez p","cantidad":900.0,"tipo":"otro"},{"id":281,"fecha":"2025-08-15","codigo":"3736","nombre":"rafaela lopez","cantidad":1350.0,"tipo":"otro"},{"id":282,"fecha":"2025-08-14","codigo":"3734","nombre":"cinthya maria guadalupe g","cantidad":1800.0,"tipo":"otro"},{"id":283,"fecha":"2025-08-13","codigo":"3731","nombre":"jovita ascencio rincon","cantidad":1000.0,"tipo":"otro"},{"id":284,"fecha":"2025-08-12","codigo":"3726","nombre":"raquel ulloa bramasco","cantidad":1100.0,"tipo":"otro"},{"id":285,"fecha":"2025-08-11","codigo":"3725","nombre":"jova belen guillen","cantidad":4000.0,"tipo":"otro"},{"id":286,"fecha":"2025-08-11","codigo":"3723","nombre":"claudia lopez","cantidad":550.0,"tipo":"otro"},{"id":287,"fecha":"2025-08-10","codigo":"3721","nombre":"iris aurora ojeda tlaxcla","cantidad":2000.0,"tipo":"otro"},{"id":288,"fecha":"2025-08-10","codigo":"3717","nombre":"hilda margarita garcia","cantidad":1500.0,"tipo":"otro"},{"id":289,"fecha":"2025-08-06","codigo":"3713","nombre":"evelin lopez g","cantidad":3200.0,"tipo":"otro"},{"id":290,"fecha":"2025-08-06","codigo":"3712","nombre":"rosalina garcia","cantidad":1000.0,"tipo":"otro"},{"id":291,"fecha":"2025-08-05","codigo":"3708","nombre":"evlin lopez garcia","cantidad":240.0,"tipo":"otro"},{"id":292,"fecha":"2025-08-03","codigo":"3705","nombre":"hilda margarita garcia","cantidad":700.0,"tipo":"otro"},{"id":293,"fecha":"2025-08-01","codigo":"3703","nombre":"martha ramirez","cantidad":1800.0,"tipo":"otro"},{"id":294,"fecha":"2025-07-29","codigo":"3695","nombre":"eva maria flores","cantidad":1800.0,"tipo":"otro"},{"id":295,"fecha":"2025-07-27","codigo":"3690","nombre":"veronica guadalupe sanchez","cantidad":600.0,"tipo":"otro"},{"id":296,"fecha":"2025-07-24","codigo":"3684","nombre":"margarita hernandez b","cantidad":360.0,"tipo":"otro"},{"id":297,"fecha":"2025-07-21","codigo":"3677","nombre":"maricela elizondo","cantidad":270.0,"tipo":"otro"},{"id":298,"fecha":"2025-07-21","codigo":"3676","nombre":"maricela  elizondo","cantidad":270.0,"tipo":"otro"},{"id":299,"fecha":"2025-07-13","codigo":"3663","nombre":"jose antonio lara casillas","cantidad":1000.0,"tipo":"otro"},{"id":300,"fecha":"2025-07-13","codigo":"3662","nombre":"angelica zarate gonzalez","cantidad":400.0,"tipo":"otro"},{"id":301,"fecha":"2025-07-12","codigo":"3660","nombre":"mercedes fregoso","cantidad":3200.0,"tipo":"otro"},{"id":302,"fecha":"2025-07-12","codigo":"3656","nombre":"griselda gomez","cantidad":1700.0,"tipo":"otro"},{"id":303,"fecha":"2025-07-09","codigo":"3650","nombre":"leornor ocampo","cantidad":1200.0,"tipo":"otro"},{"id":304,"fecha":"2025-07-05","codigo":"3643","nombre":"maria isabel hernandez","cantidad":700.0,"tipo":"otro"},{"id":305,"fecha":"2025-07-03","codigo":"3635","nombre":"eva flores","cantidad":3000.0,"tipo":"otro"},{"id":306,"fecha":"2025-08-02","codigo":"3631","nombre":"lucia alexa bobadilla r","cantidad":1000.0,"tipo":"otro"},{"id":307,"fecha":"2025-08-01","codigo":"3626","nombre":"martha ramirez","cantidad":2000.0,"tipo":"otro"},{"id":308,"fecha":"2025-07-28","codigo":"3616","nombre":"martha isabel torres","cantidad":700.0,"tipo":"otro"},{"id":309,"fecha":"2025-07-26","codigo":"3609","nombre":"sarahi oliva","cantidad":2000.0,"tipo":"otro"},{"id":310,"fecha":"2025-07-25","codigo":"3605","nombre":"madelen oliva","cantidad":1200.0,"tipo":"otro"},{"id":311,"fecha":"2025-07-24","codigo":"3604","nombre":"reyna becerra","cantidad":2100.0,"tipo":"otro"},{"id":312,"fecha":"2025-07-24","codigo":"3603","nombre":"reyna becerra","cantidad":1200.0,"tipo":"otro"},{"id":313,"fecha":"2025-07-24","codigo":"3601","nombre":"mayra yadira lara","cantidad":600.0,"tipo":"otro"},{"id":314,"fecha":"2025-07-24","codigo":"3599","nombre":"francisco javier ramirez","cantidad":1800.0,"tipo":"otro"},{"id":315,"fecha":"2025-07-23","codigo":"3593","nombre":"maria del refugio carrillo","cantidad":1500.0,"tipo":"otro"},{"id":316,"fecha":"2025-07-22","codigo":"3592","nombre":"jose luis becerra","cantidad":1000.0,"tipo":"otro"},{"id":317,"fecha":"2025-07-20","codigo":"3589","nombre":"rocio guadalupe jaime m","cantidad":900.0,"tipo":"otro"},{"id":318,"fecha":"2025-06-19","codigo":"3588","nombre":"claudia hernandez","cantidad":2800.0,"tipo":"otro"},{"id":319,"fecha":"2025-06-16","codigo":"3576","nombre":"lucia lara casillas","cantidad":900.0,"tipo":"otro"},{"id":320,"fecha":"2025-06-13","codigo":"3559","nombre":"jose luis becerra","cantidad":800.0,"tipo":"otro"},{"id":321,"fecha":"2025-06-09","codigo":"3545","nombre":"cristian osvaldo soto martinez","cantidad":300.0,"tipo":"otro"},{"id":322,"fecha":"2025-06-09","codigo":"3544","nombre":"claudia hernandez","cantidad":1700.0,"tipo":"otro"},{"id":323,"fecha":"2025-06-09","codigo":"3543","nombre":"marina garcia","cantidad":2200.0,"tipo":"otro"},{"id":324,"fecha":"2025-06-05","codigo":"3536","nombre":"sofia del carmen sierra","cantidad":900.0,"tipo":"otro"},{"id":325,"fecha":"2025-06-04","codigo":"3534","nombre":"maria del sagrario guzman","cantidad":3300.0,"tipo":"otro"},{"id":326,"fecha":"2025-06-03","codigo":"3532","nombre":"gina aguirre","cantidad":800.0,"tipo":"otro"},{"id":327,"fecha":"2025-06-02","codigo":"3528","nombre":"rosalina garcia","cantidad":1200.0,"tipo":"otro"},{"id":328,"fecha":"2025-06-01","codigo":"3525","nombre":"ROSA EVELIA FLORES","cantidad":800.0,"tipo":"otro"},{"id":329,"fecha":"2025-06-28","codigo":"3514","nombre":"GRISELDA GOMEZ GODINEZ","cantidad":2200.0,"tipo":"otro"},{"id":330,"fecha":"2025-06-27","codigo":"3512","nombre":"ROSALINA GARCIA","cantidad":1120.0,"tipo":"otro"},{"id":331,"fecha":"2025-05-26","codigo":"3509","nombre":"rosario jaqueline alcala","cantidad":1800.0,"tipo":"otro"},{"id":332,"fecha":"2025-05-25","codigo":"3508","nombre":"claudia hernandez","cantidad":500.0,"tipo":"otro"},{"id":333,"fecha":"2025-05-25","codigo":"3507","nombre":"claudia hernandez","cantidad":1000.0,"tipo":"otro"},{"id":334,"fecha":"2025-05-21","codigo":"3499","nombre":"sarahi oliva muñoz","cantidad":1000.0,"tipo":"otro"},{"id":335,"fecha":"2025-05-16","codigo":"3490","nombre":"margarita aguilar gonzalez","cantidad":2000.0,"tipo":"otro"},{"id":336,"fecha":"2025-05-14","codigo":"3485","nombre":"maria isabel hernandez","cantidad":1200.0,"tipo":"otro"},{"id":337,"fecha":"2025-05-13","codigo":"3478","nombre":"reyna becerra","cantidad":1000.0,"tipo":"otro"},{"id":338,"fecha":"2025-05-13","codigo":"3477","nombre":"reyna becerra","cantidad":1600.0,"tipo":"otro"},{"id":339,"fecha":"2025-05-13","codigo":"3476","nombre":"karina guadalupe gutierrez","cantidad":400.0,"tipo":"otro"},{"id":340,"fecha":"2025-05-11","codigo":"3473","nombre":"rosa evelia flores","cantidad":1000.0,"tipo":"otro"},{"id":341,"fecha":"2025-05-08","codigo":"3462","nombre":"lizeth lara gomez","cantidad":6000.0,"tipo":"otro"},{"id":342,"fecha":"2025-05-30","codigo":"3446","nombre":"karla chavez martinez","cantidad":5600.0,"tipo":"otro"},{"id":343,"fecha":"2025-05-30","codigo":"3445","nombre":"brandon jesus gomez ponce","cantidad":330.0,"tipo":"otro"},{"id":344,"fecha":"2025-05-28","codigo":"3443","nombre":"veronica esmeralda corona","cantidad":2200.0,"tipo":"otro"},{"id":345,"fecha":"2025-05-28","codigo":"3440","nombre":"maria teresa flores morales","cantidad":1000.0,"tipo":"otro"},{"id":346,"fecha":"2025-05-27","codigo":"3435","nombre":"isabel velazquez","cantidad":500.0,"tipo":"otro"},{"id":347,"fecha":"2025-04-21","codigo":"3425","nombre":"no existe","cantidad":0.0,"tipo":"otro"},{"id":348,"fecha":"2025-04-20","codigo":"3421","nombre":"luisa gomez arellano","cantidad":600.0,"tipo":"otro"},{"id":349,"fecha":"2025-04-14","codigo":"3409","nombre":"esther chavez","cantidad":1300.0,"tipo":"otro"},{"id":350,"fecha":"2025-04-09","codigo":"3397","nombre":"Angelica Castaneda Ayon","cantidad":2600.0,"tipo":"otro"},{"id":351,"fecha":"2025-04-08","codigo":"3388","nombre":"Carolina Vazquez","cantidad":1700.0,"tipo":"otro"},{"id":352,"fecha":"2025-04-05","codigo":"3382","nombre":"Sarahi Oliva","cantidad":1000.0,"tipo":"otro"},{"id":353,"fecha":"2025-04-29","codigo":"3369","nombre":"maria eugenia garcia r","cantidad":2000.0,"tipo":"otro"},{"id":354,"fecha":"2025-03-21","codigo":"3359","nombre":"laura patricia saldaña vega","cantidad":2400.0,"tipo":"otro"},{"id":355,"fecha":"2025-03-20","codigo":"3356","nombre":"maria esther garcia","cantidad":800.0,"tipo":"otro"},{"id":356,"fecha":"2025-03-18","codigo":"3353","nombre":"noexiste","cantidad":0.0,"tipo":"otro"},{"id":357,"fecha":"2025-03-18","codigo":"3351","nombre":"mariza cortes gonzalez","cantidad":1000.0,"tipo":"otro"},{"id":358,"fecha":"2025-03-15","codigo":"3343","nombre":"bertha alicia marisacal c","cantidad":1000.0,"tipo":"otro"},{"id":359,"fecha":"2025-03-14","codigo":"3342","nombre":"francisco javier gonzalez v","cantidad":5000.0,"tipo":"otro"},{"id":360,"fecha":"2025-03-09","codigo":"3330","nombre":"norma patricia herrera","cantidad":500.0,"tipo":"otro"},{"id":361,"fecha":"2025-03-05","codigo":"3319","nombre":"Maria de Lourdes Ponce Lemus","cantidad":400.0,"tipo":"otro"},{"id":362,"fecha":"2025-03-05","codigo":"3318","nombre":"Lizania Lara Gonzalez","cantidad":2000.0,"tipo":"otro"},{"id":363,"fecha":"2025-02-26","codigo":"3296","nombre":"Jose Gabriel Barajas Diaz","cantidad":700.0,"tipo":"otro"},{"id":364,"fecha":"2025-02-22","codigo":"3289","nombre":"Maria Rodriguez","cantidad":300.0,"tipo":"otro"},{"id":365,"fecha":"2025-02-21","codigo":"3288","nombre":"Luisa Gomez","cantidad":500.0,"tipo":"otro"},{"id":366,"fecha":"2025-02-14","codigo":"3276","nombre":"Maria Del Refugio Gonzalez","cantidad":400.0,"tipo":"otro"},{"id":367,"fecha":"2025-02-11","codigo":"3264","nombre":"Teresa Ontiveros","cantidad":1500.0,"tipo":"otro"},{"id":368,"fecha":"2025-02-09","codigo":"3260","nombre":"Lizbeth Lara Gomez","cantidad":2000.0,"tipo":"otro"},{"id":369,"fecha":"2025-02-07","codigo":"3258","nombre":"Maria Guadalupe Moran","cantidad":3500.0,"tipo":"otro"},{"id":370,"fecha":"2025-02-06","codigo":"3256","nombre":"Jose Lopez","cantidad":1000.0,"tipo":"otro"},{"id":371,"fecha":"2025-02-05","codigo":"3254","nombre":"Jose Guadalupe Cardona Lara","cantidad":130000.0,"tipo":"otro"}];
+  const SEED_RECORDS   = [{"id":1,"fecha":"2026-03-09","codigo":"4219","nombre":"maria de jesus aguayo","cantidad":600.0,"tipo":"otro","estado":"activo"},{"id":2,"fecha":"2026-03-08","codigo":"4218","nombre":"feliz alfaro cruz","cantidad":800.0,"tipo":"otro","estado":"activo"},{"id":3,"fecha":"2026-03-07","codigo":"4217","nombre":"nancy molina","cantidad":250.0,"tipo":"otro","estado":"activo"},{"id":4,"fecha":"2026-03-07","codigo":"4216","nombre":"diego armando gomez","cantidad":300.0,"tipo":"otro","estado":"activo"},{"id":5,"fecha":"2026-03-07","codigo":"4215","nombre":"maria de jesus aguayo","cantidad":1250.0,"tipo":"otro","estado":"activo"},{"id":6,"fecha":"2026-03-06","codigo":"4214","nombre":"hector horacio perez","cantidad":300.0,"tipo":"otro","estado":"activo"},{"id":7,"fecha":"2026-03-05","codigo":"4213","nombre":"karla chavez martinez","cantidad":11000.0,"tipo":"otro","estado":"activo"},{"id":8,"fecha":"2026-03-06","codigo":"4212","nombre":"no exiate","cantidad":0.0,"tipo":"otro","estado":"activo"},{"id":9,"fecha":"2026-03-05","codigo":"4211","nombre":"claudia azucena liera","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":10,"fecha":"2026-03-05","codigo":"4210","nombre":"jose de jesus martinez","cantidad":300.0,"tipo":"otro","estado":"activo"},{"id":11,"fecha":"2026-03-05","codigo":"4209","nombre":"ruben lopez","cantidad":260.0,"tipo":"otro","estado":"activo"},{"id":12,"fecha":"2026-03-04","codigo":"4208","nombre":"angelica calderon","cantidad":3000.0,"tipo":"otro","estado":"activo"},{"id":13,"fecha":"2026-03-04","codigo":"4207","nombre":"carolina gaspar","cantidad":100.0,"tipo":"otro","estado":"activo"},{"id":14,"fecha":"2026-03-04","codigo":"4206","nombre":"no existe","cantidad":0.0,"tipo":"otro","estado":"activo"},{"id":15,"fecha":"2026-03-03","codigo":"4205","nombre":"ruben lopez almaraz","cantidad":340.0,"tipo":"otro","estado":"activo"},{"id":16,"fecha":"2026-03-03","codigo":"4204","nombre":"maria de lourdes ponce","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":17,"fecha":"2026-03-02","codigo":"4203","nombre":"reyna becerra","cantidad":2250.0,"tipo":"otro","estado":"activo"},{"id":18,"fecha":"2026-03-02","codigo":"4202","nombre":"reyna becerra","cantidad":1750.0,"tipo":"otro","estado":"activo"},{"id":19,"fecha":"2026-03-02","codigo":"4201","nombre":"yolanda espinoza","cantidad":320.0,"tipo":"otro","estado":"activo"},{"id":20,"fecha":"2026-03-02","codigo":"4200","nombre":"no existe","cantidad":0.0,"tipo":"otro","estado":"activo"},{"id":21,"fecha":"2026-03-02","codigo":"4199","nombre":"esthela casillas","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":22,"fecha":"2026-03-28","codigo":"4198","nombre":"jose antonio lara casillas","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":23,"fecha":"2026-03-28","codigo":"4197","nombre":"jose medina rodriguez","cantidad":1400.0,"tipo":"otro","estado":"activo"},{"id":24,"fecha":"2026-03-28","codigo":"4196","nombre":"maria ester mendoza","cantidad":5000.0,"tipo":"otro","estado":"activo"},{"id":25,"fecha":"2026-03-28","codigo":"4195","nombre":"claudia berenice agustin","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":26,"fecha":"2026-03-26","codigo":"4193","nombre":"rafael amezcua","cantidad":700.0,"tipo":"otro","estado":"activo"},{"id":27,"fecha":"2026-03-26","codigo":"4192","nombre":"no exiate","cantidad":0.0,"tipo":"otro","estado":"activo"},{"id":28,"fecha":"2026-03-26","codigo":"4191","nombre":"maria esther garcia","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":29,"fecha":"2026-02-24","codigo":"4190","nombre":"lisa gomez rodriguez","cantidad":2500.0,"tipo":"otro","estado":"activo"},{"id":30,"fecha":"2026-02-24","codigo":"4189","nombre":"norma alicia velazquez","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":31,"fecha":"2026-02-24","codigo":"4188","nombre":"laura patricia saldaña","cantidad":3900.0,"tipo":"otro","estado":"activo"},{"id":32,"fecha":"2026-02-24","codigo":"4188","nombre":"laura patricia saldaña","cantidad":3900.0,"tipo":"otro","estado":"activo"},{"id":33,"fecha":"2026-02-24","codigo":"4188","nombre":"laura patricia saldaña","cantidad":3900.0,"tipo":"otro","estado":"activo"},{"id":34,"fecha":"2026-02-22","codigo":"4187","nombre":"no existe","cantidad":1.0,"tipo":"otro","estado":"activo"},{"id":35,"fecha":"2026-02-21","codigo":"4186","nombre":"griselda uribe","cantidad":3300.0,"tipo":"otro","estado":"activo"},{"id":36,"fecha":"2026-02-21","codigo":"4185","nombre":"martha garcia rodriguez","cantidad":1300.0,"tipo":"otro","estado":"activo"},{"id":37,"fecha":"2026-02-20","codigo":"4184","nombre":"pedro gonzalez medina","cantidad":7500.0,"tipo":"otro","estado":"activo"},{"id":38,"fecha":"2026-02-19","codigo":"4183","nombre":"maria de lourdes ponce","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":39,"fecha":"2026-02-18","codigo":"4182","nombre":"cesar ivan blanco m","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":40,"fecha":"2026-02-17","codigo":"4181","nombre":"noemi carolina gaspar","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":41,"fecha":"2026-02-17","codigo":"4180","nombre":"brenda muñoz","cantidad":8400.0,"tipo":"otro","estado":"activo"},{"id":42,"fecha":"2026-02-16","codigo":"4178","nombre":"esther carmona campos","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":43,"fecha":"2026-02-16","codigo":"4177","nombre":"nora carmona","cantidad":200.0,"tipo":"otro","estado":"activo"},{"id":44,"fecha":"2026-02-16","codigo":"4176","nombre":"anselmo romero","cantidad":1400.0,"tipo":"otro","estado":"activo"},{"id":45,"fecha":"2026-02-16","codigo":"4175","nombre":"anselmo garcia meza","cantidad":2400.0,"tipo":"otro","estado":"activo"},{"id":46,"fecha":"2026-02-15","codigo":"4174","nombre":"claudia lopez","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":47,"fecha":"2026-02-14","codigo":"4173","nombre":"omar baldomero viruete","cantidad":5500.0,"tipo":"otro","estado":"activo"},{"id":48,"fecha":"2026-02-14","codigo":"4172","nombre":"juan ramirez quezada","cantidad":1500.0,"tipo":"otro","estado":"activo"},{"id":49,"fecha":"2026-02-02","codigo":"4171","nombre":"no existe","cantidad":0.0,"tipo":"otro","estado":"activo"},{"id":50,"fecha":"2026-02-02","codigo":"4170","nombre":"no existe","cantidad":0.0,"tipo":"otro","estado":"activo"},{"id":51,"fecha":"2026-02-12","codigo":"4169","nombre":"´manuel lopez hernandez","cantidad":800.0,"tipo":"otro","estado":"activo"},{"id":52,"fecha":"2026-02-11","codigo":"4168","nombre":"omar alfaro","cantidad":100.0,"tipo":"otro","estado":"activo"},{"id":53,"fecha":"2026-02-11","codigo":"4167","nombre":"maria guadalupe patricio lara","cantidad":1800.0,"tipo":"otro","estado":"activo"},{"id":54,"fecha":"2026-02-11","codigo":"4166","nombre":"maria elena ayon","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":55,"fecha":"2026-02-11","codigo":"4165","nombre":"teresa mendoza","cantidad":1400.0,"tipo":"otro","estado":"activo"},{"id":56,"fecha":"2026-02-10","codigo":"4164","nombre":"roberto torres herrera","cantidad":350.0,"tipo":"otro","estado":"activo"},{"id":57,"fecha":"2026-02-10","codigo":"4163","nombre":"juana rodriguez","cantidad":300.0,"tipo":"otro","estado":"activo"},{"id":58,"fecha":"2026-02-10","codigo":"4162","nombre":"juana rodriguez","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":59,"fecha":"2026-02-09","codigo":"4161","nombre":"aurora gomez","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":60,"fecha":"2026-02-09","codigo":"4160","nombre":"mario benito trinidad","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":61,"fecha":"2026-02-08","codigo":"4159","nombre":"brayan alexis garcia","cantidad":1300.0,"tipo":"otro","estado":"activo"},{"id":62,"fecha":"2026-02-07","codigo":"4158","nombre":"dolores sanchez salazar","cantidad":3400.0,"tipo":"otro","estado":"activo"},{"id":63,"fecha":"2026-02-07","codigo":"4157","nombre":"omar alfaro","cantidad":700.0,"tipo":"otro","estado":"activo"},{"id":64,"fecha":"2026-02-07","codigo":"4156","nombre":"maria marcelino teresa","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":65,"fecha":"2026-02-06","codigo":"4155","nombre":"maria del rocio ochoa","cantidad":450.0,"tipo":"otro","estado":"activo"},{"id":66,"fecha":"2026-02-05","codigo":"4153","nombre":"jimena montes santisbais","cantidad":350.0,"tipo":"otro","estado":"activo"},{"id":67,"fecha":"2026-02-05","codigo":"4152","nombre":"rafael amezcua","cantidad":650.0,"tipo":"otro","estado":"activo"},{"id":68,"fecha":"2026-02-04","codigo":"4151","nombre":"brenda muñoz lira","cantidad":7600.0,"tipo":"otro","estado":"activo"},{"id":69,"fecha":"2026-02-04","codigo":"4150","nombre":"maria del refugio carrillo","cantidad":1650.0,"tipo":"otro","estado":"activo"},{"id":70,"fecha":"2026-02-04","codigo":"4149","nombre":"ramon alberto venegas","cantidad":580.0,"tipo":"otro","estado":"activo"},{"id":71,"fecha":"2026-02-04","codigo":"4148","nombre":"anayeli orozco campos","cantidad":220.0,"tipo":"otro","estado":"activo"},{"id":72,"fecha":"2026-02-04","codigo":"4147","nombre":"juan carlos nuñez","cantidad":2900.0,"tipo":"otro","estado":"activo"},{"id":73,"fecha":"2026-02-03","codigo":"4146","nombre":"mayra alejandra lopez","cantidad":240.0,"tipo":"otro","estado":"activo"},{"id":74,"fecha":"2026-02-03","codigo":"4145","nombre":"jose daniel guitierrez","cantidad":1600.0,"tipo":"otro","estado":"activo"},{"id":75,"fecha":"2026-02-02","codigo":"4144","nombre":"cristina guadalupe jimenez","cantidad":100.0,"tipo":"otro","estado":"activo"},{"id":76,"fecha":"2026-02-02","codigo":"4140","nombre":"rosa maria ramos","cantidad":2100.0,"tipo":"otro","estado":"activo"},{"id":77,"fecha":"2026-02-01","codigo":"4139","nombre":"irma gomez patricio","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":78,"fecha":"2026-02-28","codigo":"4137","nombre":"francisco torres","cantidad":6500.0,"tipo":"otro","estado":"activo"},{"id":79,"fecha":"2026-02-28","codigo":"4136","nombre":"julio evangelista","cantidad":15000.0,"tipo":"otro","estado":"activo"},{"id":80,"fecha":"2026-02-28","codigo":"4135","nombre":"victor manuel varo","cantidad":4500.0,"tipo":"otro","estado":"activo"},{"id":81,"fecha":"2026-01-30","codigo":"4134","nombre":"dora elena covarrubias","cantidad":5000.0,"tipo":"otro","estado":"activo"},{"id":82,"fecha":"2026-01-28","codigo":"4133","nombre":"alejandra poloma torres","cantidad":350.0,"tipo":"otro","estado":"activo"},{"id":83,"fecha":"2026-01-28","codigo":"4131","nombre":"charo sanchez","cantidad":2500.0,"tipo":"otro","estado":"activo"},{"id":84,"fecha":"2026-01-28","codigo":"4130","nombre":"vanessa rodriguez","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":85,"fecha":"2026-01-26","codigo":"4126","nombre":"monica ruth ramirez","cantidad":350.0,"tipo":"otro","estado":"activo"},{"id":86,"fecha":"2026-01-26","codigo":"4125","nombre":"jorge ortega","cantidad":600.0,"tipo":"otro","estado":"activo"},{"id":87,"fecha":"2026-01-26","codigo":"4124","nombre":"estela aguiar soriano","cantidad":4200.0,"tipo":"otro","estado":"activo"},{"id":88,"fecha":"2026-01-25","codigo":"4122","nombre":"alberto moreno","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":89,"fecha":"2026-01-25","codigo":"4121","nombre":"alberto moreno","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":90,"fecha":"2026-01-24","codigo":"4120","nombre":"brandon jesus gomez ponce","cantidad":650.0,"tipo":"otro","estado":"activo"},{"id":91,"fecha":"2026-01-24","codigo":"4119","nombre":"rocio guadalupe jaime","cantidad":700.0,"tipo":"otro","estado":"activo"},{"id":92,"fecha":"2026-01-22","codigo":"4117","nombre":"reymundo hernandez b","cantidad":800.0,"tipo":"otro","estado":"activo"},{"id":93,"fecha":"2026-01-22","codigo":"4115","nombre":"ana maria marron","cantidad":100.0,"tipo":"otro","estado":"activo"},{"id":94,"fecha":"2026-01-22","codigo":"4114","nombre":"elizabeth de la mora","cantidad":6800.0,"tipo":"otro","estado":"activo"},{"id":95,"fecha":"2026-01-21","codigo":"4113","nombre":"sonia rosales","cantidad":1500.0,"tipo":"otro","estado":"activo"},{"id":96,"fecha":"2026-01-20","codigo":"4112","nombre":"mary cruz hernandez gonzalez","cantidad":4350.0,"tipo":"otro","estado":"activo"},{"id":97,"fecha":"2026-01-19","codigo":"4111","nombre":"blanca esthela bautista","cantidad":550.0,"tipo":"otro","estado":"activo"},{"id":98,"fecha":"2026-01-19","codigo":"4110","nombre":"rosa maria ramos","cantidad":1050.0,"tipo":"otro","estado":"activo"},{"id":99,"fecha":"2026-01-19","codigo":"4109","nombre":"alondra jaqueline gaitan","cantidad":450.0,"tipo":"otro","estado":"activo"},{"id":100,"fecha":"2026-01-18","codigo":"4108","nombre":"noely cuevas","cantidad":8000.0,"tipo":"otro","estado":"activo"},{"id":101,"fecha":"2026-01-19","codigo":"4107","nombre":"maria marcelino teresa","cantidad":550.0,"tipo":"otro","estado":"activo"},{"id":102,"fecha":"2026-01-18","codigo":"4106","nombre":"juan francisco saucedo jacobo","cantidad":200.0,"tipo":"otro","estado":"activo"},{"id":103,"fecha":"2026-01-18","codigo":"4105","nombre":"alejandra duran avila","cantidad":12000.0,"tipo":"otro","estado":"activo"},{"id":104,"fecha":"2026-01-18","codigo":"4104","nombre":"elizabeth de la mora","cantidad":3000.0,"tipo":"otro","estado":"activo"},{"id":105,"fecha":"2026-01-18","codigo":"4103","nombre":"dulce anguiano","cantidad":3000.0,"tipo":"otro","estado":"activo"},{"id":106,"fecha":"2026-01-16","codigo":"4100","nombre":"emmanuel benjamin ayala garcia","cantidad":3500.0,"tipo":"otro","estado":"activo"},{"id":107,"fecha":"2026-01-15","codigo":"4098","nombre":"luz maria hernandez","cantidad":2600.0,"tipo":"otro","estado":"activo"},{"id":108,"fecha":"2026-01-14","codigo":"4097","nombre":"evelyn lopez garnica","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":109,"fecha":"2026-01-14","codigo":"4096","nombre":"sarahi oliva muñoz","cantidad":3400.0,"tipo":"otro","estado":"activo"},{"id":110,"fecha":"2026-01-14","codigo":"4095","nombre":"maria esther mendoza","cantidad":2500.0,"tipo":"otro","estado":"activo"},{"id":111,"fecha":"2026-01-14","codigo":"4094","nombre":"celina guzman","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":112,"fecha":"2026-01-13","codigo":"4093","nombre":"mari cruz hernandez gonzalez","cantidad":2400.0,"tipo":"otro","estado":"activo"},{"id":113,"fecha":"2026-01-13","codigo":"4092","nombre":"alejandra rodriguez calderon","cantidad":320.0,"tipo":"otro","estado":"activo"},{"id":114,"fecha":"2026-01-13","codigo":"4091","nombre":"veronica gonzalez miranda","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":115,"fecha":"2026-01-13","codigo":"4090","nombre":"brenda gonzalez arismendi","cantidad":2400.0,"tipo":"otro","estado":"activo"},{"id":116,"fecha":"2026-01-13","codigo":"4089","nombre":"celina guzman","cantidad":700.0,"tipo":"otro","estado":"activo"},{"id":117,"fecha":"2026-01-13","codigo":"4087","nombre":"evelin lopez","cantidad":2500.0,"tipo":"otro","estado":"activo"},{"id":118,"fecha":"2026-01-13","codigo":"4086","nombre":"elizabeth de  la mora","cantidad":4800.0,"tipo":"otro","estado":"activo"},{"id":119,"fecha":"2026-01-11","codigo":"4084","nombre":"luz mari hernandez sandoval","cantidad":2200.0,"tipo":"otro","estado":"activo"},{"id":120,"fecha":"2026-01-10","codigo":"4083","nombre":"jorge antonio guillen renteria","cantidad":370.0,"tipo":"otro","estado":"activo"},{"id":121,"fecha":"2026-01-10","codigo":"4082","nombre":"andrea cervantes aranda","cantidad":2000.0,"tipo":"otro","estado":"activo"},{"id":122,"fecha":"2026-01-09","codigo":"4081","nombre":"ariana elizabeth rosales","cantidad":750.0,"tipo":"otro","estado":"activo"},{"id":123,"fecha":"2026-01-09","codigo":"4080","nombre":"ana maria marron","cantidad":300.0,"tipo":"otro","estado":"activo"},{"id":124,"fecha":"2026-01-07","codigo":"4077","nombre":"minerva bejar","cantidad":1500.0,"tipo":"otro","estado":"activo"},{"id":125,"fecha":"2026-01-07","codigo":"4076","nombre":"maria esther mendoza","cantidad":2600.0,"tipo":"otro","estado":"activo"},{"id":126,"fecha":"2026-01-07","codigo":"4075","nombre":"maria del rocio huerta r","cantidad":1500.0,"tipo":"otro","estado":"activo"},{"id":127,"fecha":"2026-01-06","codigo":"4074","nombre":"teresa ulloa bramasco","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":128,"fecha":"2026-01-06","codigo":"4073","nombre":"arianna elizabeth rosales","cantidad":1300.0,"tipo":"otro","estado":"activo"},{"id":129,"fecha":"2026-01-06","codigo":"4071","nombre":"santiago beltran","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":130,"fecha":"2026-01-05","codigo":"4070","nombre":"maria del refugio carrillo","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":131,"fecha":"2026-01-05","codigo":"4069","nombre":"maria del sagrario calvillo","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":132,"fecha":"2026-01-05","codigo":"4068","nombre":"silvia medina","cantidad":200.0,"tipo":"otro","estado":"activo"},{"id":133,"fecha":"2026-01-04","codigo":"4067","nombre":"jose antonio lara casillas","cantidad":250.0,"tipo":"otro","estado":"activo"},{"id":134,"fecha":"2026-01-04","codigo":"4066","nombre":"adriana elizabeth hernandez","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":135,"fecha":"2026-01-04","codigo":"4065","nombre":"nena muñoz","cantidad":3200.0,"tipo":"otro","estado":"activo"},{"id":136,"fecha":"2026-01-03","codigo":"4064","nombre":"maximo noe gaytan","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":137,"fecha":"2026-01-02","codigo":"4062","nombre":"reyna becerra e","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":138,"fecha":"2026-01-02","codigo":"4061","nombre":"karla chavez nartinez","cantidad":5000.0,"tipo":"otro","estado":"activo"},{"id":139,"fecha":"2026-01-02","codigo":"4060","nombre":"luisa gomez","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":140,"fecha":"2026-01-30","codigo":"4059","nombre":"jose guadalupe moreno","cantidad":200.0,"tipo":"otro","estado":"activo"},{"id":141,"fecha":"2026-01-29","codigo":"4056","nombre":"yessica suday de anda barajas","cantidad":5000.0,"tipo":"otro","estado":"activo"},{"id":142,"fecha":"2026-01-29","codigo":"4055","nombre":"carmen patricia gomez mariscal","cantidad":640.0,"tipo":"otro","estado":"activo"},{"id":143,"fecha":"2025-12-28","codigo":"4053","nombre":"marina garcia","cantidad":2600.0,"tipo":"otro","estado":"activo"},{"id":144,"fecha":"2025-12-26","codigo":"4052","nombre":"hortencia tranquilino","cantidad":120.0,"tipo":"otro","estado":"activo"},{"id":145,"fecha":"2025-12-24","codigo":"4049","nombre":"maria de los angeles aranda","cantidad":600.0,"tipo":"otro","estado":"activo"},{"id":146,"fecha":"2025-12-24","codigo":"4048","nombre":"gabriela guadalupe jarquin","cantidad":130.0,"tipo":"otro","estado":"activo"},{"id":147,"fecha":"2025-12-24","codigo":"4047","nombre":"martin garcia rodriguez","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":148,"fecha":"2025-12-22","codigo":"4044","nombre":"paula chavez","cantidad":6000.0,"tipo":"otro","estado":"activo"},{"id":149,"fecha":"2025-12-19","codigo":"4041","nombre":"elizabeth de la mora","cantidad":1400.0,"tipo":"otro","estado":"activo"},{"id":150,"fecha":"2025-12-18","codigo":"4040","nombre":"daniel samaro esquivel","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":151,"fecha":"2025-12-18","codigo":"4039","nombre":"horetencia tranquilino","cantidad":100.0,"tipo":"otro","estado":"activo"},{"id":152,"fecha":"2025-12-17","codigo":"4036","nombre":"no existe","cantidad":0.0,"tipo":"otro","estado":"activo"},{"id":153,"fecha":"2025-12-17","codigo":"4035","nombre":"sugeid ruvalcaba","cantidad":2500.0,"tipo":"otro","estado":"activo"},{"id":154,"fecha":"2025-12-16","codigo":"4033","nombre":"felicitas carmona campos","cantidad":3000.0,"tipo":"otro","estado":"activo"},{"id":155,"fecha":"2025-12-16","codigo":"4032","nombre":"veronica esmeralda corona","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":156,"fecha":"2025-12-15","codigo":"4030","nombre":"adriana cervantes","cantidad":1400.0,"tipo":"otro","estado":"activo"},{"id":157,"fecha":"2025-12-15","codigo":"4029","nombre":"sara rosales","cantidad":1800.0,"tipo":"otro","estado":"activo"},{"id":158,"fecha":"2025-12-14","codigo":"4027","nombre":"maria ester mendoza","cantidad":2200.0,"tipo":"otro","estado":"activo"},{"id":159,"fecha":"2025-12-13","codigo":"4026","nombre":"alejandra muñoz oliva","cantidad":4400.0,"tipo":"otro","estado":"activo"},{"id":160,"fecha":"2025-12-13","codigo":"4025","nombre":"maria ester mendoza","cantidad":8000.0,"tipo":"otro","estado":"activo"},{"id":161,"fecha":"2025-12-13","codigo":"4024","nombre":"jose lopez","cantidad":720.0,"tipo":"otro","estado":"activo"},{"id":162,"fecha":"2025-12-12","codigo":"4023","nombre":"juan carlos serrano","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":163,"fecha":"2025-12-11","codigo":"4022","nombre":"alberto barba rivera","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":164,"fecha":"2025-12-11","codigo":"4021","nombre":"alberto barba rivera","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":165,"fecha":"2025-12-09","codigo":"4018","nombre":"manuel montes","cantidad":700.0,"tipo":"otro","estado":"activo"},{"id":166,"fecha":"2025-12-08","codigo":"4017","nombre":"no existe","cantidad":0.0,"tipo":"otro","estado":"activo"},{"id":167,"fecha":"2025-12-08","codigo":"4013","nombre":"sugeid guadalupe ruvalcaba","cantidad":1800.0,"tipo":"otro","estado":"activo"},{"id":168,"fecha":"2025-12-06","codigo":"4008","nombre":"alejandra oliva","cantidad":5000.0,"tipo":"otro","estado":"activo"},{"id":169,"fecha":"2025-12-06","codigo":"4007","nombre":"victor manuel varo","cantidad":3600.0,"tipo":"otro","estado":"activo"},{"id":170,"fecha":"2025-12-05","codigo":"4006","nombre":"marcelina lara","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":171,"fecha":"2025-12-04","codigo":"4005","nombre":"jose lopez","cantidad":1800.0,"tipo":"otro","estado":"activo"},{"id":172,"fecha":"2025-12-01","codigo":"4002","nombre":"vanessa rios gaspar","cantidad":2400.0,"tipo":"otro","estado":"activo"},{"id":173,"fecha":"2025-12-30","codigo":"4001","nombre":"rosa rivera aguayo","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":174,"fecha":"2025-12-26","codigo":"3997","nombre":"ana maria urzua tovar","cantidad":5600.0,"tipo":"otro","estado":"activo"},{"id":175,"fecha":"2025-12-24","codigo":"3995","nombre":"maria de los angeles gonzalez","cantidad":2600.0,"tipo":"otro","estado":"activo"},{"id":176,"fecha":"2025-12-23","codigo":"3993","nombre":"karina copado diaz","cantidad":3000.0,"tipo":"otro","estado":"activo"},{"id":177,"fecha":"2025-12-23","codigo":"3992","nombre":"erendida lopez lopez","cantidad":700.0,"tipo":"otro","estado":"activo"},{"id":178,"fecha":"2025-12-22","codigo":"3991","nombre":"maria marcelino teresa","cantidad":3300.0,"tipo":"otro","estado":"activo"},{"id":179,"fecha":"2025-12-22","codigo":"3989","nombre":"eva cisneros tejeda","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":180,"fecha":"2025-12-22","codigo":"3988","nombre":"rebeca rivera arredondo","cantidad":3500.0,"tipo":"otro","estado":"activo"},{"id":181,"fecha":"2025-12-21","codigo":"3987","nombre":"cesar roman santana quezada","cantidad":150000.0,"tipo":"otro","estado":"activo"},{"id":182,"fecha":"2025-12-21","codigo":"3986","nombre":"amparo rodriguez","cantidad":1700.0,"tipo":"otro","estado":"activo"},{"id":183,"fecha":"2025-12-21","codigo":"3985","nombre":"martin gonzalez","cantidad":600.0,"tipo":"otro","estado":"activo"},{"id":184,"fecha":"2025-12-21","codigo":"3984","nombre":"jorge ignacio chavez sanchez","cantidad":100000.0,"tipo":"otro","estado":"activo"},{"id":185,"fecha":"2025-12-20","codigo":"3983","nombre":"marisol armenta sandoval","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":186,"fecha":"2025-12-25","codigo":"3980","nombre":"jose guadalupe cardona lara","cantidad":100000.0,"tipo":"otro","estado":"activo"},{"id":187,"fecha":"2025-11-19","codigo":"3978","nombre":"susana lopez arellano","cantidad":3800.0,"tipo":"otro","estado":"activo"},{"id":188,"fecha":"2025-11-19","codigo":"3977","nombre":"irma sagrario cuevas arceo","cantidad":300.0,"tipo":"otro","estado":"activo"},{"id":189,"fecha":"2025-11-19","codigo":"3976","nombre":"sandra reyes","cantidad":1500.0,"tipo":"otro","estado":"activo"},{"id":190,"fecha":"2025-11-18","codigo":"3975","nombre":"maria guadaluperez perez","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":191,"fecha":"2025-11-18","codigo":"3974","nombre":"elizabeth kisimoto","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":192,"fecha":"2025-11-16","codigo":"3971","nombre":"rosendo gonzalez","cantidad":900.0,"tipo":"otro","estado":"activo"},{"id":193,"fecha":"2025-11-16","codigo":"3969","nombre":"carmen gabriela vera","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":194,"fecha":"2025-11-15","codigo":"3968","nombre":"rocio guadalupe jimenez","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":195,"fecha":"2025-11-15","codigo":"3967","nombre":"rafael gallo garcia","cantidad":2300.0,"tipo":"otro","estado":"activo"},{"id":196,"fecha":"2025-11-06","codigo":"3965","nombre":"juan barba","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":197,"fecha":"2025-11-10","codigo":"3959","nombre":"mercedes fregoso r","cantidad":900.0,"tipo":"otro","estado":"activo"},{"id":198,"fecha":"2025-11-10","codigo":"3957","nombre":"ana rosa calderon","cantidad":700.0,"tipo":"otro","estado":"activo"},{"id":199,"fecha":"2025-11-10","codigo":"3956","nombre":"ana cristina tabares","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":200,"fecha":"2025-11-09","codigo":"3954","nombre":"magdalena muñoz becerra","cantidad":1700.0,"tipo":"otro","estado":"activo"},{"id":201,"fecha":"2025-11-07","codigo":"3953","nombre":"gerardo mejia celis","cantidad":220.0,"tipo":"otro","estado":"activo"},{"id":202,"fecha":"2025-11-07","codigo":"3952","nombre":"jonhy veronica gomez","cantidad":280.0,"tipo":"otro","estado":"activo"},{"id":203,"fecha":"2025-11-06","codigo":"3948","nombre":"carolina vazquez","cantidad":1100.0,"tipo":"otro","estado":"activo"},{"id":204,"fecha":"2025-11-06","codigo":"3947","nombre":"candelario hernandez","cantidad":3000.0,"tipo":"otro","estado":"activo"},{"id":205,"fecha":"2025-11-05","codigo":"3944","nombre":"brandon arciniega r","cantidad":2200.0,"tipo":"otro","estado":"activo"},{"id":206,"fecha":"2025-11-05","codigo":"3943","nombre":"carolina vazquez","cantidad":1150.0,"tipo":"otro","estado":"activo"},{"id":207,"fecha":"2025-11-05","codigo":"3942","nombre":"ernestina vela","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":208,"fecha":"2025-11-04","codigo":"3939","nombre":"marisol ajejandra gutierrez","cantidad":800.0,"tipo":"otro","estado":"activo"},{"id":209,"fecha":"2025-11-02","codigo":"3933","nombre":"alma daniela zamora","cantidad":1400.0,"tipo":"otro","estado":"activo"},{"id":210,"fecha":"2025-11-01","codigo":"3932","nombre":"saira carolina olivares","cantidad":150.0,"tipo":"otro","estado":"activo"},{"id":211,"fecha":"2025-11-01","codigo":"3930","nombre":"maria ester mendoza","cantidad":4500.0,"tipo":"otro","estado":"activo"},{"id":212,"fecha":"2025-11-01","codigo":"3928","nombre":"cesar ramon santana","cantidad":50000.0,"tipo":"otro","estado":"activo"},{"id":213,"fecha":"2025-11-30","codigo":"3927","nombre":"brandon arciniega","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":214,"fecha":"2025-11-27","codigo":"3923","nombre":"karla chavez martinez","cantidad":6000.0,"tipo":"otro","estado":"activo"},{"id":215,"fecha":"2025-11-27","codigo":"3922","nombre":"francisca ramirez garcia","cantidad":600.0,"tipo":"otro","estado":"activo"},{"id":216,"fecha":"2025-11-27","codigo":"3921","nombre":"mario cuevas campos","cantidad":1400.0,"tipo":"otro","estado":"activo"},{"id":217,"fecha":"2025-10-26","codigo":"3916","nombre":"mariana  garcia sanchez","cantidad":3400.0,"tipo":"otro","estado":"activo"},{"id":218,"fecha":"2025-10-25","codigo":"3915","nombre":"sergio alberto aranda hndez","cantidad":120.0,"tipo":"otro","estado":"activo"},{"id":219,"fecha":"2025-10-22","codigo":"3909","nombre":"dania guerrero","cantidad":1800.0,"tipo":"otro","estado":"activo"},{"id":220,"fecha":"2025-10-22","codigo":"3908","nombre":"martha aranda","cantidad":4000.0,"tipo":"otro","estado":"activo"},{"id":221,"fecha":"2025-10-23","codigo":"3906","nombre":"jorge antonio guillen","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":222,"fecha":"2025-10-23","codigo":"3905","nombre":"hortencia tranquilino","cantidad":150.0,"tipo":"otro","estado":"activo"},{"id":223,"fecha":"2025-10-22","codigo":"3904","nombre":"brandon arcinoega r","cantidad":440.0,"tipo":"otro","estado":"activo"},{"id":224,"fecha":"2025-10-22","codigo":"3903","nombre":"brandon arciniega rosales","cantidad":420.0,"tipo":"otro","estado":"activo"},{"id":225,"fecha":"2025-10-25","codigo":"3900","nombre":"maribel ponce","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":226,"fecha":"2025-10-22","codigo":"3898","nombre":"dania bernal","cantidad":600.0,"tipo":"otro","estado":"activo"},{"id":227,"fecha":"2025-10-21","codigo":"3897","nombre":"reyna becerra","cantidad":2900.0,"tipo":"otro","estado":"activo"},{"id":228,"fecha":"2025-10-21","codigo":"3895","nombre":"olga salazar","cantidad":2000.0,"tipo":"otro","estado":"activo"},{"id":229,"fecha":"2025-10-20","codigo":"3894","nombre":"maria guadalupe perez","cantidad":2000.0,"tipo":"otro","estado":"activo"},{"id":230,"fecha":"2025-10-20","codigo":"3892","nombre":"rosendo gonzalez c","cantidad":200.0,"tipo":"otro","estado":"activo"},{"id":231,"fecha":"2025-10-20","codigo":"3891","nombre":"martha enriquez","cantidad":130.0,"tipo":"otro","estado":"activo"},{"id":232,"fecha":"2025-10-19","codigo":"3889","nombre":"guadalupe vargas pastrana","cantidad":5200.0,"tipo":"otro","estado":"activo"},{"id":233,"fecha":"2025-10-16","codigo":"3886","nombre":"moises virgen","cantidad":1520.0,"tipo":"otro","estado":"activo"},{"id":234,"fecha":"2025-10-16","codigo":"3885","nombre":"cesar ivan blanco","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":235,"fecha":"2025-10-15","codigo":"3883","nombre":"paulina chavez","cantidad":5000.0,"tipo":"otro","estado":"activo"},{"id":236,"fecha":"2025-10-13","codigo":"3880","nombre":"gerardo rios vazquez","cantidad":1600.0,"tipo":"otro","estado":"activo"},{"id":237,"fecha":"2025-10-13","codigo":"3879","nombre":"luis david lopez","cantidad":1500.0,"tipo":"otro","estado":"activo"},{"id":238,"fecha":"2025-10-09","codigo":"3876","nombre":"jovana vidal","cantidad":250.0,"tipo":"otro","estado":"activo"},{"id":239,"fecha":"2025-10-09","codigo":"3875","nombre":"no existe","cantidad":0.0,"tipo":"otro","estado":"activo"},{"id":240,"fecha":"2025-10-09","codigo":"3874","nombre":"no existe","cantidad":0.0,"tipo":"otro","estado":"activo"},{"id":241,"fecha":"2025-10-08","codigo":"3871","nombre":"reyna becerra","cantidad":2400.0,"tipo":"otro","estado":"activo"},{"id":242,"fecha":"2025-10-05","codigo":"3863","nombre":"katya piza","cantidad":3600.0,"tipo":"otro","estado":"activo"},{"id":243,"fecha":"2025-10-02","codigo":"3858","nombre":"madelene oliva muñoz","cantidad":1300.0,"tipo":"otro","estado":"activo"},{"id":244,"fecha":"2025-10-02","codigo":"3857","nombre":"francisca rodriguez","cantidad":1600.0,"tipo":"otro","estado":"activo"},{"id":245,"fecha":"2025-10-29","codigo":"3851","nombre":"maria guadalupe palacios","cantidad":1400.0,"tipo":"otro","estado":"activo"},{"id":246,"fecha":"2025-09-28","codigo":"3849","nombre":"moises virgen","cantidad":600.0,"tipo":"otro","estado":"activo"},{"id":247,"fecha":"2025-09-28","codigo":"3848","nombre":"maria elena martinez","cantidad":600.0,"tipo":"otro","estado":"activo"},{"id":248,"fecha":"2025-09-27","codigo":"3847","nombre":"guadalupe robledo ramirez","cantidad":4800.0,"tipo":"otro","estado":"activo"},{"id":249,"fecha":"2025-09-26","codigo":"3846","nombre":"sofia del carmen sierra","cantidad":650.0,"tipo":"otro","estado":"activo"},{"id":250,"fecha":"2025-09-24","codigo":"3841","nombre":"juan manuel ramirez","cantidad":850.0,"tipo":"otro","estado":"activo"},{"id":251,"fecha":"2025-09-24","codigo":"3840","nombre":"ana elia montes","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":252,"fecha":"2025-09-18","codigo":"3827","nombre":"jose ricardo sandoval","cantidad":2000.0,"tipo":"otro","estado":"activo"},{"id":253,"fecha":"2025-09-18","codigo":"3826","nombre":"bertha bravo ibarra","cantidad":600.0,"tipo":"otro","estado":"activo"},{"id":254,"fecha":"2025-09-18","codigo":"3823","nombre":"miguel angel fernandez","cantidad":600.0,"tipo":"otro","estado":"activo"},{"id":255,"fecha":"2025-09-17","codigo":"3822","nombre":"karina anahi muñoz lara","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":256,"fecha":"2025-09-17","codigo":"3821","nombre":"griselda plascencia jimenez","cantidad":1800.0,"tipo":"otro","estado":"activo"},{"id":257,"fecha":"2025-09-15","codigo":"3814","nombre":"Flabia Georgina Serna","cantidad":1500.0,"tipo":"otro","estado":"activo"},{"id":258,"fecha":"2025-09-14","codigo":"3811","nombre":"Gerardo Joel Cardona","cantidad":750.0,"tipo":"otro","estado":"activo"},{"id":259,"fecha":"2025-09-14","codigo":"3810","nombre":"Maria Daniela Muniz","cantidad":600.0,"tipo":"otro","estado":"activo"},{"id":260,"fecha":"2025-09-14","codigo":"3809","nombre":"Marina Garcia Sanchez","cantidad":4500.0,"tipo":"otro","estado":"activo"},{"id":261,"fecha":"2025-09-13","codigo":"3808","nombre":"Edith Melendrez Romero","cantidad":1400.0,"tipo":"otro","estado":"activo"},{"id":262,"fecha":"2025-09-09","codigo":"3800","nombre":"Rosa Muñoz Garcia","cantidad":150.0,"tipo":"otro","estado":"activo"},{"id":263,"fecha":"2025-09-06","codigo":"3797","nombre":"miriam lorena casas sedano","cantidad":2400.0,"tipo":"otro","estado":"activo"},{"id":264,"fecha":"2025-09-06","codigo":"3795","nombre":"irma yolanda cruz armenta","cantidad":4000.0,"tipo":"otro","estado":"activo"},{"id":265,"fecha":"2025-09-03","codigo":"3786","nombre":"carmen patricia gomez","cantidad":950.0,"tipo":"otro","estado":"activo"},{"id":266,"fecha":"2025-09-01","codigo":"3782","nombre":"alejandro santisbais g","cantidad":1400.0,"tipo":"otro","estado":"activo"},{"id":267,"fecha":"2025-09-30","codigo":"3779","nombre":"alicia delgado","cantidad":2000.0,"tipo":"otro","estado":"activo"},{"id":268,"fecha":"2025-09-29","codigo":"3774","nombre":"tarsi esteban luca","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":269,"fecha":"2025-09-27","codigo":"3771","nombre":"rosa muñoz garcia","cantidad":150.0,"tipo":"otro","estado":"activo"},{"id":270,"fecha":"2025-08-22","codigo":"3762","nombre":"martha leticia martinez","cantidad":1500.0,"tipo":"otro","estado":"activo"},{"id":271,"fecha":"2025-08-22","codigo":"3759","nombre":"jimena mercado","cantidad":900.0,"tipo":"otro","estado":"activo"},{"id":272,"fecha":"2025-08-19","codigo":"3755","nombre":"cintya maria guadalupe garcia","cantidad":1500.0,"tipo":"otro","estado":"activo"},{"id":273,"fecha":"2025-08-18","codigo":"3751","nombre":"berenice pastran","cantidad":1600.0,"tipo":"otro","estado":"activo"},{"id":274,"fecha":"2025-08-18","codigo":"3749","nombre":"hortencia arredodo","cantidad":3400.0,"tipo":"otro","estado":"activo"},{"id":275,"fecha":"2025-08-18","codigo":"3748","nombre":"hortencia arredondo","cantidad":3400.0,"tipo":"otro","estado":"activo"},{"id":276,"fecha":"2025-08-18","codigo":"3747","nombre":"esthela aguiar","cantidad":1800.0,"tipo":"otro","estado":"activo"},{"id":277,"fecha":"2025-08-17","codigo":"3743","nombre":"jazmin garcia alberto","cantidad":350.0,"tipo":"otro","estado":"activo"},{"id":278,"fecha":"2025-08-16","codigo":"3741","nombre":"lizeth torres garcia","cantidad":1400.0,"tipo":"otro","estado":"activo"},{"id":279,"fecha":"2025-08-16","codigo":"3739","nombre":"maximo noe gaytan r","cantidad":330.0,"tipo":"otro","estado":"activo"},{"id":280,"fecha":"2025-08-16","codigo":"3738","nombre":"reyna guadalupe gonzalez p","cantidad":900.0,"tipo":"otro","estado":"activo"},{"id":281,"fecha":"2025-08-15","codigo":"3736","nombre":"rafaela lopez","cantidad":1350.0,"tipo":"otro","estado":"activo"},{"id":282,"fecha":"2025-08-14","codigo":"3734","nombre":"cinthya maria guadalupe g","cantidad":1800.0,"tipo":"otro","estado":"activo"},{"id":283,"fecha":"2025-08-13","codigo":"3731","nombre":"jovita ascencio rincon","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":284,"fecha":"2025-08-12","codigo":"3726","nombre":"raquel ulloa bramasco","cantidad":1100.0,"tipo":"otro","estado":"activo"},{"id":285,"fecha":"2025-08-11","codigo":"3725","nombre":"jova belen guillen","cantidad":4000.0,"tipo":"otro","estado":"activo"},{"id":286,"fecha":"2025-08-11","codigo":"3723","nombre":"claudia lopez","cantidad":550.0,"tipo":"otro","estado":"activo"},{"id":287,"fecha":"2025-08-10","codigo":"3721","nombre":"iris aurora ojeda tlaxcla","cantidad":2000.0,"tipo":"otro","estado":"activo"},{"id":288,"fecha":"2025-08-10","codigo":"3717","nombre":"hilda margarita garcia","cantidad":1500.0,"tipo":"otro","estado":"activo"},{"id":289,"fecha":"2025-08-06","codigo":"3713","nombre":"evelin lopez g","cantidad":3200.0,"tipo":"otro","estado":"activo"},{"id":290,"fecha":"2025-08-06","codigo":"3712","nombre":"rosalina garcia","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":291,"fecha":"2025-08-05","codigo":"3708","nombre":"evlin lopez garcia","cantidad":240.0,"tipo":"otro","estado":"activo"},{"id":292,"fecha":"2025-08-03","codigo":"3705","nombre":"hilda margarita garcia","cantidad":700.0,"tipo":"otro","estado":"activo"},{"id":293,"fecha":"2025-08-01","codigo":"3703","nombre":"martha ramirez","cantidad":1800.0,"tipo":"otro","estado":"activo"},{"id":294,"fecha":"2025-07-29","codigo":"3695","nombre":"eva maria flores","cantidad":1800.0,"tipo":"otro","estado":"activo"},{"id":295,"fecha":"2025-07-27","codigo":"3690","nombre":"veronica guadalupe sanchez","cantidad":600.0,"tipo":"otro","estado":"activo"},{"id":296,"fecha":"2025-07-24","codigo":"3684","nombre":"margarita hernandez b","cantidad":360.0,"tipo":"otro","estado":"activo"},{"id":297,"fecha":"2025-07-21","codigo":"3677","nombre":"maricela elizondo","cantidad":270.0,"tipo":"otro","estado":"activo"},{"id":298,"fecha":"2025-07-21","codigo":"3676","nombre":"maricela  elizondo","cantidad":270.0,"tipo":"otro","estado":"activo"},{"id":299,"fecha":"2025-07-13","codigo":"3663","nombre":"jose antonio lara casillas","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":300,"fecha":"2025-07-13","codigo":"3662","nombre":"angelica zarate gonzalez","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":301,"fecha":"2025-07-12","codigo":"3660","nombre":"mercedes fregoso","cantidad":3200.0,"tipo":"otro","estado":"activo"},{"id":302,"fecha":"2025-07-12","codigo":"3656","nombre":"griselda gomez","cantidad":1700.0,"tipo":"otro","estado":"activo"},{"id":303,"fecha":"2025-07-09","codigo":"3650","nombre":"leornor ocampo","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":304,"fecha":"2025-07-05","codigo":"3643","nombre":"maria isabel hernandez","cantidad":700.0,"tipo":"otro","estado":"activo"},{"id":305,"fecha":"2025-07-03","codigo":"3635","nombre":"eva flores","cantidad":3000.0,"tipo":"otro","estado":"activo"},{"id":306,"fecha":"2025-08-02","codigo":"3631","nombre":"lucia alexa bobadilla r","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":307,"fecha":"2025-08-01","codigo":"3626","nombre":"martha ramirez","cantidad":2000.0,"tipo":"otro","estado":"activo"},{"id":308,"fecha":"2025-07-28","codigo":"3616","nombre":"martha isabel torres","cantidad":700.0,"tipo":"otro","estado":"activo"},{"id":309,"fecha":"2025-07-26","codigo":"3609","nombre":"sarahi oliva","cantidad":2000.0,"tipo":"otro","estado":"activo"},{"id":310,"fecha":"2025-07-25","codigo":"3605","nombre":"madelen oliva","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":311,"fecha":"2025-07-24","codigo":"3604","nombre":"reyna becerra","cantidad":2100.0,"tipo":"otro","estado":"activo"},{"id":312,"fecha":"2025-07-24","codigo":"3603","nombre":"reyna becerra","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":313,"fecha":"2025-07-24","codigo":"3601","nombre":"mayra yadira lara","cantidad":600.0,"tipo":"otro","estado":"activo"},{"id":314,"fecha":"2025-07-24","codigo":"3599","nombre":"francisco javier ramirez","cantidad":1800.0,"tipo":"otro","estado":"activo"},{"id":315,"fecha":"2025-07-23","codigo":"3593","nombre":"maria del refugio carrillo","cantidad":1500.0,"tipo":"otro","estado":"activo"},{"id":316,"fecha":"2025-07-22","codigo":"3592","nombre":"jose luis becerra","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":317,"fecha":"2025-07-20","codigo":"3589","nombre":"rocio guadalupe jaime m","cantidad":900.0,"tipo":"otro","estado":"activo"},{"id":318,"fecha":"2025-06-19","codigo":"3588","nombre":"claudia hernandez","cantidad":2800.0,"tipo":"otro","estado":"activo"},{"id":319,"fecha":"2025-06-16","codigo":"3576","nombre":"lucia lara casillas","cantidad":900.0,"tipo":"otro","estado":"activo"},{"id":320,"fecha":"2025-06-13","codigo":"3559","nombre":"jose luis becerra","cantidad":800.0,"tipo":"otro","estado":"activo"},{"id":321,"fecha":"2025-06-09","codigo":"3545","nombre":"cristian osvaldo soto martinez","cantidad":300.0,"tipo":"otro","estado":"activo"},{"id":322,"fecha":"2025-06-09","codigo":"3544","nombre":"claudia hernandez","cantidad":1700.0,"tipo":"otro","estado":"activo"},{"id":323,"fecha":"2025-06-09","codigo":"3543","nombre":"marina garcia","cantidad":2200.0,"tipo":"otro","estado":"activo"},{"id":324,"fecha":"2025-06-05","codigo":"3536","nombre":"sofia del carmen sierra","cantidad":900.0,"tipo":"otro","estado":"activo"},{"id":325,"fecha":"2025-06-04","codigo":"3534","nombre":"maria del sagrario guzman","cantidad":3300.0,"tipo":"otro","estado":"activo"},{"id":326,"fecha":"2025-06-03","codigo":"3532","nombre":"gina aguirre","cantidad":800.0,"tipo":"otro","estado":"activo"},{"id":327,"fecha":"2025-06-02","codigo":"3528","nombre":"rosalina garcia","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":328,"fecha":"2025-06-01","codigo":"3525","nombre":"ROSA EVELIA FLORES","cantidad":800.0,"tipo":"otro","estado":"activo"},{"id":329,"fecha":"2025-06-28","codigo":"3514","nombre":"GRISELDA GOMEZ GODINEZ","cantidad":2200.0,"tipo":"otro","estado":"activo"},{"id":330,"fecha":"2025-06-27","codigo":"3512","nombre":"ROSALINA GARCIA","cantidad":1120.0,"tipo":"otro","estado":"activo"},{"id":331,"fecha":"2025-05-26","codigo":"3509","nombre":"rosario jaqueline alcala","cantidad":1800.0,"tipo":"otro","estado":"activo"},{"id":332,"fecha":"2025-05-25","codigo":"3508","nombre":"claudia hernandez","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":333,"fecha":"2025-05-25","codigo":"3507","nombre":"claudia hernandez","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":334,"fecha":"2025-05-21","codigo":"3499","nombre":"sarahi oliva muñoz","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":335,"fecha":"2025-05-16","codigo":"3490","nombre":"margarita aguilar gonzalez","cantidad":2000.0,"tipo":"otro","estado":"activo"},{"id":336,"fecha":"2025-05-14","codigo":"3485","nombre":"maria isabel hernandez","cantidad":1200.0,"tipo":"otro","estado":"activo"},{"id":337,"fecha":"2025-05-13","codigo":"3478","nombre":"reyna becerra","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":338,"fecha":"2025-05-13","codigo":"3477","nombre":"reyna becerra","cantidad":1600.0,"tipo":"otro","estado":"activo"},{"id":339,"fecha":"2025-05-13","codigo":"3476","nombre":"karina guadalupe gutierrez","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":340,"fecha":"2025-05-11","codigo":"3473","nombre":"rosa evelia flores","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":341,"fecha":"2025-05-08","codigo":"3462","nombre":"lizeth lara gomez","cantidad":6000.0,"tipo":"otro","estado":"activo"},{"id":342,"fecha":"2025-05-30","codigo":"3446","nombre":"karla chavez martinez","cantidad":5600.0,"tipo":"otro","estado":"activo"},{"id":343,"fecha":"2025-05-30","codigo":"3445","nombre":"brandon jesus gomez ponce","cantidad":330.0,"tipo":"otro","estado":"activo"},{"id":344,"fecha":"2025-05-28","codigo":"3443","nombre":"veronica esmeralda corona","cantidad":2200.0,"tipo":"otro","estado":"activo"},{"id":345,"fecha":"2025-05-28","codigo":"3440","nombre":"maria teresa flores morales","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":346,"fecha":"2025-05-27","codigo":"3435","nombre":"isabel velazquez","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":347,"fecha":"2025-04-21","codigo":"3425","nombre":"no existe","cantidad":0.0,"tipo":"otro","estado":"activo"},{"id":348,"fecha":"2025-04-20","codigo":"3421","nombre":"luisa gomez arellano","cantidad":600.0,"tipo":"otro","estado":"activo"},{"id":349,"fecha":"2025-04-14","codigo":"3409","nombre":"esther chavez","cantidad":1300.0,"tipo":"otro","estado":"activo"},{"id":350,"fecha":"2025-04-09","codigo":"3397","nombre":"Angelica Castaneda Ayon","cantidad":2600.0,"tipo":"otro","estado":"activo"},{"id":351,"fecha":"2025-04-08","codigo":"3388","nombre":"Carolina Vazquez","cantidad":1700.0,"tipo":"otro","estado":"activo"},{"id":352,"fecha":"2025-04-05","codigo":"3382","nombre":"Sarahi Oliva","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":353,"fecha":"2025-04-29","codigo":"3369","nombre":"maria eugenia garcia r","cantidad":2000.0,"tipo":"otro","estado":"activo"},{"id":354,"fecha":"2025-03-21","codigo":"3359","nombre":"laura patricia saldaña vega","cantidad":2400.0,"tipo":"otro","estado":"activo"},{"id":355,"fecha":"2025-03-20","codigo":"3356","nombre":"maria esther garcia","cantidad":800.0,"tipo":"otro","estado":"activo"},{"id":356,"fecha":"2025-03-18","codigo":"3353","nombre":"noexiste","cantidad":0.0,"tipo":"otro","estado":"activo"},{"id":357,"fecha":"2025-03-18","codigo":"3351","nombre":"mariza cortes gonzalez","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":358,"fecha":"2025-03-15","codigo":"3343","nombre":"bertha alicia marisacal c","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":359,"fecha":"2025-03-14","codigo":"3342","nombre":"francisco javier gonzalez v","cantidad":5000.0,"tipo":"otro","estado":"activo"},{"id":360,"fecha":"2025-03-09","codigo":"3330","nombre":"norma patricia herrera","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":361,"fecha":"2025-03-05","codigo":"3319","nombre":"Maria de Lourdes Ponce Lemus","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":362,"fecha":"2025-03-05","codigo":"3318","nombre":"Lizania Lara Gonzalez","cantidad":2000.0,"tipo":"otro","estado":"activo"},{"id":363,"fecha":"2025-02-26","codigo":"3296","nombre":"Jose Gabriel Barajas Diaz","cantidad":700.0,"tipo":"otro","estado":"activo"},{"id":364,"fecha":"2025-02-22","codigo":"3289","nombre":"Maria Rodriguez","cantidad":300.0,"tipo":"otro","estado":"activo"},{"id":365,"fecha":"2025-02-21","codigo":"3288","nombre":"Luisa Gomez","cantidad":500.0,"tipo":"otro","estado":"activo"},{"id":366,"fecha":"2025-02-14","codigo":"3276","nombre":"Maria Del Refugio Gonzalez","cantidad":400.0,"tipo":"otro","estado":"activo"},{"id":367,"fecha":"2025-02-11","codigo":"3264","nombre":"Teresa Ontiveros","cantidad":1500.0,"tipo":"otro","estado":"activo"},{"id":368,"fecha":"2025-02-09","codigo":"3260","nombre":"Lizbeth Lara Gomez","cantidad":2000.0,"tipo":"otro","estado":"activo"},{"id":369,"fecha":"2025-02-07","codigo":"3258","nombre":"Maria Guadalupe Moran","cantidad":3500.0,"tipo":"otro","estado":"activo"},{"id":370,"fecha":"2025-02-06","codigo":"3256","nombre":"Jose Lopez","cantidad":1000.0,"tipo":"otro","estado":"activo"},{"id":371,"fecha":"2025-02-05","codigo":"3254","nombre":"Jose Guadalupe Cardona Lara","cantidad":130000.0,"tipo":"otro","estado":"activo"}];
   const SEED_NEXT_CODE = 4220;
 
   let records  = [];
@@ -254,41 +301,33 @@
   let activeYear = 'todos';
   let dbReady = false;
 
-  // ── Cargar nextCode desde Firestore ──
+  // ── Meta / seed ──
   async function loadMeta() {
     const metaRef = doc(db, 'meta', 'config');
     const snap    = await getDoc(metaRef);
     if (snap.exists()) {
       nextCode = snap.data().nextCode || SEED_NEXT_CODE;
     } else {
-      // Primera vez: subir seed data
       await setDoc(metaRef, { nextCode: SEED_NEXT_CODE });
       nextCode = SEED_NEXT_CODE;
-      // Subir los registros semilla
-      setSyncStatus('load', 'Importando datos del Excel...');
-      const col = collection(db, 'registros');
-      for (const r of SEED_RECORDS) {
-        await addDoc(col, r);
-      }
+      setSyncStatus('load', 'Importando datos...');
+      for (const r of SEED_RECORDS) await addDoc(collection(db, 'registros'), r);
     }
     syncNextCodeToForm();
   }
 
-  // ── Escuchar cambios en tiempo real ──
   function listenRecords() {
     onSnapshot(collection(db, 'registros'), (snapshot) => {
       records = snapshot.docs.map(d => ({ _fireId: d.id, ...d.data() }));
       records.sort((a,b) => parseInt(b.codigo) - parseInt(a.codigo));
-      renderTable();
+      renderActivos();
+      renderHistorial();
       buildYearFilters();
-      renderCharts();
+      if (document.getElementById('tab-estadisticas').classList.contains('active')) renderCharts();
       document.getElementById('loadingOverlay').style.display = 'none';
       setSyncStatus('ok', 'Sincronizado');
       dbReady = true;
-    }, (err) => {
-      setSyncStatus('off', 'Sin conexión');
-      console.error(err);
-    });
+    }, () => setSyncStatus('off', 'Sin conexion'));
   }
 
   function setSyncStatus(type, text) {
@@ -306,6 +345,15 @@
     await setDoc(doc(db, 'meta', 'config'), { nextCode });
   }
 
+  // ── Tabs ──
+  window.switchTab = function(tab) {
+    document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('tbtn-' + tab).classList.add('active');
+    if (tab === 'estadisticas') renderCharts();
+  };
+
   // ── Ajuste ──
   window.applyAdjust = async function() {
     const val = parseInt(document.getElementById('adjustInput').value);
@@ -318,7 +366,7 @@
 
   // ── Agregar ──
   window.addRecord = async function() {
-    if (!dbReady) { alert('Espera a que conecte con la base de datos.'); return; }
+    if (!dbReady) { alert('Espera la conexion.'); return; }
     const fecha     = document.getElementById('fFecha').value.trim();
     const codigoRaw = document.getElementById('fCodigo').value.trim();
     const nombre    = document.getElementById('fNombre').value.trim();
@@ -328,50 +376,44 @@
     if (!codigoRaw)                      { alert('El código está vacío.');    return; }
     if (!nombre)                         { alert('Ingresa el nombre.');       return; }
     if (isNaN(cantidad) || cantidad < 0) { alert('Ingresa un monto válido.'); return; }
-
     const codigoNum = parseInt(codigoRaw);
     if (!isNaN(codigoNum) && codigoNum !== nextCode) nextCode = codigoNum;
-
     const btn = document.getElementById('btnAgregar');
     btn.disabled = true; btn.textContent = 'Guardando...';
-
-    await addDoc(collection(db, 'registros'), { fecha, codigo: codigoRaw, nombre, cantidad, tipo });
+    await addDoc(collection(db, 'registros'), { fecha, codigo: codigoRaw, nombre, cantidad, tipo, estado: 'activo' });
     nextCode += 1;
     await saveMeta();
     syncNextCodeToForm();
-
     document.getElementById('fNombre').value   = '';
     document.getElementById('fCantidad').value = '';
     btn.disabled = false; btn.textContent = '+ Agregar Registro';
     document.getElementById('fNombre').focus();
   };
 
-  // ── Borrar ──
+  // ── Dar de baja ──
+  window.darBaja = async function(fireId, codigo) {
+    if (!confirm('¿Dar de baja el registro ' + codigo + '?\nPasará al historial como baja.')) return;
+    await updateDoc(doc(db, 'registros', fireId), { estado: 'baja', fechaBaja: new Date().toISOString().split('T')[0] });
+  };
+
+  // ── Borrar permanente (solo desde historial) ──
   window.deleteRecord = async function(fireId) {
-    if (!confirm('¿Eliminar este registro?')) return;
+    if (!confirm('¿Eliminar permanentemente este registro? Esta acción no se puede deshacer.')) return;
     await deleteDoc(doc(db, 'registros', fireId));
   };
 
-  // ── Tabla ──
-  function renderTable() {
-    const total = records.reduce((s,r) => s+(r.cantidad||0), 0);
-    const oro   = records.filter(r => r.tipo==='oro').length;
-    const plata = records.filter(r => r.tipo==='plata').length;
-    const otro  = records.filter(r => (r.tipo||'otro')==='otro').length;
-    document.getElementById('totalCount').textContent  = records.length;
+  // ── Render activos ──
+  function renderActivos() {
+    const activos = records.filter(r => (r.estado || 'activo') === 'activo');
+    const total   = activos.reduce((s,r) => s+(r.cantidad||0), 0);
+    document.getElementById('totalCount').textContent  = activos.length;
     document.getElementById('totalAmount').textContent = formatMoney(total);
-    document.getElementById('statsBanner').innerHTML = `
-      <div class="stat-box"><div class="stat-val">${records.length}</div><div class="stat-lbl">Registros totales</div></div>
-      <div class="stat-box"><div class="stat-val">${formatMoney(total)}</div><div class="stat-lbl">Total prestado</div></div>
-      <div class="stat-box"><div class="stat-val">${oro}</div><div class="stat-lbl">Artículos Oro</div></div>
-      <div class="stat-box"><div class="stat-val">${plata}</div><div class="stat-lbl">Artículos Plata</div></div>
-      <div class="stat-box"><div class="stat-val">${otro}</div><div class="stat-lbl">Otros artículos</div></div>`;
     const tbody = document.getElementById('tableBody');
-    if (!records.length) {
-      tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Sin registros aún.</td></tr>';
+    if (!activos.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Sin registros activos.</td></tr>';
       return;
     }
-    tbody.innerHTML = records.map((r,i) => `
+    tbody.innerHTML = activos.map((r,i) => `
       <tr>
         <td>${i+1}</td>
         <td>${formatDate(r.fecha)}</td>
@@ -379,25 +421,52 @@
         <td>${escHtml(r.nombre)}</td>
         <td><span class="badge badge-${r.tipo||'otro'}">${labelTipo(r.tipo)}</span></td>
         <td class="td-amount">${formatMoney(r.cantidad)}</td>
-        <td><button class="btn-del" onclick="deleteRecord('${r._fireId}')">Borrar</button></td>
+        <td><button class="btn-baja" onclick="darBaja('${r._fireId}','${escHtml(r.codigo)}')">Dar de baja</button></td>
       </tr>`).join('');
   }
 
+  // ── Render historial ──
+  function renderHistorial() {
+    document.getElementById('histCount').textContent = records.length;
+    const tbody = document.getElementById('histTableBody');
+    if (!records.length) {
+      tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Sin registros.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = records.map((r,i) => {
+      const estado = r.estado || 'activo';
+      return `<tr>
+        <td>${i+1}</td>
+        <td>${formatDate(r.fecha)}</td>
+        <td class="td-code">${escHtml(r.codigo)}</td>
+        <td>${escHtml(r.nombre)}</td>
+        <td><span class="badge badge-${r.tipo||'otro'}">${labelTipo(r.tipo)}</span></td>
+        <td class="td-amount">${formatMoney(r.cantidad)}</td>
+        <td><span class="badge badge-${estado}">${estado === 'activo' ? 'Activo' : 'Baja'}</span></td>
+        <td><button class="btn-del" onclick="deleteRecord('${r._fireId}')">Borrar</button></td>
+      </tr>`;
+    }).join('');
+  }
+
   // ── Exportar ──
-  window.exportCSV = function() {
-    if (!records.length) { alert('No hay registros.'); return; }
+  window.exportCSV = function(modo) {
+    const src = modo === 'activos'
+      ? records.filter(r => (r.estado||'activo') === 'activo')
+      : records;
+    if (!src.length) { alert('No hay registros.'); return; }
     const BOM  = '\uFEFF';
-    const rows = records.map((r,i) =>
-      [i+1, r.fecha, r.codigo, `"${(r.nombre||'').replace(/"/g,'""')}"`, labelTipo(r.tipo), r.cantidad].join(','));
+    const rows = src.map((r,i) =>
+      [i+1, r.fecha, r.codigo, `"${(r.nombre||'').replace(/"/g,'""')}"`, labelTipo(r.tipo), r.cantidad, r.estado||'activo'].join(','));
     const a = document.createElement('a');
-    a.href  = URL.createObjectURL(new Blob([BOM+['#,Fecha,Codigo,Cliente,Tipo,Monto',...rows].join('\n')],{type:'text/csv;charset=utf-8;'}));
-    a.download = `empenio_${new Date().toISOString().split('T')[0]}.csv`;
+    a.href  = URL.createObjectURL(new Blob([BOM+['#,Fecha,Codigo,Cliente,Tipo,Monto,Estado',...rows].join('\n')],{type:'text/csv;charset=utf-8;'}));
+    a.download = `empenio_${modo}_${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
   };
 
-  // ── Charts ──
+  // ── Charts (sobre activos) ──
   function buildYearFilters() {
-    const years = [...new Set(records.map(r=>r.fecha?r.fecha.slice(0,4):null).filter(Boolean))].sort();
+    const activos = records.filter(r => (r.estado||'activo') === 'activo');
+    const years = [...new Set(activos.map(r=>r.fecha?r.fecha.slice(0,4):null).filter(Boolean))].sort();
     document.getElementById('yearFilters').innerHTML =
       ['todos',...years].map(y =>
         `<button class="filter-btn ${activeYear===y?'active':''}" onclick="setYear('${y}')">${y==='todos'?'Todos':y}</button>`
@@ -405,10 +474,24 @@
   }
 
   window.setYear = function(y) { activeYear=y; buildYearFilters(); renderChartMeses(); };
-  function renderCharts() { renderChartMeses(); renderChartTipo(); renderChartRangos(); }
+  function renderCharts() {
+    const activos = records.filter(r => (r.estado||'activo') === 'activo');
+    const oro   = activos.filter(r => r.tipo==='oro').length;
+    const plata = activos.filter(r => r.tipo==='plata').length;
+    const otro  = activos.filter(r => (r.tipo||'otro')==='otro').length;
+    const total = activos.reduce((s,r)=>s+(r.cantidad||0),0);
+    document.getElementById('statsBanner').innerHTML = `
+      <div class="stat-box"><div class="stat-val">${activos.length}</div><div class="stat-lbl">Activos</div></div>
+      <div class="stat-box"><div class="stat-val">${records.length}</div><div class="stat-lbl">Total historial</div></div>
+      <div class="stat-box"><div class="stat-val">${formatMoney(total)}</div><div class="stat-lbl">Total prestado activo</div></div>
+      <div class="stat-box"><div class="stat-val">${oro}</div><div class="stat-lbl">Oro activo</div></div>
+      <div class="stat-box"><div class="stat-val">${plata}</div><div class="stat-lbl">Plata activa</div></div>`;
+    renderChartMeses(); renderChartTipo(); renderChartRangos();
+  }
 
   function renderChartMeses() {
-    const src = activeYear==='todos' ? records : records.filter(r=>r.fecha&&r.fecha.startsWith(activeYear));
+    const activos = records.filter(r => (r.estado||'activo') === 'activo');
+    const src = activeYear==='todos' ? activos : activos.filter(r=>r.fecha&&r.fecha.startsWith(activeYear));
     const map = {};
     src.forEach(r => {
       if (!r.fecha) return;
@@ -416,9 +499,9 @@
       if (!map[k]) map[k]={total:0,count:0};
       map[k].total += r.cantidad||0; map[k].count++;
     });
-    const keys  = Object.keys(map).sort();
-    const mN    = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-    const lbls  = keys.map(k=>{ const[y,m]=k.split('-'); return mN[+m-1]+' '+y; });
+    const keys = Object.keys(map).sort();
+    const mN   = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    const lbls = keys.map(k=>{ const[y,m]=k.split('-'); return mN[+m-1]+' '+y; });
     if (chartMeses) chartMeses.destroy();
     chartMeses = new Chart(document.getElementById('chartMeses'),{
       type:'bar',
@@ -436,8 +519,9 @@
   }
 
   function renderChartTipo() {
+    const activos = records.filter(r => (r.estado||'activo') === 'activo');
     const map={oro:0,plata:0,otro:0};
-    records.forEach(r=>{ const t=r.tipo||'otro'; map[t]=(map[t]||0)+1; });
+    activos.forEach(r=>{ const t=r.tipo||'otro'; map[t]=(map[t]||0)+1; });
     if (chartTipo) chartTipo.destroy();
     chartTipo = new Chart(document.getElementById('chartTipo'),{
       type:'doughnut',
@@ -445,77 +529,65 @@
         datasets:[{data:[map.oro,map.plata,map.otro],backgroundColor:['#f59e0b','#94a3b8','#818cf8'],borderWidth:2}]},
       options:{responsive:true,maintainAspectRatio:false,
         plugins:{legend:{position:'bottom'},
-          tooltip:{callbacks:{label:ctx=>' '+ctx.label+': '+ctx.parsed+' ('+Math.round(ctx.parsed/records.length*100)+'%)'}}}}
+          tooltip:{callbacks:{label:ctx=>{const t=activos.length; return ' '+ctx.label+': '+ctx.parsed+(t?' ('+Math.round(ctx.parsed/t*100)+'%)':'');}}}}
+      }
     });
   }
 
   const RANGOS = [
-    {label:'$1 – $500',       min:1,    max:500},
-    {label:'$501 – $1,000',   min:501,  max:1000},
-    {label:'$1,001 – $2,000', min:1001, max:2000},
-    {label:'$2,001 – $5,000', min:2001, max:5000},
-    {label:'$5,001 – $10,000',min:5001, max:10000},
-    {label:'$10,001+',        min:10001,max:Infinity}
+    {label:'$1 – $500',min:1,max:500},{label:'$501 – $1,000',min:501,max:1000},
+    {label:'$1,001 – $2,000',min:1001,max:2000},{label:'$2,001 – $5,000',min:2001,max:5000},
+    {label:'$5,001 – $10,000',min:5001,max:10000},{label:'$10,001+',min:10001,max:Infinity}
   ];
 
   function renderChartRangos() {
-    const counts = RANGOS.map(rng => records.filter(r=>r.cantidad>=rng.min&&r.cantidad<=rng.max).length);
+    const activos = records.filter(r => (r.estado||'activo') === 'activo');
+    const counts  = RANGOS.map(rng=>activos.filter(r=>r.cantidad>=rng.min&&r.cantidad<=rng.max).length);
     if (chartRangos) chartRangos.destroy();
     chartRangos = new Chart(document.getElementById('chartRangos'),{
       type:'bar',
       data:{labels:RANGOS.map(r=>r.label),
-        datasets:[{label:'Clientes',data:counts,backgroundColor:['#6ee7b7','#34d399','#10b981','#059669','#047857','#065f46'],borderWidth:0,
-          hoverBackgroundColor:['#34d399','#10b981','#059669','#047857','#065f46','#064e3b']}]},
-      options:{
-        indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        datasets:[{label:'Clientes',data:counts,
+          backgroundColor:['#6ee7b7','#34d399','#10b981','#059669','#047857','#065f46'],
+          hoverBackgroundColor:['#34d399','#10b981','#059669','#047857','#065f46','#064e3b'],borderWidth:0}]},
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
         plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+ctx.parsed.x+' clientes — clic para ver'}}},
         scales:{x:{ticks:{stepSize:1}}},
-        onClick:(e,els)=>{
-          if(!els.length) return;
-          const rng = RANGOS[els[0].index];
-          openRangoModal(rng);
-        },
-        onHover:(e,els)=>{ e.native.target.style.cursor = els.length ? 'pointer' : 'default'; }
+        onClick:(e,els)=>{ if(els.length) openRangoModal(RANGOS[els[0].index]); },
+        onHover:(e,els)=>{ e.native.target.style.cursor=els.length?'pointer':'default'; }
       }
     });
   }
 
   window.openRangoModal = function(rng) {
-    const filtered = records.filter(r=>r.cantidad>=rng.min&&r.cantidad<=rng.max)
+    const activos  = records.filter(r => (r.estado||'activo') === 'activo');
+    const filtered = activos.filter(r=>r.cantidad>=rng.min&&r.cantidad<=rng.max)
       .sort((a,b)=>parseInt(b.codigo)-parseInt(a.codigo));
     const total = filtered.reduce((s,r)=>s+(r.cantidad||0),0);
-    document.getElementById('modalTitle').textContent = 'Clientes — ' + rng.label;
-    document.getElementById('modalSubtitle').textContent = filtered.length + ' registros encontrados';
-    document.getElementById('modalFooter').textContent = 'Total prestado en este rango: ' + formatMoney(total);
-    document.getElementById('modalTableBody').innerHTML = filtered.length ? filtered.map((r,i)=>`
-      <tr>
-        <td>${i+1}</td>
-        <td>${formatDate(r.fecha)}</td>
-        <td class="td-code">${escHtml(r.codigo)}</td>
-        <td>${escHtml(r.nombre)}</td>
-        <td><span class="badge badge-${r.tipo||'otro'}">${labelTipo(r.tipo)}</span></td>
-        <td class="td-amount">${formatMoney(r.cantidad)}</td>
-      </tr>`).join('') : '<tr><td colspan="6" style="text-align:center;padding:30px;color:#aaa">Sin registros en este rango</td></tr>';
+    document.getElementById('modalTitle').textContent   = 'Clientes activos — ' + rng.label;
+    document.getElementById('modalSubtitle').textContent = filtered.length + ' registros';
+    document.getElementById('modalFooter').textContent  = 'Total prestado en este rango: ' + formatMoney(total);
+    document.getElementById('modalTableBody').innerHTML = filtered.length
+      ? filtered.map((r,i)=>`
+          <tr>
+            <td>${i+1}</td><td>${formatDate(r.fecha)}</td>
+            <td class="td-code">${escHtml(r.codigo)}</td>
+            <td>${escHtml(r.nombre)}</td>
+            <td><span class="badge badge-${r.tipo||'otro'}">${labelTipo(r.tipo)}</span></td>
+            <td class="td-amount">${formatMoney(r.cantidad)}</td>
+          </tr>`).join('')
+      : '<tr><td colspan="6" style="text-align:center;padding:30px;color:#aaa">Sin registros</td></tr>';
     document.getElementById('modalOverlay').style.display = 'flex';
   };
 
-  window.closeModal = function(e) { if(e.target.id==='modalOverlay') closeModalBtn(); };
-  window.closeModalBtn = function() { document.getElementById('modalOverlay').style.display='none'; };
+  window.closeModal    = function(e) { if(e.target.id==='modalOverlay') closeModalBtn(); };
+  window.closeModalBtn = function()  { document.getElementById('modalOverlay').style.display='none'; };
 
+  // ── Helpers ──
   function labelTipo(t){ return {oro:'Oro',plata:'Plata',otro:'Otro'}[t]||'Otro'; }
   function formatDate(iso){ if(!iso)return''; const[y,m,d]=iso.split('-'); return `${d}/${m}/${y}`; }
   function formatMoney(n){ return '$'+Number(n||0).toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2}); }
   function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-  window.switchTab = function(tab) {
-    document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-' + tab).classList.add('active');
-    document.querySelectorAll('.tab-btn').forEach(b => {
-      if (b.textContent.toLowerCase().includes(tab === 'registros' ? 'registro' : 'stadis')) b.classList.add('active');
-    });
-    if (tab === 'estadisticas') renderCharts();
-  };
 
   document.getElementById('fFecha').value = new Date().toISOString().split('T')[0];
   ['fFecha','fCodigo','fNombre','fCantidad'].forEach(id=>
