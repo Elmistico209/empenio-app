@@ -131,6 +131,15 @@
     .modal-table tbody tr:hover{background:#f7f8ff}
     .modal-table tbody td{padding:9px 16px}
     .modal-footer{padding:14px 24px;border-top:1px solid #eee;font-size:.82rem;color:#888;text-align:right}
+    /* Edit modal */
+    .edit-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
+    .edit-modal{background:#fff;border-radius:12px;width:100%;max-width:500px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+    .edit-modal-header{padding:20px 24px;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:space-between}
+    .edit-modal-header h3{font-size:1rem;font-weight:700;color:#1a1a2e}
+    .edit-modal-body{padding:20px 24px;display:flex;flex-direction:column;gap:14px}
+    .edit-modal-footer{padding:16px 24px;border-top:1px solid #eee;display:flex;justify-content:flex-end;gap:10px}
+    .btn-edit{background:none;border:1.5px solid #6366f1;color:#6366f1;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:.78rem;font-weight:600;transition:background .15s,color .15s}
+    .btn-edit:hover{background:#6366f1;color:#fff}
   </style>
 </head>
 <body>
@@ -221,7 +230,7 @@
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th>#</th><th>Fecha</th><th>Código</th><th>Cliente</th><th>Tipo</th><th>Monto</th><th></th></tr>
+            <tr><th>#</th><th>Fecha</th><th>Código</th><th>Cliente</th><th>Tipo</th><th>Monto</th><th colspan="2"></th></tr>
           </thead>
           <tbody id="tableBody"></tbody>
         </table>
@@ -285,6 +294,46 @@
     </div>
   </div><!-- fin tab-estadisticas -->
 
+</div>
+
+<!-- Modal editar registro -->
+<div class="edit-modal-overlay" id="editModalOverlay" style="display:none">
+  <div class="edit-modal">
+    <div class="edit-modal-header">
+      <h3>Editar Registro</h3>
+      <button class="modal-close" onclick="closeEditModal()">&times;</button>
+    </div>
+    <div class="edit-modal-body">
+      <div class="form-group">
+        <label for="eFecha">Fecha</label>
+        <input type="date" id="eFecha"/>
+      </div>
+      <div class="form-group">
+        <label for="eCodigo">Código</label>
+        <input type="text" id="eCodigo"/>
+      </div>
+      <div class="form-group">
+        <label for="eNombre">Nombre del cliente</label>
+        <input type="text" id="eNombre"/>
+      </div>
+      <div class="form-group">
+        <label for="eCantidad">Monto ($)</label>
+        <input type="number" id="eCantidad" min="0" step="0.01"/>
+      </div>
+      <div class="form-group">
+        <label for="eTipo">Tipo de artículo</label>
+        <select id="eTipo">
+          <option value="oro">Oro</option>
+          <option value="plata">Plata</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+    </div>
+    <div class="edit-modal-footer">
+      <button class="btn btn-dark" onclick="closeEditModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarEdicion()">Guardar cambios</button>
+    </div>
+  </div>
 </div>
 
 <!-- Modal detalle de rango -->
@@ -436,6 +485,38 @@
     await updateDoc(doc(db, 'registros', fireId), { estado: 'activo', fechaBaja: null });
   };
 
+  // ── Editar ──
+  let editingFireId = null;
+
+  window.abrirEdicion = function(fireId) {
+    const r = records.find(x => x._fireId === fireId);
+    if (!r) return;
+    editingFireId = fireId;
+    document.getElementById('eFecha').value    = r.fecha    || '';
+    document.getElementById('eCodigo').value   = r.codigo   || '';
+    document.getElementById('eNombre').value   = r.nombre   || '';
+    document.getElementById('eCantidad').value = r.cantidad || '';
+    document.getElementById('eTipo').value     = r.tipo     || 'otro';
+    document.getElementById('editModalOverlay').style.display = 'flex';
+  };
+
+  window.closeEditModal = function() {
+    document.getElementById('editModalOverlay').style.display = 'none';
+    editingFireId = null;
+  };
+
+  window.guardarEdicion = async function() {
+    if (!editingFireId) return;
+    const fecha    = document.getElementById('eFecha').value.trim();
+    const codigo   = document.getElementById('eCodigo').value.trim();
+    const nombre   = document.getElementById('eNombre').value.trim();
+    const cantidad = parseFloat(document.getElementById('eCantidad').value);
+    const tipo     = document.getElementById('eTipo').value;
+    if (!fecha || !codigo || !nombre || isNaN(cantidad)) { alert('Completa todos los campos.'); return; }
+    await updateDoc(doc(db, 'registros', editingFireId), { fecha, codigo, nombre, cantidad, tipo });
+    closeEditModal();
+  };
+
   // ── Borrar permanente (solo desde historial) ──
   window.deleteRecord = async function(fireId) {
     if (!confirm('¿Eliminar permanentemente este registro? Esta acción no se puede deshacer.')) return;
@@ -480,6 +561,7 @@
         <td>${escHtml(r.nombre)}</td>
         <td><span class="badge badge-${r.tipo||'otro'}">${labelTipo(r.tipo)}</span></td>
         <td class="td-amount">${formatMoney(r.cantidad)}</td>
+        <td><button class="btn-edit" onclick="abrirEdicion('${r._fireId}')">Editar</button></td>
         <td><button class="btn-baja" onclick="darBaja('${r._fireId}','${escHtml(r.codigo)}')">Dar de baja</button></td>
       </tr>`).join('');
   }
@@ -512,7 +594,8 @@
         <td><span class="badge badge-${r.tipo||'otro'}">${labelTipo(r.tipo)}</span></td>
         <td class="td-amount">${formatMoney(r.cantidad)}</td>
         <td><span class="badge badge-${estado}">${estado==='activo'?'Activo':'Baja'}</span></td>
-        <td style="display:flex;gap:4px">
+        <td style="display:flex;gap:4px;flex-wrap:wrap">
+          <button class="btn-edit" onclick="abrirEdicion('${r._fireId}')">Editar</button>
           ${accionBtn}
           <button class="btn-del" onclick="deleteRecord('${r._fireId}')">Borrar</button>
         </td>
