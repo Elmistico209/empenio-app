@@ -130,7 +130,12 @@
     .stat-box-blue{background:#eff6ff;border-color:#bfdbfe}
     .stat-box-blue .stat-val{color:#2563eb}
 
-    /* Charts */
+    .pager{display:flex;align-items:center;justify-content:center;gap:16px;padding:14px 0}
+    .pager-btn{padding:7px 18px;border:1.5px solid #d0d5dd;border-radius:6px;background:#fff;cursor:pointer;font-weight:600;font-size:.85rem;color:#1a1a2e;transition:all .2s}
+    .pager-btn:hover:not(:disabled){background:#1a1a2e;color:#fff;border-color:#1a1a2e}
+    .pager-btn:disabled{opacity:.4;cursor:default}
+    .pager-info{font-size:.85rem;color:#555}
+        /* Charts */
     .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
     @media(max-width:900px){.charts-grid{grid-template-columns:1fr}}
     .chart-card{background:#fff;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.08);padding:20px;margin-bottom:20px}
@@ -300,6 +305,7 @@
           <tbody id="histTableBody"></tbody>
         </table>
       </div>
+      <div id="histPager"></div>
     </div>
   </div><!-- fin tab-historial -->
 
@@ -439,8 +445,10 @@
   const dataRef = doc(db, 'data', 'records');
   const metaRef = doc(db, 'meta', 'config');
 
-  let allRecords = [];
-  let nextCode   = SEED_NEXT_CODE;
+  let allRecords  = [];
+  let nextCode    = SEED_NEXT_CODE;
+  let histPage    = 0;
+  const PAGE_SIZE = 100;
   let chartMeses = null, chartTipo = null, chartRangos = null;
   let activeYear = 'todos';
   let dbReady    = false;
@@ -680,27 +688,41 @@
       </tr>`).join('');
   }
 
+  let _histFiltered = [];
+
   function renderHistorial() {
+    histPage = 0;
     const q       = document.getElementById('searchHist').value;
     const campo   = document.getElementById('searchHistCampo').value;
     const filtEst = document.getElementById('searchHistEstado').value;
     let src = allRecords;
     if (filtEst !== 'todos') src = src.filter(r => (r.estado||'activo') === filtEst);
-    const visibles = filtrar(src, q, campo);
-    document.getElementById('histCount').textContent = visibles.length;
+    _histFiltered = filtrar(src, q, campo);
+    document.getElementById('histCount').textContent = _histFiltered.length;
     document.getElementById('histTotal').textContent = allRecords.length;
-    const tbody = document.getElementById('histTableBody');
-    if (!visibles.length) {
+    renderHistPage();
+  }
+
+  function renderHistPage() {
+    const tbody   = document.getElementById('histTableBody');
+    const start   = histPage * PAGE_SIZE;
+    const page    = _histFiltered.slice(start, start + PAGE_SIZE);
+    const total   = _histFiltered.length;
+    const pages   = Math.ceil(total / PAGE_SIZE);
+
+    if (!page.length) {
       tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Sin registros.</td></tr>';
+      document.getElementById('histPager').innerHTML = '';
       return;
     }
-    tbody.innerHTML = visibles.map((r,i) => {
+
+    tbody.innerHTML = page.map((r,i) => {
       const est = r.estado||'activo';
       const accionBtn = est === 'activo'
         ? `<button class="btn-baja"      onclick="darBaja(${r.id},'${escHtml(r.codigo)}')">Dar de baja</button>`
         : `<button class="btn-reactivar" onclick="reactivar(${r.id},'${escHtml(r.codigo)}')">Reactivar</button>`;
       return `<tr>
-        <td>${i+1}</td>
+        <td>${start+i+1}</td>
         <td>${formatDate(r.fecha)}</td>
         <td class="td-code">${escHtml(r.codigo)}</td>
         <td>${escHtml(r.nombre)}</td>
@@ -714,7 +736,21 @@
         </td>
       </tr>`;
     }).join('');
+
+    // Paginador
+    document.getElementById('histPager').innerHTML = `
+      <div class="pager">
+        <button class="pager-btn" onclick="histGoPage(${histPage-1})" ${histPage===0?'disabled':''}>&#8249; Anterior</button>
+        <span class="pager-info">Página ${histPage+1} de ${pages} &nbsp;(${total} registros)</span>
+        <button class="pager-btn" onclick="histGoPage(${histPage+1})" ${histPage>=pages-1?'disabled':''}>Siguiente &#8250;</button>
+      </div>`;
   }
+
+  window.histGoPage = function(p) {
+    histPage = p;
+    renderHistPage();
+    document.getElementById('tab-historial').scrollIntoView({ behavior:'smooth', block:'start' });
+  };
 
   window.exportCSV = function(modo) {
     const src = modo === 'activos' ? getActivos() : allRecords;
