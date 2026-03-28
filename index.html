@@ -499,15 +499,14 @@
     el.className = 'sync-status sync-' + type;
   }
 
-  function getNextAvailable(from) {
-    const used = new Set(records.map(r => String(r.codigo)));
-    let code = from;
-    while (used.has(String(code))) code++;
-    return code;
+  function getNextAvailable() {
+    if (!records.length) return nextCode;
+    const maxCode = Math.max(...records.map(r => parseInt(r.codigo) || 0));
+    return Math.max(nextCode, maxCode + 1);
   }
 
   function syncNextCodeToForm() {
-    const available = getNextAvailable(nextCode);
+    const available = getNextAvailable();
     document.getElementById('fCodigo').value = available;
     document.getElementById('nextCodeDisplay').textContent = available;
   }
@@ -549,8 +548,7 @@
     if (isNaN(cantidad) || cantidad < 0) { alert('Ingresa un monto válido.'); return; }
     const codigoNum = parseInt(codigoRaw);
     if (!isNaN(codigoNum) && codigoNum !== nextCode) nextCode = codigoNum;
-    // Skip any codes already in use
-    nextCode = getNextAvailable(nextCode);
+    nextCode = getNextAvailable();
     const btn = document.getElementById('btnAgregar');
     btn.disabled = true; btn.textContent = 'Guardando...';
     await addDoc(collection(db, 'registros'), { fecha, codigo: codigoRaw, nombre, cantidad, tipo, estado: 'activo' });
