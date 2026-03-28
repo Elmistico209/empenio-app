@@ -347,8 +347,8 @@
       <div class="chart-card">
         <div class="ganancia-header">
           <div>
-            <div class="chart-title" style="margin-bottom:4px">Ganancias acumuladas — Empeños activos</div>
-            <div class="ganancia-note">Interés 10% mensual · Calculado al día de hoy · Meses completos transcurridos</div>
+            <div class="chart-title" style="margin-bottom:4px">Historial de ganancias realizadas</div>
+            <div class="ganancia-note">Interés 10% mensual · Solo empeños cobrados desde 28/03/2026 · Meses completos transcurridos</div>
           </div>
           <input type="text" id="searchGanancias" placeholder="Buscar cliente o código…" oninput="renderGanancias()" class="ganancia-search"/>
         </div>
@@ -616,8 +616,13 @@
     if (!confirm('¿Dar de baja el registro ' + codigo + '?\nPasará al historial.')) return;
     const r = allRecords.find(x => x.id == recId);
     if (!r) return;
-    r.estado = 'baja';
     r.fechaBaja = new Date().toISOString().split('T')[0];
+    r.estado    = 'baja';
+    // Guardar interés realizado en el momento de la baja
+    const desde = (r.fecha && r.fecha > GANANCIA_INICIO) ? r.fecha : GANANCIA_INICIO;
+    const meses = calcMesesEntre(desde, r.fechaBaja);
+    r.interesRealizado = (r.fechaBaja >= GANANCIA_INICIO) ? (r.cantidad || 0) * 0.10 * meses : 0;
+    r.mesesActivo      = meses;
     await saveData();
   };
 
@@ -625,8 +630,10 @@
     if (!confirm('¿Reactivar el registro ' + codigo + '?')) return;
     const r = allRecords.find(x => x.id == recId);
     if (!r) return;
-    r.estado = 'activo';
-    r.fechaBaja = null;
+    r.estado           = 'activo';
+    r.fechaBaja        = null;
+    r.interesRealizado = 0;
+    r.mesesActivo      = null;
     await saveData();
   };
 
@@ -834,15 +841,18 @@
     const plata = activos.filter(r=>r.tipo==='plata').length;
     const totalActivo    = activos.reduce((s,r)=>s+(r.cantidad||0),0);
     const totalHistorial = allRecords.reduce((s,r)=>s+(r.cantidad||0),0);
-    const totalGanancia  = activos.reduce((s,r)=>s+calcGanancia(r),0);
-    const totalCobro     = totalActivo + totalGanancia;
+    // Ganancias realizadas: solo bajas de hoy en adelante
+    const bajasDesdeHoy  = allRecords.filter(r => r.estado==='baja' && r.fechaBaja && r.fechaBaja >= GANANCIA_INICIO);
+    const ganRealizadas  = bajasDesdeHoy.reduce((s,r)=>s+(r.interesRealizado||0),0);
+    const capitalBajas   = bajasDesdeHoy.reduce((s,r)=>s+(r.cantidad||0),0);
+    const roi            = capitalBajas > 0 ? (ganRealizadas/capitalBajas*100) : 0;
     document.getElementById('statsBanner').innerHTML = `
       <div class="stat-box"><div class="stat-val">${activos.length}</div><div class="stat-lbl">Empeños activos</div></div>
       <div class="stat-box stat-box-green"><div class="stat-val">${formatMoney(totalActivo)}</div><div class="stat-lbl">Total prestado (activos)</div></div>
-      <div class="stat-box stat-box-gold"><div class="stat-val">${formatMoney(totalGanancia)}</div><div class="stat-lbl">Ganancias acumuladas</div></div>
-      <div class="stat-box stat-box-blue"><div class="stat-val">${formatMoney(totalCobro)}</div><div class="stat-lbl">Cobro total si retiran hoy</div></div>
-      <div class="stat-box"><div class="stat-val">${allRecords.length}</div><div class="stat-lbl">Total historial</div></div>
-      <div class="stat-box"><div class="stat-val">${formatMoney(totalHistorial)}</div><div class="stat-lbl">Total prestado (historial)</div></div>
+      <div class="stat-box stat-box-gold"><div class="stat-val">${formatMoney(ganRealizadas)}</div><div class="stat-lbl">Ganancias realizadas</div></div>
+      <div class="stat-box stat-box-blue"><div class="stat-val">${roi.toFixed(1)}%</div><div class="stat-lbl">ROI (desde ${GANANCIA_INICIO})</div></div>
+      <div class="stat-box"><div class="stat-val">${bajasDesdeHoy.length}</div><div class="stat-lbl">Empeños cobrados hoy+</div></div>
+      <div class="stat-box"><div class="stat-val">${formatMoney(capitalBajas)}</div><div class="stat-lbl">Capital recuperado</div></div>
       <div class="stat-box"><div class="stat-val">${oro}</div><div class="stat-lbl">Oro activo</div></div>
       <div class="stat-box"><div class="stat-val">${plata}</div><div class="stat-lbl">Plata activa</div></div>`;
     buildYearFilters();
@@ -925,69 +935,63 @@
   // Fecha desde la cual se empiezan a contabilizar ganancias
   const GANANCIA_INICIO = '2026-03-28';
 
-  // Meses transcurridos desde una fecha hasta hoy (sin mínimo de 1, puede ser 0)
-  function calcMeses(fecha) {
-    if (!fecha) return 0;
-    const inicio = new Date(fecha + 'T12:00:00');
-    const hoy    = new Date();
-    const diffMs = hoy - inicio;
-    if (diffMs <= 0) return 0;
-    return Math.ceil(diffMs / (1000 * 60 * 60 * 24 * 30));
+  // Meses entre dos fechas ISO (redondeado arriba, mínimo 1)
+  function calcMesesEntre(desde, hasta) {
+    if (!desde || !hasta) return 1;
+    const d1 = new Date(desde + 'T12:00:00');
+    const d2 = new Date(hasta  + 'T12:00:00');
+    const diffMs = d2 - d1;
+    if (diffMs <= 0) return 1;
+    return Math.max(1, Math.ceil(diffMs / (1000 * 60 * 60 * 24 * 30)));
   }
 
-  // Para ganancias: usa la fecha más reciente entre la del registro y GANANCIA_INICIO
-  function calcMesesGanancia(fecha) {
-    const base = (fecha && fecha > GANANCIA_INICIO) ? fecha : GANANCIA_INICIO;
-    return calcMeses(base);
-  }
-
-  function calcGanancia(r) {
-    return (r.cantidad || 0) * 0.10 * calcMesesGanancia(r.fecha);
+  // Calcula el interés cobrado al dar de baja (solo cuenta desde GANANCIA_INICIO)
+  function calcInteresRealizado(r) {
+    if (!r.fechaBaja || r.fechaBaja < GANANCIA_INICIO) return 0;
+    const desde = (r.fecha && r.fecha > GANANCIA_INICIO) ? r.fecha : GANANCIA_INICIO;
+    const meses = calcMesesEntre(desde, r.fechaBaja);
+    return (r.cantidad || 0) * 0.10 * meses;
   }
 
   window.renderGanancias = function() {
-    const activos = getActivos();
     const q = (document.getElementById('searchGanancias')?.value || '').toLowerCase().trim();
-    let lista = activos;
-    if (q) lista = activos.filter(r =>
+    let lista = allRecords.filter(r => r.estado==='baja' && r.fechaBaja && r.fechaBaja >= GANANCIA_INICIO);
+    if (q) lista = lista.filter(r =>
       (r.nombre||'').toLowerCase().includes(q) || String(r.codigo||'').includes(q)
     );
-    lista = lista.slice().sort((a,b) => calcGanancia(b) - calcGanancia(a));
+    lista = lista.slice().sort((a,b) => (b.interesRealizado||0) - (a.interesRealizado||0));
 
     const container = document.getElementById('gananciasBody');
     if (!lista.length) {
-      container.innerHTML = '<p style="text-align:center;color:#aaa;padding:20px">Sin registros.</p>';
+      container.innerHTML = '<p style="text-align:center;color:#aaa;padding:24px">Aún no hay empeños cobrados desde el 28/03/2026.<br>Cada vez que des de baja un registro aparecerá aquí con su ganancia.</p>';
       return;
     }
+    const totalCapital  = lista.reduce((s,r)=>s+(r.cantidad||0),0);
+    const totalInteres  = lista.reduce((s,r)=>s+(r.interesRealizado||0),0);
     container.innerHTML = `
       <table class="gan-table">
         <thead><tr>
           <th>#</th><th>Código</th><th>Cliente</th><th>Tipo</th>
-          <th>Prestado</th><th>Fecha</th><th>Meses</th>
-          <th>Interés acum.</th><th>Cobro total hoy</th>
+          <th>Prestado</th><th>Fecha empeño</th><th>Fecha baja</th><th>Meses</th>
+          <th>Interés cobrado</th>
         </tr></thead>
-        <tbody>${lista.map((r,i) => {
-          const meses   = calcMeses(r.fecha);
-          const interes = calcGanancia(r);
-          const cobro   = (r.cantidad||0) + interes;
-          return `<tr>
+        <tbody>${lista.map((r,i) => `<tr>
             <td>${i+1}</td>
             <td class="td-code">${escHtml(r.codigo)}</td>
             <td>${escHtml(r.nombre)}</td>
             <td><span class="badge badge-${r.tipo||'otro'}">${labelTipo(r.tipo)}</span></td>
             <td class="td-amount">${formatMoney(r.cantidad)}</td>
             <td>${formatDate(r.fecha)}</td>
-            <td class="gan-meses">${meses}</td>
-            <td class="gan-interes td-amount">${formatMoney(interes)}</td>
-            <td class="gan-cobro td-amount">${formatMoney(cobro)}</td>
-          </tr>`;
-        }).join('')}</tbody>
+            <td>${formatDate(r.fechaBaja)}</td>
+            <td class="gan-meses">${r.mesesActivo||1}</td>
+            <td class="gan-interes td-amount">${formatMoney(r.interesRealizado||0)}</td>
+          </tr>`).join('')}
+        </tbody>
         <tfoot><tr style="background:#f8faff;font-weight:700">
-          <td colspan="4" style="padding:10px;color:#555">TOTALES (${lista.length} activos)</td>
-          <td class="td-amount">${formatMoney(lista.reduce((s,r)=>s+(r.cantidad||0),0))}</td>
-          <td></td><td></td>
-          <td class="gan-interes td-amount">${formatMoney(lista.reduce((s,r)=>s+calcGanancia(r),0))}</td>
-          <td class="gan-cobro td-amount">${formatMoney(lista.reduce((s,r)=>s+(r.cantidad||0)+calcGanancia(r),0))}</td>
+          <td colspan="4" style="padding:10px;color:#555">TOTALES (${lista.length} cobrados)</td>
+          <td class="td-amount">${formatMoney(totalCapital)}</td>
+          <td colspan="3"></td>
+          <td class="gan-interes td-amount">${formatMoney(totalInteres)}</td>
         </tr></tfoot>
       </table>`;
   };
