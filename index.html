@@ -333,6 +333,30 @@
 
 </div>
 
+<!-- Modal detalle de rango -->
+<div class="edit-modal-overlay" id="rangoModal" style="display:none" onclick="if(event.target===this)closeRangoModal()">
+  <div class="edit-modal" style="max-width:700px;max-height:85vh;display:flex;flex-direction:column">
+    <div class="edit-modal-header">
+      <h3 id="modalTitle">Clientes en rango</h3>
+      <button class="modal-close" onclick="closeRangoModal()">&times;</button>
+    </div>
+    <div style="overflow-y:auto;flex:1">
+      <table style="width:100%;border-collapse:collapse;font-size:.88rem">
+        <thead><tr style="background:#1a1a2e;color:#fff">
+          <th style="padding:10px 12px">#</th>
+          <th style="padding:10px 12px">Fecha</th>
+          <th style="padding:10px 12px">Código</th>
+          <th style="padding:10px 12px">Cliente</th>
+          <th style="padding:10px 12px">Monto</th>
+          <th style="padding:10px 12px">Estado</th>
+        </tr></thead>
+        <tbody id="modalBody"></tbody>
+      </table>
+    </div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
 <!-- Modal PIN -->
 <div class="edit-modal-overlay" id="pinModalOverlay" style="display:none">
   <div class="edit-modal" style="max-width:340px">
