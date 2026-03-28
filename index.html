@@ -129,6 +129,20 @@
     .stat-box-green .stat-val{color:#16a34a}
     .stat-box-blue{background:#eff6ff;border-color:#bfdbfe}
     .stat-box-blue .stat-val{color:#2563eb}
+    .stat-box-gold{background:#fffbeb;border-color:#fde68a}
+    .stat-box-gold .stat-val{color:#b45309}
+
+    /* Ganancias table */
+    .ganancia-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+    .ganancia-note{font-size:.75rem;color:#888}
+    .ganancia-search{padding:7px 12px;border:1.5px solid #d0d5dd;border-radius:6px;font-size:.85rem;min-width:220px}
+    .gan-table{width:100%;border-collapse:collapse;font-size:.84rem}
+    .gan-table th{background:#f8faff;font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;color:#555;padding:9px 10px;border-bottom:2px solid #e0e7ff;white-space:nowrap}
+    .gan-table td{padding:8px 10px;border-bottom:1px solid #f0f2f5;vertical-align:middle}
+    .gan-table tr:hover td{background:#fafbff}
+    .gan-meses{font-weight:700;color:#4f6ef7;text-align:center}
+    .gan-interes{font-weight:700;color:#16a34a}
+    .gan-cobro{font-weight:800;color:#1a1a2e}
 
     .pager{display:flex;align-items:center;justify-content:center;gap:16px;padding:14px 0}
     .pager-btn{padding:7px 18px;border:1.5px solid #d0d5dd;border-radius:6px;background:#fff;cursor:pointer;font-weight:600;font-size:.85rem;color:#1a1a2e;transition:all .2s}
@@ -327,6 +341,16 @@
           <div class="chart-title">Clientes activos por rango de monto</div>
           <div class="chart-wrap"><canvas id="chartRangos"></canvas></div>
         </div>
+      </div>
+      <div class="chart-card">
+        <div class="ganancia-header">
+          <div>
+            <div class="chart-title" style="margin-bottom:4px">Ganancias acumuladas — Empeños activos</div>
+            <div class="ganancia-note">Interés 10% mensual · Calculado al día de hoy · Meses completos transcurridos</div>
+          </div>
+          <input type="text" id="searchGanancias" placeholder="Buscar cliente o código…" oninput="renderGanancias()" class="ganancia-search"/>
+        </div>
+        <div id="gananciasBody"></div>
       </div>
     </div>
   </div><!-- fin tab-estadisticas -->
@@ -808,15 +832,19 @@
     const plata = activos.filter(r=>r.tipo==='plata').length;
     const totalActivo    = activos.reduce((s,r)=>s+(r.cantidad||0),0);
     const totalHistorial = allRecords.reduce((s,r)=>s+(r.cantidad||0),0);
+    const totalGanancia  = activos.reduce((s,r)=>s+calcGanancia(r),0);
+    const totalCobro     = totalActivo + totalGanancia;
     document.getElementById('statsBanner').innerHTML = `
       <div class="stat-box"><div class="stat-val">${activos.length}</div><div class="stat-lbl">Empeños activos</div></div>
       <div class="stat-box stat-box-green"><div class="stat-val">${formatMoney(totalActivo)}</div><div class="stat-lbl">Total prestado (activos)</div></div>
+      <div class="stat-box stat-box-gold"><div class="stat-val">${formatMoney(totalGanancia)}</div><div class="stat-lbl">Ganancias est. (activos)</div></div>
+      <div class="stat-box stat-box-blue"><div class="stat-val">${formatMoney(totalCobro)}</div><div class="stat-lbl">Cobro total si retiran hoy</div></div>
       <div class="stat-box"><div class="stat-val">${allRecords.length}</div><div class="stat-lbl">Total historial</div></div>
-      <div class="stat-box stat-box-blue"><div class="stat-val">${formatMoney(totalHistorial)}</div><div class="stat-lbl">Total prestado (historial)</div></div>
       <div class="stat-box"><div class="stat-val">${oro}</div><div class="stat-lbl">Oro activo</div></div>
       <div class="stat-box"><div class="stat-val">${plata}</div><div class="stat-lbl">Plata activa</div></div>`;
     buildYearFilters();
     renderChartMeses(); renderChartTipo(); renderChartRangos();
+    renderGanancias();
   }
 
   function renderChartMeses() {
@@ -890,6 +918,67 @@
     document.getElementById('rangoModal').style.display = 'flex';
   };
   window.closeRangoModal = function() { document.getElementById('rangoModal').style.display='none'; };
+
+  // Calcula meses transcurridos desde fecha hasta hoy (mínimo 1, redondeado arriba)
+  function calcMeses(fecha) {
+    if (!fecha) return 1;
+    const inicio = new Date(fecha + 'T12:00:00');
+    const hoy    = new Date();
+    const diffMs = hoy - inicio;
+    if (diffMs <= 0) return 1;
+    return Math.max(1, Math.ceil(diffMs / (1000 * 60 * 60 * 24 * 30)));
+  }
+
+  function calcGanancia(r) {
+    return (r.cantidad || 0) * 0.10 * calcMeses(r.fecha);
+  }
+
+  window.renderGanancias = function() {
+    const activos = getActivos();
+    const q = (document.getElementById('searchGanancias')?.value || '').toLowerCase().trim();
+    let lista = activos;
+    if (q) lista = activos.filter(r =>
+      (r.nombre||'').toLowerCase().includes(q) || String(r.codigo||'').includes(q)
+    );
+    lista = lista.slice().sort((a,b) => calcGanancia(b) - calcGanancia(a));
+
+    const container = document.getElementById('gananciasBody');
+    if (!lista.length) {
+      container.innerHTML = '<p style="text-align:center;color:#aaa;padding:20px">Sin registros.</p>';
+      return;
+    }
+    container.innerHTML = `
+      <table class="gan-table">
+        <thead><tr>
+          <th>#</th><th>Código</th><th>Cliente</th><th>Tipo</th>
+          <th>Prestado</th><th>Fecha</th><th>Meses</th>
+          <th>Interés acum.</th><th>Cobro total hoy</th>
+        </tr></thead>
+        <tbody>${lista.map((r,i) => {
+          const meses   = calcMeses(r.fecha);
+          const interes = calcGanancia(r);
+          const cobro   = (r.cantidad||0) + interes;
+          return `<tr>
+            <td>${i+1}</td>
+            <td class="td-code">${escHtml(r.codigo)}</td>
+            <td>${escHtml(r.nombre)}</td>
+            <td><span class="badge badge-${r.tipo||'otro'}">${labelTipo(r.tipo)}</span></td>
+            <td class="td-amount">${formatMoney(r.cantidad)}</td>
+            <td>${formatDate(r.fecha)}</td>
+            <td class="gan-meses">${meses}</td>
+            <td class="gan-interes td-amount">${formatMoney(interes)}</td>
+            <td class="gan-cobro td-amount">${formatMoney(cobro)}</td>
+          </tr>`;
+        }).join('')}</tbody>
+        <tfoot><tr style="background:#f8faff;font-weight:700">
+          <td colspan="4" style="padding:10px;color:#555">TOTALES (${lista.length} activos)</td>
+          <td class="td-amount">${formatMoney(lista.reduce((s,r)=>s+(r.cantidad||0),0))}</td>
+          <td></td><td></td>
+          <td class="gan-interes td-amount">${formatMoney(lista.reduce((s,r)=>s+calcGanancia(r),0))}</td>
+          <td class="gan-cobro td-amount">${formatMoney(lista.reduce((s,r)=>s+(r.cantidad||0)+calcGanancia(r),0))}</td>
+        </tr></tfoot>
+      </table>`;
+  };
 
   function labelTipo(t) { return {oro:'Oro',plata:'Plata',otro:'Otro'}[t]||'Otro'; }
   function formatDate(iso) { if(!iso) return ''; const[y,m,d]=iso.split('-'); return `${d}/${m}/${y}`; }
