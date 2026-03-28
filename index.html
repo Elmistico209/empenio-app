@@ -689,7 +689,7 @@
     const visibles = filtrar(src, q, campo);
     document.getElementById('histCount').textContent = visibles.length;
     document.getElementById('histTotal').textContent = allRecords.length;
-    const tbody = document.getElementById('histBody');
+    const tbody = document.getElementById('histTableBody');
     if (!visibles.length) {
       tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Sin registros.</td></tr>';
       return;
