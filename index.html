@@ -488,9 +488,14 @@
   async function loadMeta() {
     const snap = await getDoc(metaRef);
     if (!snap.exists() || snap.data().seedVersion !== SEED_VERSION) {
-      setSyncStatus('load', 'Migrando a nueva arquitectura...');
+      setSyncStatus('load', 'Migrando datos...');
+      allRecords = SEED_RECORDS.slice();
+      nextCode   = SEED_NEXT_CODE;
       await saveData();
       await saveMeta();
+      allRecords.sort((a,b) => parseInt(b.codigo) - parseInt(a.codigo));
+      renderActivos();
+      syncNextCodeToForm();
     } else {
       nextCode = snap.data().nextCode || SEED_NEXT_CODE;
     }
