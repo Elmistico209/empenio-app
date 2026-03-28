@@ -121,10 +121,12 @@
     .empty-state{text-align:center;padding:40px;color:#aaa}
 
     /* Stats */
-    .stats-banner{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px}
-    .stat-box{flex:1;min-width:130px;background:#f8faff;border:1.5px solid #e0e7ff;border-radius:8px;padding:14px 18px}
-    .stat-box .stat-val{font-size:1.35rem;font-weight:800;color:#1a1a2e}
-    .stat-box .stat-lbl{font-size:.75rem;color:#888;margin-top:2px}
+    .stats-banner{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+    @media(max-width:900px){.stats-banner{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:480px){.stats-banner{grid-template-columns:1fr}}
+    .stat-box{background:#f8faff;border:1.5px solid #e0e7ff;border-radius:8px;padding:14px 18px}
+    .stat-box .stat-val{font-size:1.2rem;font-weight:800;color:#1a1a2e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .stat-box .stat-lbl{font-size:.72rem;color:#888;margin-top:3px}
     .stat-box-green{background:#f0fdf4;border-color:#bbf7d0}
     .stat-box-green .stat-val{color:#16a34a}
     .stat-box-blue{background:#eff6ff;border-color:#bfdbfe}
@@ -837,9 +839,10 @@
     document.getElementById('statsBanner').innerHTML = `
       <div class="stat-box"><div class="stat-val">${activos.length}</div><div class="stat-lbl">Empeños activos</div></div>
       <div class="stat-box stat-box-green"><div class="stat-val">${formatMoney(totalActivo)}</div><div class="stat-lbl">Total prestado (activos)</div></div>
-      <div class="stat-box stat-box-gold"><div class="stat-val">${formatMoney(totalGanancia)}</div><div class="stat-lbl">Ganancias est. (activos)</div></div>
+      <div class="stat-box stat-box-gold"><div class="stat-val">${formatMoney(totalGanancia)}</div><div class="stat-lbl">Ganancias acumuladas</div></div>
       <div class="stat-box stat-box-blue"><div class="stat-val">${formatMoney(totalCobro)}</div><div class="stat-lbl">Cobro total si retiran hoy</div></div>
       <div class="stat-box"><div class="stat-val">${allRecords.length}</div><div class="stat-lbl">Total historial</div></div>
+      <div class="stat-box"><div class="stat-val">${formatMoney(totalHistorial)}</div><div class="stat-lbl">Total prestado (historial)</div></div>
       <div class="stat-box"><div class="stat-val">${oro}</div><div class="stat-lbl">Oro activo</div></div>
       <div class="stat-box"><div class="stat-val">${plata}</div><div class="stat-lbl">Plata activa</div></div>`;
     buildYearFilters();
@@ -851,7 +854,7 @@
     const src = activeYear==='todos' ? allRecords : allRecords.filter(r=>r.fecha&&r.fecha.startsWith(activeYear));
     const map = {};
     src.forEach(r => {
-      if (!r.fecha) return;
+      if (!r.fecha || r.fecha < '2020-01-01') return;
       const k = r.fecha.slice(0,7);
       if (!map[k]) map[k] = { total:0, count:0 };
       map[k].total += r.cantidad||0; map[k].count += 1;
@@ -919,18 +922,27 @@
   };
   window.closeRangoModal = function() { document.getElementById('rangoModal').style.display='none'; };
 
-  // Calcula meses transcurridos desde fecha hasta hoy (mínimo 1, redondeado arriba)
+  // Fecha desde la cual se empiezan a contabilizar ganancias
+  const GANANCIA_INICIO = '2026-03-28';
+
+  // Meses transcurridos desde una fecha hasta hoy (sin mínimo de 1, puede ser 0)
   function calcMeses(fecha) {
-    if (!fecha) return 1;
+    if (!fecha) return 0;
     const inicio = new Date(fecha + 'T12:00:00');
     const hoy    = new Date();
     const diffMs = hoy - inicio;
-    if (diffMs <= 0) return 1;
-    return Math.max(1, Math.ceil(diffMs / (1000 * 60 * 60 * 24 * 30)));
+    if (diffMs <= 0) return 0;
+    return Math.ceil(diffMs / (1000 * 60 * 60 * 24 * 30));
+  }
+
+  // Para ganancias: usa la fecha más reciente entre la del registro y GANANCIA_INICIO
+  function calcMesesGanancia(fecha) {
+    const base = (fecha && fecha > GANANCIA_INICIO) ? fecha : GANANCIA_INICIO;
+    return calcMeses(base);
   }
 
   function calcGanancia(r) {
-    return (r.cantidad || 0) * 0.10 * calcMeses(r.fecha);
+    return (r.cantidad || 0) * 0.10 * calcMesesGanancia(r.fecha);
   }
 
   window.renderGanancias = function() {
