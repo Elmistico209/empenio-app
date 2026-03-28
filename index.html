@@ -125,6 +125,10 @@
     .stat-box{flex:1;min-width:130px;background:#f8faff;border:1.5px solid #e0e7ff;border-radius:8px;padding:14px 18px}
     .stat-box .stat-val{font-size:1.35rem;font-weight:800;color:#1a1a2e}
     .stat-box .stat-lbl{font-size:.75rem;color:#888;margin-top:2px}
+    .stat-box-green{background:#f0fdf4;border-color:#bbf7d0}
+    .stat-box-green .stat-val{color:#16a34a}
+    .stat-box-blue{background:#eff6ff;border-color:#bfdbfe}
+    .stat-box-blue .stat-val{color:#2563eb}
 
     /* Charts */
     .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
@@ -251,7 +255,7 @@
         <button class="search-clear" onclick="document.getElementById('searchActivos').value='';renderActivos()">Limpiar</button>
       </div>
       <div class="toolbar">
-        <span class="toolbar-info">Activos: <strong id="totalCount">0</strong> &nbsp;|&nbsp; Total prestado: <strong id="totalAmount">$0</strong></span>
+        <span class="toolbar-info">Activos: <strong id="totalCount">0</strong></span>
         <button class="btn btn-green" onclick="exportCSV('activos')">Exportar CSV</button>
       </div>
       <div class="table-wrap">
@@ -683,11 +687,13 @@
     const oro   = activos.filter(r => r.tipo==='oro').length;
     const plata = activos.filter(r => r.tipo==='plata').length;
     const otro  = activos.filter(r => (r.tipo||'otro')==='otro').length;
-    const total = activos.reduce((s,r)=>s+(r.cantidad||0),0);
+    const totalActivo   = activos.reduce((s,r)=>s+(r.cantidad||0),0);
+    const totalHistorial = records.reduce((s,r)=>s+(r.cantidad||0),0);
     document.getElementById('statsBanner').innerHTML = `
-      <div class="stat-box"><div class="stat-val">${activos.length}</div><div class="stat-lbl">Activos</div></div>
+      <div class="stat-box"><div class="stat-val">${activos.length}</div><div class="stat-lbl">Empeños activos</div></div>
+      <div class="stat-box stat-box-green"><div class="stat-val">${formatMoney(totalActivo)}</div><div class="stat-lbl">Total prestado (activos)</div></div>
       <div class="stat-box"><div class="stat-val">${records.length}</div><div class="stat-lbl">Total historial</div></div>
-      <div class="stat-box"><div class="stat-val">${formatMoney(total)}</div><div class="stat-lbl">Total prestado activo</div></div>
+      <div class="stat-box stat-box-blue"><div class="stat-val">${formatMoney(totalHistorial)}</div><div class="stat-lbl">Total prestado (historial)</div></div>
       <div class="stat-box"><div class="stat-val">${oro}</div><div class="stat-lbl">Oro activo</div></div>
       <div class="stat-box"><div class="stat-val">${plata}</div><div class="stat-lbl">Plata activa</div></div>`;
     renderChartMeses(); renderChartTipo(); renderChartRangos();
