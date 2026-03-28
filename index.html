@@ -188,7 +188,7 @@
   <div class="header-tabs">
     <button class="tab-btn active" id="tbtn-registros"    onclick="switchTab('registros')">Registros</button>
     <button class="tab-btn"        id="tbtn-historial"    onclick="switchTab('historial')">Historial</button>
-    <button class="tab-btn"        id="tbtn-estadisticas" onclick="switchTab('estadisticas')">Estadisticas</button>
+    <button class="tab-btn"        id="tbtn-estadisticas" onclick="requestPin('estadisticas')">Estadisticas</button>
   </div>
   <div class="header-right">
     <span class="sync-status sync-load" id="syncStatus">Conectando...</span>
@@ -325,6 +325,30 @@
     </div>
   </div><!-- fin tab-estadisticas -->
 
+</div>
+
+<!-- Modal PIN -->
+<div class="edit-modal-overlay" id="pinModalOverlay" style="display:none">
+  <div class="edit-modal" style="max-width:340px">
+    <div class="edit-modal-header">
+      <h3>Acceso restringido</h3>
+      <button class="modal-close" onclick="closePinModal()">&times;</button>
+    </div>
+    <div class="edit-modal-body" style="gap:10px">
+      <p style="font-size:.9rem;color:#555">Ingresa el código de acceso para continuar.</p>
+      <div class="form-group">
+        <label for="pinInput">Código</label>
+        <input type="password" id="pinInput" placeholder="••••" maxlength="10"
+               style="letter-spacing:4px;font-size:1.2rem;text-align:center"
+               onkeydown="if(event.key==='Enter') confirmPin()"/>
+      </div>
+      <p id="pinError" style="color:#e53e3e;font-size:.82rem;display:none">Código incorrecto.</p>
+    </div>
+    <div class="edit-modal-footer">
+      <button class="btn btn-dark" onclick="closePinModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmPin()">Confirmar</button>
+    </div>
+  </div>
 </div>
 
 <!-- Modal editar registro -->
@@ -472,9 +496,17 @@
     el.className = 'sync-status sync-' + type;
   }
 
+  function getNextAvailable(from) {
+    const used = new Set(records.map(r => String(r.codigo)));
+    let code = from;
+    while (used.has(String(code))) code++;
+    return code;
+  }
+
   function syncNextCodeToForm() {
-    document.getElementById('fCodigo').value = nextCode;
-    document.getElementById('nextCodeDisplay').textContent = nextCode;
+    const available = getNextAvailable(nextCode);
+    document.getElementById('fCodigo').value = available;
+    document.getElementById('nextCodeDisplay').textContent = available;
   }
 
   async function saveMeta() {
@@ -514,6 +546,8 @@
     if (isNaN(cantidad) || cantidad < 0) { alert('Ingresa un monto válido.'); return; }
     const codigoNum = parseInt(codigoRaw);
     if (!isNaN(codigoNum) && codigoNum !== nextCode) nextCode = codigoNum;
+    // Skip any codes already in use
+    nextCode = getNextAvailable(nextCode);
     const btn = document.getElementById('btnAgregar');
     btn.disabled = true; btn.textContent = 'Guardando...';
     await addDoc(collection(db, 'registros'), { fecha, codigo: codigoRaw, nombre, cantidad, tipo, estado: 'activo' });
@@ -571,9 +605,57 @@
   };
 
   // ── Borrar permanente (solo desde historial) ──
+  // ── PIN de seguridad ──
+  const PIN_CODE  = '1817';
+  let pinUnlocked = false;
+  let pinCallback = null;
+
+  window.requestPin = function(action) {
+    if (pinUnlocked) {
+      if (action === 'estadisticas') switchTab('estadisticas');
+      return;
+    }
+    pinCallback = action;
+    document.getElementById('pinInput').value = '';
+    document.getElementById('pinError').style.display = 'none';
+    document.getElementById('pinModalOverlay').style.display = 'flex';
+    setTimeout(() => document.getElementById('pinInput').focus(), 100);
+  };
+
+  window.confirmPin = function() {
+    const val = document.getElementById('pinInput').value;
+    if (val === PIN_CODE) {
+      pinUnlocked = true;
+      document.getElementById('pinModalOverlay').style.display = 'none';
+      if (pinCallback === 'estadisticas') switchTab('estadisticas');
+      else if (typeof pinCallback === 'function') pinCallback();
+      pinCallback = null;
+    } else {
+      document.getElementById('pinError').style.display = 'block';
+      document.getElementById('pinInput').value = '';
+      document.getElementById('pinInput').focus();
+    }
+  };
+
+  window.closePinModal = function() {
+    document.getElementById('pinModalOverlay').style.display = 'none';
+    pinCallback = null;
+  };
+
+  function withPin(fn) {
+    if (pinUnlocked) { fn(); return; }
+    pinCallback = fn;
+    document.getElementById('pinInput').value = '';
+    document.getElementById('pinError').style.display = 'none';
+    document.getElementById('pinModalOverlay').style.display = 'flex';
+    setTimeout(() => document.getElementById('pinInput').focus(), 100);
+  }
+
   window.deleteRecord = async function(fireId) {
-    if (!confirm('¿Eliminar permanentemente este registro? Esta acción no se puede deshacer.')) return;
-    await deleteDoc(doc(db, 'registros', fireId));
+    withPin(async () => {
+      if (!confirm('¿Eliminar permanentemente este registro? Esta acción no se puede deshacer.')) return;
+      await deleteDoc(doc(db, 'registros', fireId));
+    });
   };
 
   window.renderActivos   = function() { renderActivos(); };
