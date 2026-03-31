@@ -745,8 +745,8 @@
         <td>${escHtml(r.nombre)}</td>
         <td><span class="badge badge-${r.tipo||'otro'}">${labelTipo(r.tipo)}</span></td>
         <td class="td-amount">${formatMoney(r.cantidad)}</td>
-        <td><button class="btn-edit" onclick="abrirEdicion(${r.id})">Editar</button></td>
-        <td><button class="btn-baja" onclick="darBaja(${r.id},'${escHtml(r.codigo)}')">Dar de baja</button></td>
+        <td><button class="btn-edit" onclick="abrirEdicion('${r.id}')">Editar</button></td>
+        <td><button class="btn-baja" onclick="darBaja('${r.id}','${escHtml(r.codigo)}')">Dar de baja</button></td>
       </tr>`).join('');
   }
 
@@ -781,8 +781,8 @@
     tbody.innerHTML = page.map((r,i) => {
       const est = r.estado||'activo';
       const accionBtn = est === 'activo'
-        ? `<button class="btn-baja"      onclick="darBaja(${r.id},'${escHtml(r.codigo)}')">Dar de baja</button>`
-        : `<button class="btn-reactivar" onclick="reactivar(${r.id},'${escHtml(r.codigo)}')">Reactivar</button>`;
+        ? `<button class="btn-baja"      onclick="darBaja('${r.id}','${escHtml(r.codigo)}')">Dar de baja</button>`
+        : `<button class="btn-reactivar" onclick="reactivar('${r.id}','${escHtml(r.codigo)}')">Reactivar</button>`;
       return `<tr>
         <td>${start+i+1}</td>
         <td>${formatDate(r.fecha)}</td>
@@ -792,9 +792,9 @@
         <td class="td-amount">${formatMoney(r.cantidad)}</td>
         <td><span class="badge badge-${est}">${est==='activo'?'Activo':'Baja'}</span></td>
         <td style="display:flex;gap:4px;flex-wrap:wrap">
-          <button class="btn-edit" onclick="abrirEdicion(${r.id})">Editar</button>
+          <button class="btn-edit" onclick="abrirEdicion('${r.id}')">Editar</button>
           ${accionBtn}
-          <button class="btn-del" onclick="deleteRecord(${r.id})">Borrar</button>
+          <button class="btn-del" onclick="deleteRecord('${r.id}')">Borrar</button>
         </td>
       </tr>`;
     }).join('');
