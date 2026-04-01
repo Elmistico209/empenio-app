@@ -624,6 +624,8 @@
     r.interesRealizado = (r.fechaBaja >= GANANCIA_INICIO) ? (r.cantidad || 0) * 0.10 * meses : 0;
     r.mesesActivo      = meses;
     await saveData();
+    renderActivos();
+    renderHistorial();
   };
 
   window.reactivar = async function(recId, codigo) {
@@ -635,6 +637,8 @@
     r.interesRealizado = 0;
     r.mesesActivo      = null;
     await saveData();
+    renderActivos();
+    renderHistorial();
   };
 
   let editingId = null;
@@ -676,6 +680,8 @@
       if (!confirm('¿Eliminar permanentemente? Esta acción no se puede deshacer.')) return;
       allRecords = allRecords.filter(x => x.id != recId);
       await saveData();
+      renderActivos();
+      renderHistorial();
     });
   };
 
