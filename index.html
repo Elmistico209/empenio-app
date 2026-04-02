@@ -53,30 +53,39 @@
     .form-grid{display:grid;grid-template-columns:155px 120px 1fr 155px 130px;gap:12px;align-items:end}
     /* ── Responsive móvil ── */
     @media(max-width:700px){
-      header{padding:0 16px}
-      header h1{font-size:1rem}
-      .tab-btn{padding:10px 12px;font-size:.78rem}
-      .container{padding:16px 12px}
-      .card{padding:16px}
+      header{padding:0 12px;gap:6px}
+      header h1{font-size:.95rem}
+      .header-subtitle{display:none}
+      .tab-btn{padding:8px 10px;font-size:.76rem}
+      .container{padding:12px 10px}
+      .card{padding:14px 12px}
+      .card-title{font-size:.8rem}
+      /* Ocultar ajuste de código en móvil */
+      .card:has(#adjustInput){display:none}
       .adjust-row{flex-direction:column;align-items:flex-start;gap:8px}
-      .form-grid{grid-template-columns:1fr}
-      .toolbar{flex-direction:column;align-items:flex-start}
+      /* Formulario: fecha+código en fila, nombre full, monto+tipo en fila */
+      .form-grid{grid-template-columns:1fr 1fr}
+      .form-grid .form-group:nth-child(3){grid-column:1/-1}
+      .toolbar{flex-direction:column;align-items:flex-start;gap:6px}
       .toolbar-actions{width:100%;justify-content:flex-end}
-      .search-bar{flex-direction:column;gap:8px}
+      .search-bar{flex-direction:column;gap:6px}
       .search-bar input,.search-bar select{width:100%}
-      table{font-size:.78rem}
-      thead th{padding:8px 6px}
-      tbody td{padding:7px 6px}
+      table{font-size:.75rem}
+      thead th{padding:6px 4px}
+      tbody td{padding:6px 4px}
+      .btn-baja,.btn-reactivar,.btn-edit,.btn-del{padding:4px 7px;font-size:.7rem}
       .btn{padding:8px 14px;font-size:.82rem}
       .charts-grid{grid-template-columns:1fr}
-      .chart-wrap{height:220px}
-      .stats-cards{grid-template-columns:1fr 1fr}
-      .modal-content{padding:16px}
-      .edit-modal-body{padding:16px}
-      .edit-modal-footer{padding:12px 16px;flex-direction:column}
+      .chart-wrap{height:200px}
+      .stats-banner{grid-template-columns:1fr 1fr!important}
+      .modal-content{padding:12px}
+      .edit-modal-body{padding:12px}
+      .edit-modal-footer{padding:10px 12px;flex-direction:column}
       .edit-modal-footer .btn{width:100%}
-      /* tabla activos en móvil: ocultar columna # */
       table th:first-child,table td:first-child{display:none}
+      .sync-status{font-size:.7rem;padding:3px 8px}
+      .btn-logout{font-size:.7rem;padding:3px 8px}
+      #btnAgregar{width:100%;margin-top:4px}
     }
     @media(max-width:900px){.form-grid{grid-template-columns:1fr 1fr}}
     .form-group{display:flex;flex-direction:column;gap:5px}
