@@ -829,7 +829,7 @@
         <td>${formatDate(r.fecha)}</td>
         <td class="td-code">${escHtml(r.codigo)}</td>
         <td>${escHtml(r.nombre)}</td>
-        <td><span class="badge badge-${r.tipo||'otro'}">${labelTipo(r.tipo)}</span></td>
+        <td><span class="badge badge-${(r.tipo||'otro').toLowerCase()}">${labelTipo(r.tipo)}</span></td>
         <td class="td-amount">${formatMoney(r.cantidad)}</td>
         <td><button class="btn-edit" onclick="abrirEdicion('${r.id}')">Editar</button></td>
         <td><button class="btn-baja" onclick="darBaja('${r.id}','${escHtml(r.codigo)}')">Dar de baja</button></td>
@@ -874,7 +874,7 @@
         <td>${formatDate(r.fecha)}</td>
         <td class="td-code">${escHtml(r.codigo)}</td>
         <td>${escHtml(r.nombre)}</td>
-        <td><span class="badge badge-${r.tipo||'otro'}">${labelTipo(r.tipo)}</span></td>
+        <td><span class="badge badge-${(r.tipo||'otro').toLowerCase()}">${labelTipo(r.tipo)}</span></td>
         <td class="td-amount">${formatMoney(r.cantidad)}</td>
         <td><span class="badge badge-${est}">${est==='activo'?'Activo':'Baja'}</span></td>
         <td style="display:flex;gap:4px;flex-wrap:wrap">
@@ -1065,7 +1065,7 @@
             <td>${i+1}</td>
             <td class="td-code">${escHtml(r.codigo)}</td>
             <td>${escHtml(r.nombre)}</td>
-            <td><span class="badge badge-${r.tipo||'otro'}">${labelTipo(r.tipo)}</span></td>
+            <td><span class="badge badge-${(r.tipo||'otro').toLowerCase()}">${labelTipo(r.tipo)}</span></td>
             <td class="td-amount">${formatMoney(r.cantidad)}</td>
             <td>${formatDate(r.fecha)}</td>
             <td>${formatDate(r.fechaBaja)}</td>
