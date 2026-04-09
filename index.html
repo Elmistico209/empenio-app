@@ -599,7 +599,7 @@
       nextCode   = SEED_NEXT_CODE;
       await saveData();
       await saveMeta();
-      allRecords.sort((a,b) => (b.fecha||'').localeCompare(a.fecha||'') || parseInt(b.codigo) - parseInt(a.codigo));
+      allRecords.sort((a,b) => parseInt(b.codigo) - parseInt(a.codigo));
       renderActivos();
       syncNextCodeToForm();
     } else {
@@ -616,7 +616,7 @@
         allRecords = SEED_RECORDS.slice();
         saveData();
       }
-      allRecords.sort((a,b) => (b.fecha||'').localeCompare(a.fecha||'') || parseInt(b.codigo) - parseInt(a.codigo));
+      allRecords.sort((a,b) => parseInt(b.codigo) - parseInt(a.codigo));
       renderActivos();
       syncNextCodeToForm();
       document.getElementById('loadingOverlay').style.display = 'none';
